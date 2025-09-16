@@ -85,11 +85,19 @@ const Index = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Game Selection & Filters */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 space-y-6">
             <GameSelector 
               selectedGame={selectedGame} 
               onGameChange={setSelectedGame} 
             />
+            
+            {/* All Plays Grid - Shows when "All Plays" filter is selected */}
+            {playFilter === "all" && (
+              <PlaysGrid 
+                plays={filteredPlays}
+                onPlaySelect={setSelectedPlay}
+              />
+            )}
           </div>
           <div>
             <FilterBar 
@@ -98,16 +106,6 @@ const Index = () => {
             />
           </div>
         </div>
-
-        {/* All Plays Grid - Shows when "All Plays" filter is selected */}
-        {playFilter === "all" && (
-          <div className="mb-8">
-            <PlaysGrid 
-              plays={filteredPlays}
-              onPlaySelect={setSelectedPlay}
-            />
-          </div>
-        )}
 
         {/* Main Content Grid - Hidden when All Plays is selected */}
         {playFilter !== "all" && (
