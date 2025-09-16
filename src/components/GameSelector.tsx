@@ -44,19 +44,21 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
   const currentGame = mockGames.find(game => game.id === selectedGame);
 
   return (
-    <Card className="p-6 bg-gradient-to-r from-card to-card/80 border-primary/20">
+    <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass transition-all duration-300 hover:shadow-glass-hover">
       <div className="flex items-center gap-3 mb-4">
-        <Trophy className="h-5 w-5 text-accent" />
+        <div className="p-2 bg-gradient-glass-accent rounded-lg backdrop-blur-sm">
+          <Trophy className="h-5 w-5 text-accent" />
+        </div>
         <h2 className="text-xl font-bold text-foreground">Select Game</h2>
       </div>
 
       <Select value={selectedGame} onValueChange={onGameChange}>
-        <SelectTrigger className="w-full bg-muted/50 border-primary/30">
+        <SelectTrigger className="w-full bg-muted backdrop-blur-md border border-white/20 hover:bg-primary-glass transition-all duration-300">
           <SelectValue placeholder="Choose a game" />
         </SelectTrigger>
-        <SelectContent className="bg-card border-primary/30">
+        <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20">
           {mockGames.map((game) => (
-            <SelectItem key={game.id} value={game.id} className="focus:bg-primary/20">
+            <SelectItem key={game.id} value={game.id} className="focus:bg-primary-glass backdrop-blur-sm">
               <div className="flex justify-between items-center w-full">
                 <div>
                   <div className="font-semibold">
@@ -83,11 +85,11 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
 
       {/* Current Game Display */}
       {currentGame && (
-        <div className="mt-6 p-4 bg-primary/10 rounded-lg border border-primary/20">
+        <div className="mt-6 p-4 bg-gradient-glass-primary backdrop-blur-md rounded-xl border border-white/20 shadow-glass">
           <div className="grid grid-cols-3 items-center text-center">
             <div>
               <div className="font-bold text-lg">{currentGame.awayTeam}</div>
-              <div className="text-2xl font-bold text-accent animate-score-pop">
+              <div className="text-2xl font-bold text-accent animate-score-pop bg-gradient-to-r from-accent to-touchdown-gold bg-clip-text text-transparent">
                 {currentGame.awayScore}
               </div>
             </div>
@@ -97,7 +99,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
             </div>
             <div>
               <div className="font-bold text-lg">{currentGame.homeTeam}</div>
-              <div className="text-2xl font-bold text-accent animate-score-pop">
+              <div className="text-2xl font-bold text-accent animate-score-pop bg-gradient-to-r from-accent to-touchdown-gold bg-clip-text text-transparent">
                 {currentGame.homeScore}
               </div>
             </div>

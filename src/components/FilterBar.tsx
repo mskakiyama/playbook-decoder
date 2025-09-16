@@ -26,9 +26,11 @@ const filterOptions = [
 
 export const FilterBar = ({ activeFilter, onFilterChange }: FilterBarProps) => {
   return (
-    <Card className="p-6">
+    <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass">
       <div className="flex items-center gap-3 mb-4">
-        <Filter className="h-5 w-5 text-primary" />
+        <div className="p-2 bg-gradient-glass-accent rounded-lg backdrop-blur-sm">
+          <Filter className="h-5 w-5 text-accent" />
+        </div>
         <h2 className="text-xl font-bold">Filters</h2>
       </div>
 
@@ -37,7 +39,7 @@ export const FilterBar = ({ activeFilter, onFilterChange }: FilterBarProps) => {
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input 
           placeholder="Search plays, players, or teams..."
-          className="pl-10 bg-muted/50 border-primary/30"
+          className="pl-10 bg-muted backdrop-blur-md border border-white/20 hover:bg-primary-glass transition-all duration-300"
         />
       </div>
 
@@ -56,10 +58,10 @@ export const FilterBar = ({ activeFilter, onFilterChange }: FilterBarProps) => {
               onClick={() => onFilterChange(filter.id)}
               variant={isActive ? "default" : "ghost"}
               className={cn(
-                "w-full justify-between h-auto p-3 transition-all duration-200",
+                "w-full justify-between h-auto p-3 backdrop-blur-lg border border-white/10 transition-all duration-300",
                 isActive 
-                  ? "bg-primary text-primary-foreground shadow-lg" 
-                  : "hover:bg-primary/10 hover:text-primary"
+                  ? "bg-gradient-glass-primary text-primary-foreground shadow-glass" 
+                  : "bg-card-glass hover:bg-gradient-glass-secondary hover:shadow-glass"
               )}
             >
               <div className="flex items-center gap-3">
@@ -69,7 +71,7 @@ export const FilterBar = ({ activeFilter, onFilterChange }: FilterBarProps) => {
               <Badge 
                 variant={isActive ? "secondary" : "outline"}
                 className={cn(
-                  "text-xs",
+                  "text-xs backdrop-blur-sm",
                   isActive && "bg-primary-foreground/20 text-primary-foreground"
                 )}
               >
@@ -81,21 +83,21 @@ export const FilterBar = ({ activeFilter, onFilterChange }: FilterBarProps) => {
       </div>
 
       {/* Quick Filters */}
-      <div className="mt-6 pt-6 border-t border-border">
+      <div className="mt-6 pt-6 border-t border-white/10">
         <h3 className="text-sm font-semibold text-muted-foreground mb-3">
           QUICK FILTERS
         </h3>
         <div className="space-y-2">
-          <Button variant="ghost" size="sm" className="w-full justify-start text-sm">
+          <Button variant="ghost" size="sm" className="w-full justify-start text-sm bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent">
             🏆 Touchdown Plays (4)
           </Button>
-          <Button variant="ghost" size="sm" className="w-full justify-start text-sm">
+          <Button variant="ghost" size="sm" className="w-full justify-start text-sm bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent">
             🚫 Turnovers (2)
           </Button>
-          <Button variant="ghost" size="sm" className="w-full justify-start text-sm">
+          <Button variant="ghost" size="sm" className="w-full justify-start text-sm bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent">
             ⭐ Key Plays (6)
           </Button>
-          <Button variant="ghost" size="sm" className="w-full justify-start text-sm">
+          <Button variant="ghost" size="sm" className="w-full justify-start text-sm bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent">
             🎯 Red Zone (5)
           </Button>
         </div>
@@ -103,14 +105,14 @@ export const FilterBar = ({ activeFilter, onFilterChange }: FilterBarProps) => {
 
       {/* Active Filters Display */}
       {activeFilter !== "all" && (
-        <div className="mt-6 pt-6 border-t border-border">
+        <div className="mt-6 pt-6 border-t border-white/10">
           <h3 className="text-sm font-semibold text-muted-foreground mb-3">
             ACTIVE FILTERS
           </h3>
           <div className="flex flex-wrap gap-2">
             <Badge 
               variant="secondary" 
-              className="bg-primary/20 text-primary cursor-pointer hover:bg-primary/30"
+              className="bg-gradient-glass-primary backdrop-blur-lg text-primary cursor-pointer hover:bg-gradient-glass-secondary border border-white/20"
               onClick={() => onFilterChange("all")}
             >
               {filterOptions.find(f => f.id === activeFilter)?.label}

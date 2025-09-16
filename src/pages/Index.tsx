@@ -65,15 +65,15 @@ const Index = () => {
     : mockPlays.filter(play => play.playType === playFilter);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background bg-gradient-background">
       {/* Hero Header */}
       <div 
         className="relative h-64 bg-cover bg-center flex items-center justify-center"
         style={{ backgroundImage: `url(${fieldBackground})` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-field-green/80"></div>
-        <div className="relative z-10 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-4">
+        <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"></div>
+        <div className="relative z-10 text-center backdrop-blur-lg bg-card-glass rounded-2xl p-8 border border-white/10">
+          <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent">
             NFL Plays Breakdown
           </h1>
           <p className="text-xl text-primary-foreground/90">

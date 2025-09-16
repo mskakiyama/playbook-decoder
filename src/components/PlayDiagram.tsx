@@ -163,18 +163,20 @@ export const PlayDiagram = ({ play }: PlayDiagramProps) => {
   };
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <Activity className="h-5 w-5 text-field-green" />
+          <div className="p-2 bg-gradient-glass-secondary rounded-lg backdrop-blur-sm">
+            <Activity className="h-5 w-5 text-field-green" />
+          </div>
           <h2 className="text-xl font-bold">Play Diagram</h2>
         </div>
         <div className="flex gap-2">
-          <Badge className="bg-primary text-primary-foreground">
+          <Badge className="bg-gradient-glass-primary backdrop-blur-lg border border-white/20 text-primary-foreground">
             <Users className="h-3 w-3 mr-1" />
             Offense
           </Badge>
-          <Badge variant="outline">
+          <Badge className="bg-card-glass backdrop-blur-lg border border-white/20">
             <Target className="h-3 w-3 mr-1" />
             Defense
           </Badge>
@@ -182,35 +184,37 @@ export const PlayDiagram = ({ play }: PlayDiagramProps) => {
       </div>
 
       <div className="relative">
-        <canvas 
-          ref={canvasRef}
-          className="w-full border border-field-green/30 rounded-lg bg-field-green animate-field-glow"
-          style={{ maxHeight: '300px' }}
-        />
+        <div className="p-4 bg-gradient-glass-secondary backdrop-blur-lg rounded-xl border border-white/20 shadow-glass">
+          <canvas 
+            ref={canvasRef}
+            className="w-full rounded-lg bg-field-green animate-field-glow shadow-diagram"
+            style={{ maxHeight: '300px' }}
+          />
+        </div>
         
         {/* Legend */}
         <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-primary rounded-full border-2 border-white"></div>
+          <div className="flex items-center gap-2 p-2 bg-card-glass backdrop-blur-lg rounded-lg border border-white/10">
+            <div className="w-4 h-4 bg-primary rounded-full border-2 border-white shadow-glass"></div>
             <span>Offensive Line</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-interception-red rounded-full border-2 border-white"></div>
+          <div className="flex items-center gap-2 p-2 bg-card-glass backdrop-blur-lg rounded-lg border border-white/10">
+            <div className="w-4 h-4 bg-interception-red rounded-full border-2 border-white shadow-glass"></div>
             <span>Quarterback</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-success-green rounded-full border-2 border-white"></div>
+          <div className="flex items-center gap-2 p-2 bg-card-glass backdrop-blur-lg rounded-lg border border-white/10">
+            <div className="w-4 h-4 bg-success-green rounded-full border-2 border-white shadow-glass"></div>
             <span>Receivers</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-neutral-gray rounded-full border-2 border-white"></div>
+          <div className="flex items-center gap-2 p-2 bg-card-glass backdrop-blur-lg rounded-lg border border-white/10">
+            <div className="w-4 h-4 bg-neutral-gray rounded-full border-2 border-white shadow-glass"></div>
             <span>Defense</span>
           </div>
         </div>
       </div>
 
       {/* Play Analysis */}
-      <div className="mt-6 p-4 bg-muted/30 rounded-lg">
+      <div className="mt-6 p-4 bg-gradient-glass-primary backdrop-blur-lg rounded-xl border border-white/20 shadow-glass">
         <h3 className="font-semibold mb-2 text-field-green">Formation Analysis</h3>
         <p className="text-sm text-muted-foreground">
           {play.playType === 'passing' 

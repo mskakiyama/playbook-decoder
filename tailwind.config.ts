@@ -17,15 +17,17 @@ export default {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        background: "var(--background)",
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          glass: "hsl(var(--primary-glass))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          glass: "hsl(var(--secondary-glass))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -38,6 +40,7 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          glass: "hsl(var(--accent-glass))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -46,13 +49,18 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+          glass: "hsl(var(--card-glass))",
         },
-        /* Custom NFL colors */
+        /* Glassmorphism NFL colors */
         "field-green": {
           DEFAULT: "hsl(var(--field-green))",
           dark: "hsl(var(--field-green-dark))",
+          glass: "hsl(var(--field-green-glass))",
         },
-        "touchdown-gold": "hsl(var(--touchdown-gold))",
+        "touchdown-gold": {
+          DEFAULT: "hsl(var(--touchdown-gold))",
+          glass: "hsl(var(--touchdown-gold-glass))",
+        },
         "interception-red": "hsl(var(--interception-red))",
         "success-green": "hsl(var(--success-green))",
         "neutral-gray": "hsl(var(--neutral-gray))",
@@ -71,6 +79,27 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      backdropBlur: {
+        'xs': '2px',
+        'sm': '4px',
+        'md': '8px',
+        'lg': '16px',
+        'xl': '24px',
+        '2xl': '40px',
+        '3xl': '64px',
+      },
+      boxShadow: {
+        'glass': 'var(--shadow-glass)',
+        'glass-hover': 'var(--shadow-glass-hover)',
+        'play-card': 'var(--shadow-play-card)',
+        'diagram': 'var(--shadow-diagram)',
+      },
+      backgroundImage: {
+        'gradient-glass-primary': 'var(--gradient-glass-primary)',
+        'gradient-glass-secondary': 'var(--gradient-glass-secondary)', 
+        'gradient-glass-accent': 'var(--gradient-glass-accent)',
+        'gradient-background': 'var(--gradient-background)',
       },
       keyframes: {
         "accordion-down": {

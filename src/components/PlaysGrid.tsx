@@ -55,8 +55,8 @@ export const PlaysGrid = ({ plays, onPlaySelect }: PlaysGridProps) => {
             key={play.id}
             onClick={() => onPlaySelect(index)}
             className={cn(
-              "relative p-4 cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105",
-              "bg-card/50 border-border hover:bg-primary/10"
+              "relative p-4 cursor-pointer bg-card-glass backdrop-blur-lg border border-white/20 shadow-glass",
+              "transition-all duration-300 hover:shadow-glass-hover hover:scale-105 hover:bg-gradient-glass-primary"
             )}
           >
             {/* Key Play Indicator */}

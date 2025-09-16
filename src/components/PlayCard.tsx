@@ -75,14 +75,14 @@ export const PlayCard = ({ play, expanded = false }: PlayCardProps) => {
 
   return (
     <Card className={cn(
-      "p-6 transition-all duration-300",
-      play.keyPlay && "border-accent/50 shadow-lg",
-      expanded && "bg-gradient-to-br from-card to-card/80"
+      "p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass transition-all duration-300 hover:shadow-glass-hover",
+      play.keyPlay && "border-accent/60 shadow-[0_0_30px_hsl(var(--accent)/0.3)]",
+      expanded && "bg-gradient-glass-primary"
     )}>
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className={cn("p-2 rounded-lg text-white", playDetails.color)}>
+          <div className={cn("p-2 rounded-lg text-white backdrop-blur-sm border border-white/20", playDetails.color)}>
             {playDetails.icon}
           </div>
           <div>
@@ -119,23 +119,23 @@ export const PlayCard = ({ play, expanded = false }: PlayCardProps) => {
 
       {/* Play Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="text-center p-3 bg-muted/30 rounded-lg">
+        <div className="text-center p-3 bg-gradient-glass-secondary backdrop-blur-lg rounded-xl border border-white/10">
           <div className={cn(
-            "text-2xl font-bold",
-            play.yards > 0 ? "text-success-green" : "text-interception-red"
+            "text-2xl font-bold bg-gradient-to-r bg-clip-text text-transparent",
+            play.yards > 0 ? "from-success-green to-field-green" : "from-interception-red to-accent"
           )}>
             {play.yards > 0 ? `+${play.yards}` : play.yards}
           </div>
           <div className="text-xs text-muted-foreground">Yards</div>
         </div>
-        <div className="text-center p-3 bg-muted/30 rounded-lg">
-          <div className="text-2xl font-bold text-primary">
+        <div className="text-center p-3 bg-gradient-glass-primary backdrop-blur-lg rounded-xl border border-white/10">
+          <div className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             {successRate}%
           </div>
           <div className="text-xs text-muted-foreground">Success Rate</div>
         </div>
-        <div className="text-center p-3 bg-muted/30 rounded-lg">
-          <div className="text-2xl font-bold text-field-green">
+        <div className="text-center p-3 bg-gradient-glass-accent backdrop-blur-lg rounded-xl border border-white/10">
+          <div className="text-2xl font-bold bg-gradient-to-r from-field-green to-touchdown-gold bg-clip-text text-transparent">
             {play.players.length}
           </div>
           <div className="text-xs text-muted-foreground">Key Players</div>
@@ -172,7 +172,7 @@ export const PlayCard = ({ play, expanded = false }: PlayCardProps) => {
           </div>
 
           {/* Tactical Analysis */}
-          <div className="p-4 bg-primary/10 rounded-lg border border-primary/20">
+          <div className="p-4 bg-gradient-glass-primary backdrop-blur-lg rounded-xl border border-white/20 shadow-glass">
             <h4 className="font-semibold mb-2 text-primary">Coach's Analysis</h4>
             <p className="text-sm text-muted-foreground mb-3">
               {playDetails.analysis}
@@ -186,9 +186,11 @@ export const PlayCard = ({ play, expanded = false }: PlayCardProps) => {
           </div>
 
           {/* Video Placeholder */}
-          <div className="mt-6 p-8 bg-muted/20 rounded-lg border-2 border-dashed border-muted-foreground/30 text-center">
-            <Play className="h-12 w-12 mx-auto mb-3 text-muted-foreground" />
-            <p className="text-muted-foreground">Play Highlight Video</p>
+          <div className="mt-6 p-8 bg-gradient-glass-accent backdrop-blur-lg rounded-xl border border-white/10 border-dashed text-center shadow-glass">
+            <div className="p-3 bg-gradient-glass-primary rounded-full w-fit mx-auto mb-3">
+              <Play className="h-12 w-12 text-muted-foreground" />
+            </div>
+            <p className="text-muted-foreground font-medium">Play Highlight Video</p>
             <p className="text-xs text-muted-foreground/70 mt-1">
               Coming soon - Full game footage with play breakdown
             </p>

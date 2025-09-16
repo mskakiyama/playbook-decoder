@@ -44,22 +44,24 @@ export const PlayTimeline = ({ plays, selectedPlay, onPlaySelect }: PlayTimeline
   };
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass">
       <div className="flex items-center gap-3 mb-6">
-        <Clock className="h-5 w-5 text-primary" />
+        <div className="p-2 bg-gradient-glass-primary rounded-lg backdrop-blur-sm">
+          <Clock className="h-5 w-5 text-primary" />
+        </div>
         <h2 className="text-xl font-bold">Play Timeline</h2>
       </div>
 
-      <div className="space-y-3 max-h-96 overflow-y-auto">
+      <div className="space-y-3 max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-primary/30 scrollbar-track-transparent">
         {plays.map((play, index) => (
           <div
             key={play.id}
             onClick={() => onPlaySelect(index)}
             className={cn(
-              "relative p-4 rounded-lg border cursor-pointer transition-all duration-300 hover:shadow-lg",
+              "relative p-4 rounded-xl border cursor-pointer transition-all duration-300 backdrop-blur-lg",
               selectedPlay === index 
-                ? "bg-primary/20 border-primary shadow-lg animate-play-highlight" 
-                : "bg-card/50 border-border hover:bg-primary/10"
+                ? "bg-gradient-glass-primary border-primary/50 shadow-glass animate-play-highlight" 
+                : "bg-card-glass border-white/10 hover:bg-gradient-glass-secondary hover:shadow-glass"
             )}
           >
             {/* Key Play Indicator */}
