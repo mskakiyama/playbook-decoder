@@ -47,6 +47,15 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        /* Custom NFL colors */
+        "field-green": {
+          DEFAULT: "hsl(var(--field-green))",
+          dark: "hsl(var(--field-green-dark))",
+        },
+        "touchdown-gold": "hsl(var(--touchdown-gold))",
+        "interception-red": "hsl(var(--interception-red))",
+        "success-green": "hsl(var(--success-green))",
+        "neutral-gray": "hsl(var(--neutral-gray))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -80,10 +89,34 @@ export default {
             height: "0",
           },
         },
+        /* NFL Play Animation Effects */
+        "play-highlight": {
+          "0%": { transform: "scale(1)", boxShadow: "0 0 0 0 hsl(var(--accent) / 0.7)" },
+          "50%": { transform: "scale(1.02)", boxShadow: "0 0 0 10px hsl(var(--accent) / 0)" },
+          "100%": { transform: "scale(1)", boxShadow: "0 0 0 0 hsl(var(--accent) / 0)" }
+        },
+        "player-move": {
+          "0%": { transform: "translateX(0) translateY(0)" },
+          "50%": { transform: "translateX(10px) translateY(-5px)" },
+          "100%": { transform: "translateX(20px) translateY(0)" }
+        },
+        "field-glow": {
+          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--field-green) / 0.5)" },
+          "50%": { boxShadow: "0 0 40px hsl(var(--field-green) / 0.8)" }
+        },
+        "score-pop": {
+          "0%": { transform: "scale(1)", color: "hsl(var(--foreground))" },
+          "50%": { transform: "scale(1.3)", color: "hsl(var(--touchdown-gold))" },
+          "100%": { transform: "scale(1)", color: "hsl(var(--foreground))" }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "play-highlight": "play-highlight 2s ease-in-out",
+        "player-move": "player-move 3s ease-in-out infinite",
+        "field-glow": "field-glow 3s ease-in-out infinite",
+        "score-pop": "score-pop 0.6s ease-out"
       },
     },
   },
