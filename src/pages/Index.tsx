@@ -4,6 +4,7 @@ import { PlayTimeline } from "@/components/PlayTimeline";
 import { PlayDiagram } from "@/components/PlayDiagram";
 import { PlayCard } from "@/components/PlayCard";
 import { FilterBar } from "@/components/FilterBar";
+import { PlaysGrid } from "@/components/PlaysGrid";
 import fieldBackground from "@/assets/football-field.jpg";
 
 const Index = () => {
@@ -98,31 +99,43 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-          {/* Play Timeline */}
-          <div className="xl:col-span-1">
-            <PlayTimeline 
+        {/* All Plays Grid - Shows when "All Plays" filter is selected */}
+        {playFilter === "all" && (
+          <div className="mb-8">
+            <PlaysGrid 
               plays={filteredPlays}
-              selectedPlay={selectedPlay}
               onPlaySelect={setSelectedPlay}
             />
           </div>
+        )}
 
-          {/* Play Details & Diagram */}
-          <div className="xl:col-span-2 space-y-6">
-            {/* Selected Play Card */}
-            <PlayCard 
-              play={filteredPlays[selectedPlay]} 
-              expanded={true}
-            />
+        {/* Main Content Grid - Hidden when All Plays is selected */}
+        {playFilter !== "all" && (
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            {/* Play Timeline */}
+            <div className="xl:col-span-1">
+              <PlayTimeline 
+                plays={filteredPlays}
+                selectedPlay={selectedPlay}
+                onPlaySelect={setSelectedPlay}
+              />
+            </div>
 
-            {/* Interactive Play Diagram */}
-            <PlayDiagram 
-              play={filteredPlays[selectedPlay]}
-            />
+            {/* Play Details & Diagram */}
+            <div className="xl:col-span-2 space-y-6">
+              {/* Selected Play Card */}
+              <PlayCard 
+                play={filteredPlays[selectedPlay]} 
+                expanded={true}
+              />
+
+              {/* Interactive Play Diagram */}
+              <PlayDiagram 
+                play={filteredPlays[selectedPlay]}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
