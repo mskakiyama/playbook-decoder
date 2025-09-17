@@ -5,7 +5,7 @@ import { PlayDiagram } from "@/components/PlayDiagram";
 import { PlayCard } from "@/components/PlayCard";
 import { FilterBar } from "@/components/FilterBar";
 import { PlaysGrid } from "@/components/PlaysGrid";
-import fieldBackground from "@/assets/football-field.jpg";
+
 const Index = () => {
   const [selectedGame, setSelectedGame] = useState("chiefs-bills");
   const [selectedPlay, setSelectedPlay] = useState(0);
@@ -56,9 +56,7 @@ const Index = () => {
   const filteredPlays = playFilter === "all" ? mockPlays : mockPlays.filter(play => play.playType === playFilter);
   return <div className="min-h-screen bg-background bg-gradient-background">
       {/* Hero Header */}
-      <div className="relative h-64 bg-cover bg-center flex items-center justify-center" style={{
-      backgroundImage: `url(${fieldBackground})`
-    }}>
+      <div className="relative h-64 flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm bg-[#0a032a]/50 mx-0 my-0 py-0 px-0"></div>
         <div className="relative z-10 text-center backdrop-blur-lg bg-card-glass rounded-2xl p-8 border border-white/10">
           <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent">
