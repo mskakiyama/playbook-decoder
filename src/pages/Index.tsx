@@ -60,7 +60,7 @@ const Index = () => {
       <div className="relative h-64 flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm bg-[#0a032a]/50 mx-0 my-0 py-0 px-0"></div>
         <div className="relative z-10 flex items-center justify-center backdrop-blur-lg rounded-2xl p-8 border border-transparent bg-transparent">
-          <img src={playerImage} alt="Football Player" className="w-21 h-21 md:w-26 md:h-26 mr-6" />
+          <img src={playerImage} alt="Football Player" className="w-21 h-21 md:w-26 md:h-26 mr-6 object-contain" />
           <div className="text-center">
             <h1 className="text-4xl font-gugi text-primary-foreground mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent font-normal md:text-6xl">
               NFL Plays Breakdown
@@ -69,7 +69,7 @@ const Index = () => {
               Deep dive into every play with interactive analysis
             </p>
           </div>
-          <img src={player2Image} alt="Football Player 2" className="w-21 h-21 md:w-26 md:h-26 ml-6" />
+          <img src={player2Image} alt="Football Player 2" className="w-21 h-21 md:w-26 md:h-26 ml-6 object-contain" />
         </div>
       </div>
 
