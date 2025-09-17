@@ -59,7 +59,7 @@ const Index = () => {
       <div className="relative h-64 flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm bg-[#0a032a]/50 mx-0 my-0 py-0 px-0"></div>
         <div className="relative z-10 flex items-center justify-center backdrop-blur-lg rounded-2xl p-8 border border-transparent bg-transparent">
-          <img src={playerImage} alt="Football Player" className="w-16 h-16 md:w-20 md:h-20 mr-6" />
+          <img src={playerImage} alt="Football Player" className="w-21 h-21 md:w-26 md:h-26 mr-6" />
           <div className="text-center">
             <h1 className="text-4xl font-gugi text-primary-foreground mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent font-normal md:text-6xl">
               NFL Plays Breakdown
