@@ -6,6 +6,7 @@ import { PlayCard } from "@/components/PlayCard";
 import { FilterBar } from "@/components/FilterBar";
 import { PlaysGrid } from "@/components/PlaysGrid";
 import playerImage from "@/assets/player.svg";
+import player2Image from "@/assets/player2.svg";
 const Index = () => {
   const [selectedGame, setSelectedGame] = useState("chiefs-bills");
   const [selectedPlay, setSelectedPlay] = useState(0);
@@ -68,6 +69,7 @@ const Index = () => {
               Deep dive into every play with interactive analysis
             </p>
           </div>
+          <img src={player2Image} alt="Football Player 2" className="w-21 h-21 md:w-26 md:h-26 ml-6" />
         </div>
       </div>
 
