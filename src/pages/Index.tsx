@@ -59,7 +59,7 @@ const Index = () => {
       <div className="relative h-64 bg-cover bg-center flex items-center justify-center" style={{
       backgroundImage: `url(${fieldBackground})`
     }}>
-        <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm bg-[#152f05]/50"></div>
+        <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm bg-[#0a032a]/50 mx-0 my-0 py-0 px-0"></div>
         <div className="relative z-10 text-center backdrop-blur-lg bg-card-glass rounded-2xl p-8 border border-white/10">
           <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent">
             NFL Plays Breakdown
@@ -70,7 +70,7 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto py-[30px] px-[30px] bg-slate-900">
         {/* Game Selection & Filters */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <div className="lg:col-span-2 space-y-6">
