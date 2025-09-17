@@ -55,10 +55,10 @@ const Index = () => {
     keyPlay: true
   }];
   const filteredPlays = playFilter === "all" ? mockPlays : mockPlays.filter(play => play.playType === playFilter);
-  return <div className="min-h-screen bg-background bg-gradient-background">
+  return <div className="min-h-screen bg-gradient-background bg-slate-900 px-0 mx-0">
       {/* Hero Header */}
       <div className="relative h-64 flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm bg-[#0a032a]/50 mx-0 my-0 py-0 px-0"></div>
+        <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm mx-0 my-0 py-0 px-0 bg-transparent"></div>
         <div className="relative z-10 flex items-center justify-center backdrop-blur-lg rounded-2xl p-8 border border-transparent bg-transparent">
           <img src={playerImage} alt="Football Player" className="w-21 h-21 md:w-26 md:h-26 mr-6 object-contain" />
           <div className="text-center">
@@ -73,7 +73,7 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="container mx-auto py-[30px] px-[30px] bg-slate-900">
+      <div className="container py-[30px] bg-slate-900 px-[36px] mx-[81px]">
         {/* Game Selection & Filters */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <div className="lg:col-span-2 space-y-6">
