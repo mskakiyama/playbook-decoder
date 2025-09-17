@@ -73,7 +73,8 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="container py-[30px] bg-slate-900 px-[36px] mx-[81px]">
+      <div className="w-full bg-slate-900 py-[30px]">
+        <div className="container px-[36px] mx-[81px]">
         {/* Game Selection & Filters */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <div className="lg:col-span-2 space-y-6">
@@ -103,6 +104,7 @@ const Index = () => {
               <PlayDiagram play={filteredPlays[selectedPlay]} />
             </div>
           </div>}
+        </div>
       </div>
     </div>;
 };
