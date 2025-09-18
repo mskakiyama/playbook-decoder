@@ -11,21 +11,27 @@ interface GameSelectorProps {
 
 export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) => {
   const { data: games, isLoading } = useAllGames();
-  const [selectedSeason, setSelectedSeason] = useState<string>('all');
+  const [selectedSeason, setSelectedSeason] = useState<string>(new Date().getFullYear().toString());
   const [selectedType, setSelectedType] = useState<string>('all');
   
   const currentGame = games?.find(game => game.id === selectedGame);
+  const currentYear = new Date().getFullYear();
 
   // Get unique seasons and types for filters
   const seasons = [...new Set(games?.map(game => game.season))].sort((a, b) => b - a);
   const seasonTypes = [...new Set(games?.map(game => game.seasonType))];
 
-  // Filter games based on selections
-  const filteredGames = games?.filter(game => {
-    const seasonMatch = selectedSeason === 'all' || game.season.toString() === selectedSeason;
-    const typeMatch = selectedType === 'all' || game.seasonType === selectedType;
-    return seasonMatch && typeMatch;
-  });
+  // Games dropdown shows only current season games
+  const currentSeasonGames = games?.filter(game => game.season === currentYear);
+  
+  // When season filter changes, show games from that season
+  const filteredGames = selectedSeason === currentYear.toString() 
+    ? currentSeasonGames 
+    : games?.filter(game => {
+        const seasonMatch = game.season.toString() === selectedSeason;
+        const typeMatch = selectedType === 'all' || game.seasonType === selectedType;
+        return seasonMatch && typeMatch;
+      });
 
   return (
     <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass transition-all duration-300 hover:shadow-glass-hover">
@@ -43,7 +49,6 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
             <SelectValue placeholder="All Seasons" />
           </SelectTrigger>
           <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20">
-            <SelectItem value="all">All Seasons</SelectItem>
             {seasons.map(season => (
               <SelectItem key={season} value={season.toString()}>{season}</SelectItem>
             ))}
@@ -62,6 +67,44 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
           </SelectContent>
         </Select>
       </div>
+
+      <Select value={selectedGame} onValueChange={onGameChange} disabled={isLoading}>
+        <SelectTrigger className="w-full bg-muted backdrop-blur-md border border-white/20 hover:bg-primary-glass transition-all duration-300">
+          {isLoading ? (
+            <div className="flex items-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span>Loading games...</span>
+            </div>
+          ) : (
+            <SelectValue placeholder="Choose a game" />
+          )}
+        </SelectTrigger>
+        <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20 max-h-96">
+          {filteredGames?.map((game) => (
+            <SelectItem key={game.id} value={game.id} className="focus:bg-primary-glass backdrop-blur-sm">
+              <div className="flex justify-between items-center w-full">
+                <div>
+                  <div className="font-semibold">
+                    {game.awayTeam} @ {game.homeTeam}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {game.week} • {game.date} • {game.season}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="font-bold">
+                    {game.awayScore} - {game.homeScore}
+                  </div>
+                  <div className="text-sm text-muted-foreground flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    {game.quarter}
+                  </div>
+                </div>
+              </div>
+            </SelectItem>
+          )) || []}
+        </SelectContent>
+      </Select>
 
       {/* Current Game Display */}
       {currentGame && (
