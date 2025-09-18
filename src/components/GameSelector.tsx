@@ -38,6 +38,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
   // Debug logging
   console.log('All games:', games?.length);
   console.log('Selected season:', selectedSeason);
+  console.log('Sample game seasons:', games?.slice(0, 5).map(g => ({ id: g.id, season: g.season, type: typeof g.season })));
   console.log('Filtered games for season:', filteredGames?.length);
   console.log('Completed games for season:', completedGames?.length);
 
