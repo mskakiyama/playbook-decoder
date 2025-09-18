@@ -17,24 +17,26 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
   const currentGame = games?.find(game => game.id === selectedGame);
   const currentYear = new Date().getFullYear();
 
-  // Get unique seasons and types for filters
-  const seasons = [...new Set(games?.map(game => game.season))].sort((a, b) => b - a);
+  // Get past 5 seasons including current year
+  const pastFiveYears = Array.from({length: 5}, (_, i) => currentYear - i);
+  const availableSeasons = [...new Set(games?.map(game => game.season))].sort((a, b) => b - a);
+  const seasons = pastFiveYears.filter(year => availableSeasons.includes(year));
   const seasonTypes = [...new Set(games?.map(game => game.seasonType))];
 
-  // Games dropdown shows only current season games
-  const currentSeasonGames = games?.filter(game => game.season === currentYear);
-  
-  // When season filter changes, show games from that season
-  const filteredGames = selectedSeason === currentYear.toString() 
-    ? currentSeasonGames 
-    : games?.filter(game => {
-        const seasonMatch = game.season.toString() === selectedSeason;
-        const typeMatch = selectedType === 'all' || game.seasonType === selectedType;
-        return seasonMatch && typeMatch;
-      });
+  // Filter games based on selected season and type
+  const filteredGames = games?.filter(game => {
+    const seasonMatch = game.season.toString() === selectedSeason;
+    const typeMatch = selectedType === 'all' || game.seasonType === selectedType;
+    return seasonMatch && typeMatch;
+  });
+
+  // Show completed games (games that have already happened)
+  const completedGames = filteredGames?.filter(game => 
+    game.quarter === 'Final' || game.quarter === 'F'
+  );
 
   // Find the most current upcoming game for the dropdown label
-  const upcomingGame = filteredGames?.[0]; // Assuming games are sorted by date
+  const upcomingGame = completedGames?.[0]; // Show first completed game
 
   return (
     <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass transition-all duration-300 hover:shadow-glass-hover">
@@ -99,9 +101,34 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
           )}
         </SelectTrigger>
         <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20 max-h-96">
-          <div className="p-4 text-center text-muted-foreground">
-            No games available for selection
-          </div>
+          {completedGames?.map((game) => (
+            <SelectItem key={game.id} value={game.id} className="focus:bg-primary-glass backdrop-blur-sm">
+              <div className="flex justify-between items-center w-full">
+                <div>
+                  <div className="font-semibold">
+                    {game.awayTeam} @ {game.homeTeam}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {game.week} • {game.date} • {game.season}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="font-bold">
+                    {game.awayScore} - {game.homeScore}
+                  </div>
+                  <div className="text-sm text-muted-foreground flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    {game.quarter}
+                  </div>
+                </div>
+              </div>
+            </SelectItem>
+          )) || []}
+          {(!completedGames || completedGames.length === 0) && (
+            <div className="p-4 text-center text-muted-foreground">
+              No completed games available for this season
+            </div>
+          )}
         </SelectContent>
       </Select>
 
