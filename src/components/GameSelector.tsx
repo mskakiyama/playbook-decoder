@@ -80,29 +80,9 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
           )}
         </SelectTrigger>
         <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20 max-h-96">
-          {filteredGames?.map((game) => (
-            <SelectItem key={game.id} value={game.id} className="focus:bg-primary-glass backdrop-blur-sm">
-              <div className="flex justify-between items-center w-full">
-                <div>
-                  <div className="font-semibold">
-                    {game.awayTeam} @ {game.homeTeam}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {game.week} • {game.date} • {game.season}
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="font-bold">
-                    {game.awayScore} - {game.homeScore}
-                  </div>
-                  <div className="text-sm text-muted-foreground flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {game.quarter}
-                  </div>
-                </div>
-              </div>
-            </SelectItem>
-          )) || []}
+          <div className="p-4 text-center text-muted-foreground">
+            No games available for selection
+          </div>
         </SelectContent>
       </Select>
 
