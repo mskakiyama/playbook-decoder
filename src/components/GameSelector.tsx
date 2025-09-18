@@ -33,6 +33,9 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
         return seasonMatch && typeMatch;
       });
 
+  // Find the most current upcoming game for the dropdown label
+  const upcomingGame = filteredGames?.[0]; // Assuming games are sorted by date
+
   return (
     <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass transition-all duration-300 hover:shadow-glass-hover">
       <div className="flex items-center gap-3 mb-4">
@@ -74,6 +77,22 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
             <div className="flex items-center gap-2">
               <Loader2 className="h-4 w-4 animate-spin" />
               <span>Loading games...</span>
+            </div>
+          ) : upcomingGame ? (
+            <div className="flex justify-between items-center w-full">
+              <div>
+                <div className="font-semibold">
+                  {upcomingGame.awayTeam} @ {upcomingGame.homeTeam}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  {upcomingGame.week} • {upcomingGame.date}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="font-bold">
+                  {upcomingGame.awayScore} - {upcomingGame.homeScore}
+                </div>
+              </div>
             </div>
           ) : (
             <SelectValue placeholder="Choose a game" />
