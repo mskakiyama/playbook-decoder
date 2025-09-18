@@ -327,12 +327,30 @@ export const fetchAllHistoricalGames = async (): Promise<ESPNGame[]> => {
 
 const generateMockPlayByPlay = (eventId: string): ESPNPlayByPlay => {
   const plays = [];
-  const playTypes = ['pass', 'rush', 'punt', 'field goal', 'kickoff'];
   const players = ['J. Allen', 'S. Diggs', 'J. Cook', 'D. Knox', 'G. Davis', 'C. Samuel', 'T. Johnson'];
+  
+  // Create realistic play distribution: more pass/rush, fewer special teams
+  const playTypeDistribution = [
+    ...Array(15).fill('pass'), // 15 passing plays  
+    ...Array(10).fill('rush'), // 10 rushing plays
+    ...Array(5).fill('special') // 5 special teams plays
+  ];
   
   for (let i = 0; i < 30; i++) {
     const quarter = Math.ceil((i + 1) / 8);
-    const playType = playTypes[Math.floor(Math.random() * playTypes.length)];
+    const playTypeBase = playTypeDistribution[i] || 'pass';
+    
+    // Create realistic play type text that matches the transform logic
+    let playTypeText = '';
+    if (playTypeBase === 'pass') {
+      playTypeText = Math.random() > 0.5 ? 'Pass Complete' : 'Pass Incomplete';
+    } else if (playTypeBase === 'rush') {
+      playTypeText = 'Rushing Play';
+    } else {
+      const specialTypes = ['Punt', 'Field Goal', 'Kickoff', 'Extra Point'];
+      playTypeText = specialTypes[Math.floor(Math.random() * specialTypes.length)];
+    }
+    
     const isScoring = Math.random() < 0.1;
     const yardage = isScoring ? Math.floor(Math.random() * 40) + 10 : Math.floor(Math.random() * 20) - 5;
     
@@ -341,10 +359,10 @@ const generateMockPlayByPlay = (eventId: string): ESPNPlayByPlay => {
       sequenceNumber: (i + 1).toString(),
       type: {
         id: `${i + 1}`,
-        text: playType,
-        abbreviation: playType.substring(0, 4).toUpperCase()
+        text: playTypeText,
+        abbreviation: playTypeBase.substring(0, 4).toUpperCase()
       },
-      text: `${yardage > 0 ? yardage : Math.abs(yardage)} yard ${playType} ${yardage > 0 ? 'gain' : 'loss'}`,
+      text: `${yardage > 0 ? yardage : Math.abs(yardage)} yard ${playTypeText.toLowerCase()} ${yardage > 0 ? 'gain' : 'loss'}`,
       awayScore: Math.floor(i / 10) * 7,
       homeScore: Math.floor(i / 8) * 7,
       period: {

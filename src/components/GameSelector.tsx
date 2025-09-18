@@ -88,8 +88,8 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
           )}
         </SelectTrigger>
         <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20 max-h-96">
-          {completedGames?.map((game) => (
-            <SelectItem key={game.id} value={game.id} className="focus:bg-primary-glass backdrop-blur-sm">
+          {completedGames?.map((game, index) => (
+            <SelectItem key={`${game.id}-${index}`} value={game.id} className="focus:bg-primary-glass backdrop-blur-sm">
               <div className="flex justify-between items-center w-full">
                 <div>
                   <div className="font-semibold">
