@@ -1,60 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GameSelector } from "@/components/GameSelector";
 import { PlayTimeline } from "@/components/PlayTimeline";
 import { PlayDiagram } from "@/components/PlayDiagram";
 import { PlayCard } from "@/components/PlayCard";
 import { FilterBar } from "@/components/FilterBar";
 import { PlaysGrid } from "@/components/PlaysGrid";
+import { useNFLScoreboard, usePlayByPlay } from "@/hooks/useNFLData";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
+
 const Index = () => {
-  const [selectedGame, setSelectedGame] = useState("chiefs-bills");
+  const [selectedGame, setSelectedGame] = useState("");
   const [selectedPlay, setSelectedPlay] = useState(0);
   const [playFilter, setPlayFilter] = useState("all");
-  const mockPlays = [{
-    id: 1,
-    quarter: 1,
-    time: "14:23",
-    down: 1,
-    distance: 10,
-    yardLine: "KC 25",
-    playType: "passing",
-    result: "Touchdown",
-    description: "Mahomes finds Kelce for 75-yard touchdown pass",
-    players: ["P. Mahomes", "T. Kelce"],
-    yards: 75,
-    success: true,
-    keyPlay: true
-  }, {
-    id: 2,
-    quarter: 1,
-    time: "10:15",
-    down: 2,
-    distance: 7,
-    yardLine: "BUF 15",
-    playType: "rushing",
-    result: "First Down",
-    description: "Allen scrambles right for 12 yards",
-    players: ["J. Allen"],
-    yards: 12,
-    success: true,
-    keyPlay: false
-  }, {
-    id: 3,
-    quarter: 2,
-    time: "8:42",
-    down: 3,
-    distance: 3,
-    yardLine: "KC 40",
-    playType: "passing",
-    result: "Interception",
-    description: "Allen's pass intercepted by Sneed",
-    players: ["J. Allen", "L.D. Sneed"],
-    yards: 0,
-    success: false,
-    keyPlay: true
-  }];
-  const filteredPlays = playFilter === "all" ? mockPlays : mockPlays.filter(play => play.playType === playFilter);
+  
+  const { data: games } = useNFLScoreboard();
+  const { data: plays } = usePlayByPlay(selectedGame);
+  
+  // Set first game as default when games load
+  useEffect(() => {
+    if (games && games.length > 0 && !selectedGame) {
+      setSelectedGame(games[0].id);
+    }
+  }, [games, selectedGame]);
+  
+  const filteredPlays = playFilter === "all" ? (plays || []) : (plays || []).filter(play => play.playType === playFilter);
   return <div className="min-h-screen bg-gradient-background bg-slate-900 px-0 mx-0">
       {/* Hero Header */}
       <div className="relative h-64 flex items-center justify-center">

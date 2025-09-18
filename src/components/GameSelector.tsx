@@ -1,47 +1,21 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Trophy, Clock } from "lucide-react";
+import { Trophy, Clock, Loader2 } from "lucide-react";
+import { useNFLScoreboard } from "@/hooks/useNFLData";
 
 interface GameSelectorProps {
   selectedGame: string;
   onGameChange: (game: string) => void;
 }
 
-const mockGames = [
-  {
-    id: "chiefs-bills",
-    homeTeam: "Kansas City Chiefs",
-    awayTeam: "Buffalo Bills",
-    homeScore: 28,
-    awayScore: 24,
-    quarter: "Final",
-    date: "Dec 10, 2023",
-    week: "Week 14"
-  },
-  {
-    id: "cowboys-eagles",
-    homeTeam: "Philadelphia Eagles", 
-    awayTeam: "Dallas Cowboys",
-    homeScore: 31,
-    awayScore: 17,
-    quarter: "Final",
-    date: "Dec 10, 2023",
-    week: "Week 14"
-  },
-  {
-    id: "49ers-seahawks",
-    homeTeam: "San Francisco 49ers",
-    awayTeam: "Seattle Seahawks", 
-    homeScore: 21,
-    awayScore: 14,
-    quarter: "Q4 2:15",
-    date: "Dec 10, 2023",
-    week: "Week 14"
-  }
-];
-
 export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) => {
-  const currentGame = mockGames.find(game => game.id === selectedGame);
+  const { data: games, isLoading, error } = useNFLScoreboard();
+  
+  const currentGame = games?.find(game => game.id === selectedGame);
+
+  if (error) {
+    console.error('Failed to load games:', error);
+  }
 
   return (
     <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass transition-all duration-300 hover:shadow-glass-hover">
@@ -52,12 +26,19 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
         <h2 className="text-xl font-bold text-foreground">Select Game</h2>
       </div>
 
-      <Select value={selectedGame} onValueChange={onGameChange}>
+      <Select value={selectedGame} onValueChange={onGameChange} disabled={isLoading}>
         <SelectTrigger className="w-full bg-muted backdrop-blur-md border border-white/20 hover:bg-primary-glass transition-all duration-300">
-          <SelectValue placeholder="Choose a game" />
+          {isLoading ? (
+            <div className="flex items-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span>Loading games...</span>
+            </div>
+          ) : (
+            <SelectValue placeholder="Choose a game" />
+          )}
         </SelectTrigger>
         <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20">
-          {mockGames.map((game) => (
+          {games?.map((game) => (
             <SelectItem key={game.id} value={game.id} className="focus:bg-primary-glass backdrop-blur-sm">
               <div className="flex justify-between items-center w-full">
                 <div>
@@ -79,7 +60,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
                 </div>
               </div>
             </SelectItem>
-          ))}
+          )) || []}
         </SelectContent>
       </Select>
 
