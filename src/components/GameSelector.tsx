@@ -34,6 +34,12 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
   const completedGames = filteredGames?.filter(game => 
     game.quarter === 'Final' || game.quarter === 'F'
   );
+  
+  // Debug logging
+  console.log('All games:', games?.length);
+  console.log('Selected season:', selectedSeason);
+  console.log('Filtered games for season:', filteredGames?.length);
+  console.log('Completed games for season:', completedGames?.length);
 
   // Find the most current upcoming game for the dropdown label
   const upcomingGame = completedGames?.[0]; // Show first completed game
