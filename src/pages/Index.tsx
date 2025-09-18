@@ -59,7 +59,8 @@ const Index = () => {
         </div>
 
         {/* Main Content Grid - Hidden when All Plays is selected */}
-        {playFilter !== "all" && <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        {playFilter !== "all" && (
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             {/* Play Timeline */}
             <div className="xl:col-span-1">
               <PlayTimeline plays={filteredPlays} selectedPlay={selectedPlay} onPlaySelect={setSelectedPlay} />
@@ -68,12 +69,15 @@ const Index = () => {
             {/* Play Details & Diagram */}
             <div className="xl:col-span-2 space-y-6">
               {/* Selected Play Card */}
-              <PlayCard play={filteredPlays[selectedPlay]} expanded={true} />
+              {filteredPlays.length > 0 && filteredPlays[selectedPlay] && (
+                <PlayCard play={filteredPlays[selectedPlay]} expanded={true} />
+              )}
 
               {/* Interactive Play Diagram */}
               <PlayDiagram play={filteredPlays[selectedPlay]} />
             </div>
-          </div>}
+          </div>
+        )}
         </div>
       </div>
     </div>;

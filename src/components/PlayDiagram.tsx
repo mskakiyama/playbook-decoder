@@ -20,11 +20,22 @@ interface Play {
 }
 
 interface PlayDiagramProps {
-  play: Play;
+  play?: Play;
 }
 
 export const PlayDiagram = ({ play }: PlayDiagramProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Early return if no play data
+  if (!play) {
+    return (
+      <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass">
+        <div className="flex items-center justify-center h-64">
+          <p className="text-muted-foreground">Select a play to view diagram</p>
+        </div>
+      </Card>
+    );
+  }
 
   useEffect(() => {
     if (!canvasRef.current || !play) return;
