@@ -15,16 +15,22 @@ import { cn } from "@/lib/utils";
 interface FilterBarProps {
   activeFilter: string;
   onFilterChange: (filter: string) => void;
+  plays?: Array<{ playType: string }>;
 }
 
-const filterOptions = [
-  { id: "all", label: "All Plays", icon: Star, count: 24 },
-  { id: "passing", label: "Passing", icon: Target, count: 14 },
-  { id: "rushing", label: "Rushing", icon: TrendingUp, count: 8 },
-  { id: "special", label: "Special Teams", icon: RotateCcw, count: 2 }
-];
+export const FilterBar = ({ activeFilter, onFilterChange, plays = [] }: FilterBarProps) => {
+  // Calculate dynamic counts based on actual plays data
+  const allCount = plays.length;
+  const passingCount = plays.filter(play => play.playType === 'passing').length;
+  const rushingCount = plays.filter(play => play.playType === 'rushing').length;
+  const specialCount = plays.filter(play => play.playType === 'special').length;
 
-export const FilterBar = ({ activeFilter, onFilterChange }: FilterBarProps) => {
+  const filterOptions = [
+    { id: "all", label: "All Plays", icon: Star, count: allCount },
+    { id: "passing", label: "Passing", icon: Target, count: passingCount },
+    { id: "rushing", label: "Rushing", icon: TrendingUp, count: rushingCount },
+    { id: "special", label: "Special Teams", icon: RotateCcw, count: specialCount }
+  ];
   return (
     <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass">
       <div className="flex items-center gap-3 mb-4">

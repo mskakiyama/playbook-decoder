@@ -330,7 +330,7 @@ const generateMockPlayByPlay = (eventId: string): ESPNPlayByPlay => {
   const playTypes = ['pass', 'rush', 'punt', 'field goal', 'kickoff'];
   const players = ['J. Allen', 'S. Diggs', 'J. Cook', 'D. Knox', 'G. Davis', 'C. Samuel', 'T. Johnson'];
   
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 30; i++) {
     const quarter = Math.ceil((i + 1) / 8);
     const playType = playTypes[Math.floor(Math.random() * playTypes.length)];
     const isScoring = Math.random() < 0.1;

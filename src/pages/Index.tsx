@@ -54,7 +54,7 @@ const Index = () => {
             {playFilter === "all" && <PlaysGrid plays={filteredPlays} onPlaySelect={setSelectedPlay} />}
           </div>
           <div>
-            <FilterBar activeFilter={playFilter} onFilterChange={setPlayFilter} />
+            <FilterBar activeFilter={playFilter} onFilterChange={setPlayFilter} plays={plays} />
           </div>
         </div>
 
