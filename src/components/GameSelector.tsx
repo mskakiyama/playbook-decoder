@@ -11,21 +11,14 @@ interface GameSelectorProps {
 
 export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) => {
   const { data: games, isLoading } = useAllGames();
-  const [selectedSeason, setSelectedSeason] = useState<string>(new Date().getFullYear().toString());
   const [selectedType, setSelectedType] = useState<string>('all');
   
   const currentGame = games?.find(game => game.id === selectedGame);
-  const currentYear = new Date().getFullYear();
-
-  // Get past 5 seasons including current year
-  const pastFiveYears = Array.from({length: 5}, (_, i) => currentYear - i);
-  const availableSeasons = [...new Set(games?.map(game => game.season))].sort((a, b) => b - a);
-  const seasons = pastFiveYears;
   const seasonTypes = [...new Set(games?.map(game => game.seasonType))];
 
-  // Filter games based on selected season and type
+  // Filter games for 2025 season only
   const filteredGames = games?.filter(game => {
-    const seasonMatch = game.season.toString() === selectedSeason;
+    const seasonMatch = game.season === 2025;
     const typeMatch = selectedType === 'all' || game.seasonType === selectedType;
     return seasonMatch && typeMatch;
   });
@@ -37,9 +30,8 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
   
   // Debug logging
   console.log('All games:', games?.length);
-  console.log('Selected season:', selectedSeason);
-  console.log('Filtered games for season:', filteredGames?.length);
-  console.log('Completed games for season:', completedGames?.length);
+  console.log('Filtered games for 2025 season:', filteredGames?.length);
+  console.log('Completed games for 2025 season:', completedGames?.length);
 
   // Find the most current upcoming game for the dropdown label
   const upcomingGame = completedGames?.[0]; // Show first completed game
@@ -54,18 +46,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
       </div>
 
       {/* Filters */}
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <Select value={selectedSeason} onValueChange={setSelectedSeason}>
-          <SelectTrigger className="bg-muted backdrop-blur-md border border-white/20">
-            <SelectValue placeholder="All Seasons" />
-          </SelectTrigger>
-          <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20">
-            {seasons.map(season => (
-              <SelectItem key={season} value={season.toString()}>{season}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
+      <div className="mb-4">
         <Select value={selectedType} onValueChange={setSelectedType}>
           <SelectTrigger className="bg-muted backdrop-blur-md border border-white/20">
             <SelectValue placeholder="All Types" />
@@ -115,7 +96,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
                     {game.awayTeam} @ {game.homeTeam}
                   </div>
                   <div className="text-sm text-muted-foreground">
-                    {game.week} • {game.date} • {game.season}
+                    {game.week} • {game.date}
                   </div>
                 </div>
                 <div className="text-right">
@@ -132,7 +113,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
           )) || []}
           {(!completedGames || completedGames.length === 0) && (
             <div className="p-4 text-center text-muted-foreground">
-              No completed games available for this season
+              No completed games available for 2025 season
             </div>
           )}
         </SelectContent>
