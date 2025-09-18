@@ -20,7 +20,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
   // Get past 5 seasons including current year
   const pastFiveYears = Array.from({length: 5}, (_, i) => currentYear - i);
   const availableSeasons = [...new Set(games?.map(game => game.season))].sort((a, b) => b - a);
-  const seasons = pastFiveYears.filter(year => availableSeasons.includes(year));
+  const seasons = pastFiveYears;
   const seasonTypes = [...new Set(games?.map(game => game.seasonType))];
 
   // Filter games based on selected season and type
