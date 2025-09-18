@@ -5,7 +5,7 @@ import { PlayDiagram } from "@/components/PlayDiagram";
 import { PlayCard } from "@/components/PlayCard";
 import { FilterBar } from "@/components/FilterBar";
 import { PlaysGrid } from "@/components/PlaysGrid";
-import { useNFLScoreboard, usePlayByPlay } from "@/hooks/useNFLData";
+import { useAllGames, usePlayByPlay } from "@/hooks/useNFLData";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
 
@@ -14,7 +14,7 @@ const Index = () => {
   const [selectedPlay, setSelectedPlay] = useState(0);
   const [playFilter, setPlayFilter] = useState("all");
   
-  const { data: games } = useNFLScoreboard();
+  const { data: games } = useAllGames();
   const { data: plays } = usePlayByPlay(selectedGame);
   
   // Set first game as default when games load

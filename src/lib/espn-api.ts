@@ -276,6 +276,55 @@ export const fetchNFLScoreboard = async (): Promise<ESPNScoreboard> => {
   return response.json();
 };
 
+export const fetchHistoricalGames = async (year: number, seasonType: number, week?: number): Promise<ESPNScoreboard> => {
+  let url = `${ESPN_BASE_URL}/scoreboard?seasontype=${seasonType}&year=${year}`;
+  if (week) {
+    url += `&week=${week}`;
+  }
+  
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch historical games for ${year}`);
+  }
+  return response.json();
+};
+
+export const fetchAllHistoricalGames = async (): Promise<ESPNGame[]> => {
+  const currentYear = new Date().getFullYear();
+  const years = [currentYear - 4, currentYear - 3, currentYear - 2, currentYear - 1, currentYear];
+  const allGames: ESPNGame[] = [];
+  
+  try {
+    // Fetch games for each year and season type
+    for (const year of years) {
+      // Regular season (seasonType: 2)
+      for (let week = 1; week <= 18; week++) {
+        try {
+          const regularSeasonData = await fetchHistoricalGames(year, 2, week);
+          allGames.push(...regularSeasonData.events);
+          // Small delay to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 100));
+        } catch (error) {
+          console.warn(`Failed to fetch regular season week ${week} for ${year}:`, error);
+        }
+      }
+      
+      // Playoffs (seasonType: 3)
+      try {
+        const playoffData = await fetchHistoricalGames(year, 3);
+        allGames.push(...playoffData.events);
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } catch (error) {
+        console.warn(`Failed to fetch playoffs for ${year}:`, error);
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching historical games:', error);
+  }
+  
+  return allGames;
+};
+
 export const fetchPlayByPlay = async (eventId: string): Promise<ESPNPlayByPlay> => {
   const response = await fetch(`${ESPN_CORE_URL}/events/${eventId}/pbp`);
   if (!response.ok) {
@@ -290,6 +339,10 @@ export const transformESPNGameToAppGame = (espnGame: ESPNGame) => {
   const homeTeam = competition.competitors.find(c => c.homeAway === 'home');
   const awayTeam = competition.competitors.find(c => c.homeAway === 'away');
   
+  // Determine season type
+  const seasonType = espnGame.season?.type === 1 ? 'Preseason' : 
+                     espnGame.season?.type === 3 ? 'Playoffs' : 'Regular Season';
+  
   return {
     id: espnGame.id,
     homeTeam: homeTeam?.team.displayName || '',
@@ -302,7 +355,9 @@ export const transformESPNGameToAppGame = (espnGame: ESPNGame) => {
       day: 'numeric', 
       year: 'numeric' 
     }),
-    week: `Week ${espnGame.week.number}`
+    week: espnGame.week ? `${seasonType} Week ${espnGame.week.number}` : seasonType,
+    season: espnGame.season?.year || new Date().getFullYear(),
+    seasonType: seasonType
   };
 };
 

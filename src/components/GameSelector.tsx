@@ -1,7 +1,8 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Trophy, Clock, Loader2 } from "lucide-react";
-import { useNFLScoreboard } from "@/hooks/useNFLData";
+import { Trophy, Clock, Loader2, Filter } from "lucide-react";
+import { useAllGames } from "@/hooks/useNFLData";
+import { useState } from "react";
 
 interface GameSelectorProps {
   selectedGame: string;
@@ -9,13 +10,22 @@ interface GameSelectorProps {
 }
 
 export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) => {
-  const { data: games, isLoading, error } = useNFLScoreboard();
+  const { data: games, isLoading } = useAllGames();
+  const [selectedSeason, setSelectedSeason] = useState<string>('all');
+  const [selectedType, setSelectedType] = useState<string>('all');
   
   const currentGame = games?.find(game => game.id === selectedGame);
 
-  if (error) {
-    console.error('Failed to load games:', error);
-  }
+  // Get unique seasons and types for filters
+  const seasons = [...new Set(games?.map(game => game.season))].sort((a, b) => b - a);
+  const seasonTypes = [...new Set(games?.map(game => game.seasonType))];
+
+  // Filter games based on selections
+  const filteredGames = games?.filter(game => {
+    const seasonMatch = selectedSeason === 'all' || game.season.toString() === selectedSeason;
+    const typeMatch = selectedType === 'all' || game.seasonType === selectedType;
+    return seasonMatch && typeMatch;
+  });
 
   return (
     <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass transition-all duration-300 hover:shadow-glass-hover">
@@ -24,6 +34,33 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
           <Trophy className="h-5 w-5 text-accent" />
         </div>
         <h2 className="text-xl font-bold text-foreground">Select Game</h2>
+      </div>
+
+      {/* Filters */}
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <Select value={selectedSeason} onValueChange={setSelectedSeason}>
+          <SelectTrigger className="bg-muted backdrop-blur-md border border-white/20">
+            <SelectValue placeholder="All Seasons" />
+          </SelectTrigger>
+          <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20">
+            <SelectItem value="all">All Seasons</SelectItem>
+            {seasons.map(season => (
+              <SelectItem key={season} value={season.toString()}>{season}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={selectedType} onValueChange={setSelectedType}>
+          <SelectTrigger className="bg-muted backdrop-blur-md border border-white/20">
+            <SelectValue placeholder="All Types" />
+          </SelectTrigger>
+          <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20">
+            <SelectItem value="all">All Types</SelectItem>
+            {seasonTypes.map(type => (
+              <SelectItem key={type} value={type}>{type}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <Select value={selectedGame} onValueChange={onGameChange} disabled={isLoading}>
@@ -37,8 +74,8 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
             <SelectValue placeholder="Choose a game" />
           )}
         </SelectTrigger>
-        <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20">
-          {games?.map((game) => (
+        <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20 max-h-96">
+          {filteredGames?.map((game) => (
             <SelectItem key={game.id} value={game.id} className="focus:bg-primary-glass backdrop-blur-sm">
               <div className="flex justify-between items-center w-full">
                 <div>
@@ -46,7 +83,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
                     {game.awayTeam} @ {game.homeTeam}
                   </div>
                   <div className="text-sm text-muted-foreground">
-                    {game.week} • {game.date}
+                    {game.week} • {game.date} • {game.season}
                   </div>
                 </div>
                 <div className="text-right">

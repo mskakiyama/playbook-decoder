@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { 
   fetchNFLScoreboard, 
   fetchPlayByPlay, 
+  fetchAllHistoricalGames,
   transformESPNGameToAppGame, 
   transformESPNPlayToAppPlay 
 } from '@/lib/espn-api';
@@ -15,6 +16,29 @@ export const useNFLScoreboard = () => {
       return data.events.map(transformESPNGameToAppGame);
     },
   });
+};
+
+export const useHistoricalGames = () => {
+  return useQuery({
+    queryKey: ['nfl-historical-games'],
+    queryFn: fetchAllHistoricalGames,
+    staleTime: 1000 * 60 * 60, // 1 hour - historical data doesn't change often
+    select: (data) => {
+      return data.map(transformESPNGameToAppGame).sort((a, b) => 
+        new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+    },
+  });
+};
+
+export const useAllGames = () => {
+  const { data: currentGames, isLoading: currentLoading } = useNFLScoreboard();
+  const { data: historicalGames, isLoading: historicalLoading } = useHistoricalGames();
+  
+  return {
+    data: [...(currentGames || []), ...(historicalGames || [])],
+    isLoading: currentLoading || historicalLoading,
+  };
 };
 
 export const usePlayByPlay = (eventId: string | null) => {
