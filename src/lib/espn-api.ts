@@ -277,7 +277,7 @@ export const fetchNFLScoreboard = async (): Promise<ESPNScoreboard> => {
 };
 
 export const fetchHistoricalGames = async (year: number, seasonType: number, week?: number): Promise<ESPNScoreboard> => {
-  let url = `${ESPN_BASE_URL}/scoreboard?seasonType=${seasonType}&seasonYear=${year}`;
+  let url = `${ESPN_BASE_URL}/scoreboard?seasontype=${seasonType}&year=${year}`;
   if (week) {
     url += `&week=${week}`;
   }
@@ -291,33 +291,33 @@ export const fetchHistoricalGames = async (year: number, seasonType: number, wee
 
 export const fetchAllHistoricalGames = async (): Promise<ESPNGame[]> => {
   const currentYear = new Date().getFullYear();
-  const years = [2021, 2022, 2023, 2024, 2025];
+  const years = [currentYear - 4, currentYear - 3, currentYear - 2, currentYear - 1, currentYear];
   const allGames: ESPNGame[] = [];
   
   try {
     // Fetch games for each year and season type
     for (const year of years) {
+      // Regular season (seasonType: 2)
+      for (let week = 1; week <= 18; week++) {
+        try {
+          const regularSeasonData = await fetchHistoricalGames(year, 2, week);
+          allGames.push(...regularSeasonData.events);
+          // Small delay to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 100));
+        } catch (error) {
+          console.warn(`Failed to fetch regular season week ${week} for ${year}:`, error);
+        }
+      }
+      
+      // Playoffs (seasonType: 3)
       try {
-        // Regular season (seasonType: 2) - fetch entire season at once
-        console.log(`Fetching regular season games for ${year}...`);
-        const regularSeasonData = await fetchHistoricalGames(year, 2);
-        allGames.push(...regularSeasonData.events);
-        
-        // Small delay to avoid rate limiting
-        await new Promise(resolve => setTimeout(resolve, 200));
-        
-        // Playoffs (seasonType: 3) - fetch entire playoffs at once
-        console.log(`Fetching playoff games for ${year}...`);
         const playoffData = await fetchHistoricalGames(year, 3);
         allGames.push(...playoffData.events);
-        
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise(resolve => setTimeout(resolve, 100));
       } catch (error) {
-        console.warn(`Failed to fetch games for ${year}:`, error);
+        console.warn(`Failed to fetch playoffs for ${year}:`, error);
       }
     }
-    
-    console.log(`Successfully fetched ${allGames.length} historical games`);
   } catch (error) {
     console.error('Error fetching historical games:', error);
   }
