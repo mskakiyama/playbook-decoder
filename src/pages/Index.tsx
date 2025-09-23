@@ -8,6 +8,7 @@ import { PlaysGrid } from "@/components/PlaysGrid";
 import { useAllGames, usePlayByPlay } from "@/hooks/useNFLData";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import AuthGuard from "@/components/AuthGuard";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
@@ -34,9 +35,10 @@ const IndexContent = () => {
       <div className="relative h-64 flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm mx-0 my-0 py-0 px-0 bg-transparent"></div>
         
-        {/* Sign Out Button */}
-        {user && (
-          <div className="absolute top-4 right-4 z-20">
+        {/* Theme Toggle and Sign Out Button */}
+        <div className="absolute top-4 right-4 z-20 flex gap-2">
+          <ThemeToggle />
+          {user && (
             <Button 
               variant="outline" 
               onClick={signOut}
@@ -44,8 +46,8 @@ const IndexContent = () => {
             >
               Sign Out
             </Button>
-          </div>
-        )}
+          )}
+        </div>
 
         <div className="relative z-10 flex items-center justify-center backdrop-blur-lg rounded-2xl p-8 border border-transparent bg-transparent">
           <img src={playerImage} alt="Football Player" className="w-21 h-21 md:w-26 md:h-26 mr-6 object-contain" />
