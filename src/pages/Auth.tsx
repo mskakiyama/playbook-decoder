@@ -25,23 +25,6 @@ const Auth = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (isSignUp) {
-      // For signup, just collect email first
-      if (!email) {
-        toast({
-          title: "Error",
-          description: "Please enter your email",
-          variant: "destructive"
-        });
-        return;
-      }
-      // Switch to sign in mode to collect password
-      setIsSignUp(false);
-      return;
-    }
-    
-    // For sign in, need both email and password
     if (!email || !password) {
       toast({
         title: "Error",
@@ -53,31 +36,21 @@ const Auth = () => {
 
     setLoading(true);
     try {
-      const { error } = await signIn(email, password);
+      const { error } = isSignUp 
+        ? await signUp(email, password)
+        : await signIn(email, password);
 
       if (error) {
-        // If user doesn't exist, create account
-        if (error.message.includes('Invalid login credentials')) {
-          const { error: signUpError } = await signUp(email, password);
-          if (signUpError) {
-            toast({
-              title: "Authentication Error",
-              description: signUpError.message,
-              variant: "destructive"
-            });
-          } else {
-            toast({
-              title: "Account created!",
-              description: "Check your email for confirmation.",
-            });
-          }
-        } else {
-          toast({
-            title: "Authentication Error",
-            description: error.message,
-            variant: "destructive"
-          });
-        }
+        toast({
+          title: "Authentication Error",
+          description: error.message,
+          variant: "destructive"
+        });
+      } else if (isSignUp) {
+        toast({
+          title: "Check your email",
+          description: "We've sent you a confirmation link.",
+        });
       }
     } catch (err) {
       toast({
@@ -119,16 +92,14 @@ const Auth = () => {
                   placeholder="Enter your subscription email"
                 />
                 
-                {!isSignUp && (
-                  <Input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 h-12 rounded-xl px-4"
-                    placeholder="Enter your password"
-                  />
-                )}
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 h-12 rounded-xl px-4"
+                  placeholder="Enter your password"
+                />
               </div>
 
               <Button 
@@ -136,20 +107,21 @@ const Auth = () => {
                 className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all duration-200"
                 disabled={loading}
               >
-                {loading ? 'Please wait...' : 'Continue'}
+                {loading ? 'Please wait...' : (isSignUp ? 'Sign Up' : 'Continue')}
               </Button>
             </form>
 
             <div className="text-center space-y-3">
-              {!isSignUp && (
-                <Button
-                  variant="ghost"
-                  onClick={() => setIsSignUp(true)}
-                  className="text-slate-400 hover:text-white text-sm"
-                >
-                  ← Back to email
-                </Button>
-              )}
+              <Button
+                variant="ghost"
+                onClick={() => setIsSignUp(!isSignUp)}
+                className="text-slate-400 hover:text-white text-sm"
+              >
+                {isSignUp 
+                  ? 'Already have an account? Sign In' 
+                  : "Don't have an account? Sign Up"
+                }
+              </Button>
               
               <Button
                 variant="outline"
