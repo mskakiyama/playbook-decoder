@@ -50,7 +50,7 @@ const IndexContent = () => {
         <div className="relative z-10 flex items-center justify-center backdrop-blur-lg rounded-2xl p-8 border border-transparent bg-transparent">
           <img src={playerImage} alt="Football Player" className="w-21 h-21 md:w-26 md:h-26 mr-6 object-contain" />
           <div className="text-center">
-            <h1 className="text-4xl font-gugi text-primary-foreground mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent font-normal md:text-6xl">
+            <h1 className="text-4xl font-oswald text-primary-foreground mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent font-bold md:text-6xl">
               NFL Plays Breakdown
             </h1>
             <p className="text-xl text-primary-foreground/90">

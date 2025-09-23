@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         gugi: ["Gugi", "cursive"],
+        oswald: ["Oswald", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
