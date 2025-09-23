@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import nflPlayerBg from '@/assets/nfl-player-bg.png';
 
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(true);
@@ -68,8 +69,19 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900">
-      <div className="w-full max-w-sm">
+    <div 
+      className="min-h-screen flex items-center justify-center p-4 relative"
+      style={{
+        backgroundImage: `url(${nflPlayerBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Blur and dark overlay */}
+      <div className="absolute inset-0 backdrop-blur-lg bg-slate-900/70"></div>
+      
+      <div className="w-full max-w-sm relative z-10">
         {/* Auth Card */}
         <Card className="bg-slate-800/60 backdrop-blur-xl border border-slate-700/50 rounded-3xl shadow-2xl">
           <CardHeader className="text-center pb-2">
