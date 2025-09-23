@@ -128,7 +128,7 @@ const Auth = () => {
                 onClick={handleSkip}
                 className="w-full h-10 bg-transparent border-slate-600/50 text-slate-300 hover:bg-slate-700/50 hover:text-white rounded-xl text-sm"
               >
-                Skip for now
+                Preview NFL Plays Breakdown
               </Button>
             </div>
           </CardContent>
