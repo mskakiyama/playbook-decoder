@@ -69,32 +69,23 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen relative">
-      {/* Full screen blurred background image */}
+    <div className="min-h-screen flex relative">
+      {/* Background Image - Full width but positioned left */}
       <div 
         className="absolute inset-0"
         style={{
           backgroundImage: `url(${nflPlayerBg})`,
           backgroundSize: 'cover',
-          backgroundPosition: '10% center',
-          backgroundRepeat: 'no-repeat',
-          filter: 'blur(3px)',
-          transform: 'scale(1.1)'
+          backgroundPosition: 'left center',
+          backgroundRepeat: 'no-repeat'
         }}
-      >
-      </div>
+      />
       
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-background/30"></div>
+      {/* Blur and dark overlay */}
+      <div className="absolute inset-0 backdrop-blur-lg bg-background/20"></div>
       
-      {/* Auth dialog container */}
-      <div className="relative z-10 min-h-screen flex">
-        {/* Left spacer */}
-        <div className="flex-1"></div>
-        
-        {/* Right panel - Glassmorphic */}
-        <div className="flex-1 flex items-center justify-center p-8 bg-glass-subtle backdrop-blur-xl">
-        <div className="w-full max-w-md">
+      {/* Right side container for dialog */}
+      <div className="ml-auto w-full max-w-md relative z-10 p-8 flex items-center justify-center min-h-screen">
         {/* Auth Card */}
         <Card className="bg-card/80 backdrop-blur-xl border-border shadow-elegant rounded-2xl">
           <CardHeader className="text-center pb-6 pt-12">
@@ -168,8 +159,6 @@ const Auth = () => {
             </div>
           </CardContent>
         </Card>
-        </div>
-        </div>
       </div>
     </div>
   );
