@@ -74,7 +74,7 @@ const Auth = () => {
       style={{
         backgroundImage: `url(${nflPlayerBg})`,
         backgroundSize: 'cover',
-        backgroundPosition: '175% center',
+        backgroundPosition: '175% 60%',
         backgroundRepeat: 'no-repeat'
       }}
     >
