@@ -93,6 +93,10 @@ const IndexContent = () => {
     </div>;
 };
 const Index = () => {
-  return <IndexContent />;
+  return (
+    <AuthGuard>
+      <IndexContent />
+    </AuthGuard>
+  );
 };
 export default Index;
