@@ -86,11 +86,11 @@ export const PlayCard = ({ play, expanded = false }: PlayCardProps) => {
             {playDetails.icon}
           </div>
           <div>
-            <h3 className="text-lg font-bold flex items-center gap-2">
+            <h3 className="text-xl font-semibold flex items-center gap-2 leading-tight">
               {play.description}
               {play.keyPlay && <Star className="h-4 w-4 text-accent animate-pulse" />}
             </h3>
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground mt-2">
               <span className="flex items-center gap-1">
                 <Clock className="h-3 w-3" />
                 Q{play.quarter} {play.time}

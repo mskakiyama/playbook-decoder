@@ -37,7 +37,7 @@ export const FilterBar = ({ activeFilter, onFilterChange, plays = [] }: FilterBa
         <div className="p-2 bg-gradient-glass-accent rounded-lg backdrop-blur-sm">
           <Filter className="h-5 w-5 text-accent" />
         </div>
-        <h2 className="text-xl font-bold">Filters</h2>
+        <h2 className="text-xl font-semibold leading-tight">Filters</h2>
       </div>
 
       {/* Search Bar */}

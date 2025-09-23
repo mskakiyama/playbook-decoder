@@ -42,7 +42,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
         <div className="p-2 bg-gradient-glass-accent rounded-lg backdrop-blur-sm">
           <Trophy className="h-5 w-5 text-accent" />
         </div>
-        <h2 className="text-xl font-bold text-foreground">Select Game</h2>
+        <h2 className="text-xl font-semibold leading-tight text-foreground">Select Game</h2>
       </div>
 
       {/* Filters */}

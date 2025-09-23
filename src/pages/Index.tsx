@@ -29,63 +29,62 @@ const IndexContent = () => {
   }, [games, selectedGame]);
   
   const filteredPlays = playFilter === "all" ? (plays || []) : (plays || []).filter(play => play.playType === playFilter);
-  return <div className="min-h-screen bg-gradient-background bg-slate-900 px-0 mx-0">
+  return <div className="min-h-screen bg-gradient-background">
       {/* Hero Header */}
-      <div className="relative h-64 flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm mx-0 my-0 py-0 px-0 bg-transparent"></div>
+      <header className="relative h-80 flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"></div>
         
         {/* Sign Out Button */}
         {user && (
-          <div className="absolute top-4 right-4 z-20">
+          <div className="absolute top-6 right-6 z-20">
             <Button 
-              variant="outline" 
+              variant="glass" 
               onClick={signOut}
-              className="bg-card/40 backdrop-blur-md border-border/50 hover:bg-card/60"
+              className="shadow-glass"
             >
               Sign Out
             </Button>
           </div>
         )}
 
-        <div className="relative z-10 flex items-center justify-center backdrop-blur-lg rounded-2xl p-8 border border-transparent bg-transparent">
-          <img src={playerImage} alt="Football Player" className="w-21 h-21 md:w-26 md:h-26 mr-6 object-contain" />
-          <div className="text-center">
-            <h1 className="text-4xl font-oswald text-primary-foreground mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent font-bold md:text-6xl">
+        <div className="relative z-10 flex items-center justify-center max-w-4xl mx-auto px-6">
+          <img src={playerImage} alt="Football Player" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
+          <div className="text-center mx-8">
+            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent leading-tight">
               NFL Plays Breakdown
             </h1>
-            <p className="text-xl text-primary-foreground/90">
+            <p className="text-lg sm:text-xl text-white/90 leading-normal">
               Deep dive into every play with interactive analysis
             </p>
           </div>
-          <img src={player2Image} alt="Football Player 2" className="w-21 h-21 md:w-26 md:h-26 ml-6 object-contain" />
+          <img src={player2Image} alt="Football Player 2" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
         </div>
-      </div>
+      </header>
 
-      <div className="w-full bg-slate-900 py-[30px]">
-        <div className="container px-[36px] mx-[81px]">
+      <main className="container mx-auto px-6 py-8 space-y-8">
         {/* Game Selection & Filters */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <div className="lg:col-span-2 space-y-6">
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
             <GameSelector selectedGame={selectedGame} onGameChange={setSelectedGame} />
             
             {/* All Plays Grid - Shows when "All Plays" filter is selected */}
             {playFilter === "all" && <PlaysGrid plays={filteredPlays} onPlaySelect={setSelectedPlay} />}
           </div>
-          <div>
+          <aside className="space-y-8">
             <FilterBar activeFilter={playFilter} onFilterChange={setPlayFilter} plays={plays} />
-          </div>
-        </div>
+          </aside>
+        </section>
 
         {/* Main Content Grid - Hidden when All Plays is selected */}
         {playFilter !== "all" && (
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+          <section className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             {/* Play Timeline */}
-            <div className="xl:col-span-1">
+            <aside className="xl:col-span-1">
               <PlayTimeline plays={filteredPlays} selectedPlay={selectedPlay} onPlaySelect={setSelectedPlay} />
-            </div>
+            </aside>
 
             {/* Play Details & Diagram */}
-            <div className="xl:col-span-2 space-y-6">
+            <div className="xl:col-span-2 space-y-8">
               {/* Selected Play Card */}
               {filteredPlays.length > 0 && filteredPlays[selectedPlay] && (
                 <PlayCard play={filteredPlays[selectedPlay]} expanded={true} />
@@ -94,10 +93,9 @@ const IndexContent = () => {
               {/* Interactive Play Diagram */}
               <PlayDiagram play={filteredPlays[selectedPlay]} />
             </div>
-          </div>
+          </section>
         )}
-        </div>
-      </div>
+      </main>
     </div>;
 };
 
