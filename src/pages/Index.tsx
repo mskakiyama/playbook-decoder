@@ -6,16 +6,20 @@ import { PlayCard } from "@/components/PlayCard";
 import { FilterBar } from "@/components/FilterBar";
 import { PlaysGrid } from "@/components/PlaysGrid";
 import { useAllGames, usePlayByPlay } from "@/hooks/useNFLData";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import AuthGuard from "@/components/AuthGuard";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
 
-const Index = () => {
+const IndexContent = () => {
   const [selectedGame, setSelectedGame] = useState("");
   const [selectedPlay, setSelectedPlay] = useState(0);
   const [playFilter, setPlayFilter] = useState("all");
   
   const { data: games } = useAllGames();
   const { data: plays } = usePlayByPlay(selectedGame);
+  const { signOut, user } = useAuth();
   
   // Set first game as default when games load
   useEffect(() => {
@@ -29,6 +33,18 @@ const Index = () => {
       {/* Hero Header */}
       <div className="relative h-64 flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm mx-0 my-0 py-0 px-0 bg-transparent"></div>
+        
+        {/* Sign Out Button */}
+        <div className="absolute top-4 right-4 z-20">
+          <Button 
+            variant="outline" 
+            onClick={signOut}
+            className="bg-card/40 backdrop-blur-md border-border/50 hover:bg-card/60"
+          >
+            Sign Out
+          </Button>
+        </div>
+
         <div className="relative z-10 flex items-center justify-center backdrop-blur-lg rounded-2xl p-8 border border-transparent bg-transparent">
           <img src={playerImage} alt="Football Player" className="w-21 h-21 md:w-26 md:h-26 mr-6 object-contain" />
           <div className="text-center">
@@ -82,4 +98,13 @@ const Index = () => {
       </div>
     </div>;
 };
+
+const Index = () => {
+  return (
+    <AuthGuard>
+      <IndexContent />
+    </AuthGuard>
+  );
+};
+
 export default Index;
