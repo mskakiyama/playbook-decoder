@@ -70,7 +70,7 @@ const Auth = () => {
 
   return (
     <div 
-      className="min-h-screen flex items-center justify-center p-4 relative"
+      className="min-h-screen flex items-end justify-center p-8 relative"
       style={{
         backgroundImage: `url(${nflPlayerBg})`,
         backgroundSize: 'cover',
@@ -79,66 +79,76 @@ const Auth = () => {
       }}
     >
       {/* Blur and dark overlay */}
-      <div className="absolute inset-0 backdrop-blur-lg bg-slate-900/70"></div>
+      <div className="absolute inset-0 backdrop-blur-lg bg-background/20"></div>
       
-      <div className="w-full max-w-sm relative z-10">
+      <div className="w-full max-w-md relative z-10 mb-16">
         {/* Auth Card */}
-        <Card className="bg-slate-800/60 backdrop-blur-xl border border-slate-700/50 rounded-3xl shadow-2xl">
-          <CardHeader className="text-center pb-2">
-            <CardTitle className="text-2xl font-semibold text-white mb-2">
-              {isSignUp ? 'Log In' : 'Log In'}
+        <Card className="bg-card/80 backdrop-blur-xl border-border shadow-elegant rounded-2xl">
+          <CardHeader className="text-center pb-6 pt-12">
+            <CardTitle className="text-3xl font-semibold text-foreground mb-4">
+              {isSignUp ? 'Welcome to NFL Plays Breakdown' : 'Welcome Back'}
             </CardTitle>
-            <p className="text-slate-300 text-sm">
-              {isSignUp ? 'Log in or create a NFL Plays Breakdown account' : 'Welcome back to NFL Plays Breakdown'}
+            <p className="text-muted-foreground text-base leading-relaxed">
+              {isSignUp ? 'Create your account to access detailed NFL play analysis' : 'Sign in to continue your NFL analysis journey'}
             </p>
           </CardHeader>
-          <CardContent className="space-y-6 px-8 pb-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-4">
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 h-12 rounded-xl px-4"
-                  placeholder="Enter your subscription email"
-                />
+          <CardContent className="space-y-8 px-12 pb-12">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-sm font-medium text-foreground">
+                    Email Address
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="bg-input border-border text-foreground placeholder:text-muted-foreground h-12 rounded-xl px-4 text-base transition-smooth focus:ring-2 focus:ring-primary"
+                    placeholder="Enter your email address"
+                  />
+                </div>
                 
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 h-12 rounded-xl px-4"
-                  placeholder="Enter your password"
-                />
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-sm font-medium text-foreground">
+                    Password
+                  </Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="bg-input border-border text-foreground placeholder:text-muted-foreground h-12 rounded-xl px-4 text-base transition-smooth focus:ring-2 focus:ring-primary"
+                    placeholder="Enter your password"
+                  />
+                </div>
               </div>
 
               <Button 
                 type="submit" 
-                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all duration-200"
+                className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-xl transition-smooth shadow-sm"
                 disabled={loading}
               >
-                {loading ? 'Please wait...' : (isSignUp ? 'Sign Up' : 'Continue')}
+                {loading ? 'Please wait...' : (isSignUp ? 'Create Account' : 'Sign In')}
               </Button>
             </form>
 
-            <div className="text-center space-y-3">
+            <div className="text-center space-y-4 pt-4">
               <Button
                 variant="ghost"
                 onClick={() => setIsSignUp(!isSignUp)}
-                className="text-slate-400 hover:text-white text-sm"
+                className="text-muted-foreground hover:text-foreground text-sm transition-smooth"
               >
                 {isSignUp 
                   ? 'Already have an account? Sign In' 
-                  : "Don't have an account? Sign Up"
+                  : "Don't have an account? Create Account"
                 }
               </Button>
               
               <Button
                 variant="outline"
                 onClick={handleSkip}
-                className="w-full h-10 bg-transparent border-slate-600/50 text-slate-300 hover:bg-slate-700/50 hover:text-white rounded-xl text-sm"
+                className="w-full h-12 bg-transparent border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground rounded-xl text-sm transition-smooth"
               >
                 Preview NFL Plays Breakdown
               </Button>
