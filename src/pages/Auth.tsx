@@ -70,18 +70,18 @@ const Auth = () => {
 
   return (
     <div 
-      className="min-h-screen flex items-end justify-center p-8 relative"
+      className="min-h-screen flex items-center justify-start p-8 relative"
       style={{
         backgroundImage: `url(${nflPlayerBg})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'right center',
         backgroundRepeat: 'no-repeat'
       }}
     >
       {/* Blur and dark overlay */}
       <div className="absolute inset-0 backdrop-blur-lg bg-background/20"></div>
       
-      <div className="w-full max-w-md relative z-10 mb-16">
+      <div className="w-full max-w-md relative z-10 ml-8">
         {/* Auth Card */}
         <Card className="bg-card/80 backdrop-blur-xl border-border shadow-elegant rounded-2xl">
           <CardHeader className="text-center pb-6 pt-12">
