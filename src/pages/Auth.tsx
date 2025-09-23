@@ -76,7 +76,7 @@ const Auth = () => {
         style={{
           backgroundImage: `url(${nflPlayerBg})`,
           backgroundSize: 'cover',
-          backgroundPosition: '75% center',
+          backgroundPosition: '25% center',
           backgroundRepeat: 'no-repeat',
           filter: 'blur(3px)',
           transform: 'scale(1.1)'
@@ -93,7 +93,7 @@ const Auth = () => {
         <div className="flex-1"></div>
         
         {/* Right panel - Glassmorphic */}
-        <div className="flex-1 flex items-center justify-center p-8 bg-glass-subtle backdrop-blur-xl border-l border-border/30">
+        <div className="flex-1 flex items-center justify-center p-8 bg-glass-subtle backdrop-blur-xl">
         <div className="w-full max-w-md">
         {/* Auth Card */}
         <Card className="bg-card/80 backdrop-blur-xl border-border shadow-elegant rounded-2xl">
