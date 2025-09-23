@@ -35,15 +35,17 @@ const IndexContent = () => {
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm mx-0 my-0 py-0 px-0 bg-transparent"></div>
         
         {/* Sign Out Button */}
-        <div className="absolute top-4 right-4 z-20">
-          <Button 
-            variant="outline" 
-            onClick={signOut}
-            className="bg-card/40 backdrop-blur-md border-border/50 hover:bg-card/60"
-          >
-            Sign Out
-          </Button>
-        </div>
+        {user && (
+          <div className="absolute top-4 right-4 z-20">
+            <Button 
+              variant="outline" 
+              onClick={signOut}
+              className="bg-card/40 backdrop-blur-md border-border/50 hover:bg-card/60"
+            >
+              Sign Out
+            </Button>
+          </div>
+        )}
 
         <div className="relative z-10 flex items-center justify-center backdrop-blur-lg rounded-2xl p-8 border border-transparent bg-transparent">
           <img src={playerImage} alt="Football Player" className="w-21 h-21 md:w-26 md:h-26 mr-6 object-contain" />
@@ -100,11 +102,7 @@ const IndexContent = () => {
 };
 
 const Index = () => {
-  return (
-    <AuthGuard>
-      <IndexContent />
-    </AuthGuard>
-  );
+  return <IndexContent />;
 };
 
 export default Index;
