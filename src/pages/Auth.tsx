@@ -69,19 +69,23 @@ const Auth = () => {
   };
 
   return (
-    <div 
-      className="min-h-screen flex items-end justify-center p-8 relative"
-      style={{
-        backgroundImage: `url(${nflPlayerBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
-    >
-      {/* Blur and dark overlay */}
-      <div className="absolute inset-0 backdrop-blur-lg bg-background/20"></div>
+    <div className="min-h-screen flex">
+      {/* Left half - Background image */}
+      <div 
+        className="flex-1 relative"
+        style={{
+          backgroundImage: `url(${nflPlayerBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="absolute inset-0 bg-background/20"></div>
+      </div>
       
-      <div className="w-full max-w-md relative z-10 mb-16">
+      {/* Right half - Auth dialog */}
+      <div className="flex-1 flex items-center justify-center p-8 bg-background">
+        <div className="w-full max-w-md">
         {/* Auth Card */}
         <Card className="bg-card/80 backdrop-blur-xl border-border shadow-elegant rounded-2xl">
           <CardHeader className="text-center pb-6 pt-12">
@@ -155,6 +159,7 @@ const Auth = () => {
             </div>
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   );
