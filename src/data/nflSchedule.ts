@@ -179,8 +179,88 @@ export const nflScheduleData: Conference[] = [
               { week: 17, date: "12/28", opponent: "@ CLE", isHome: false, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
               { week: 18, date: "01/04", opponent: "vs CIN", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false }
             ]
+          },
+          {
+            id: "pit",
+            name: "Pittsburgh Steelers",
+            abbreviation: "PIT",
+            city: "Pittsburgh",
+            projectedRecord: "11-6",
+            games: [
+              { week: 1, date: "09/07", opponent: "@ ATL", isHome: false, time: "1:00 PM", network: "FOX", isDivisional: false, isPrimetime: false },
+              { week: 2, date: "09/14", opponent: "vs DEN", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 3, date: "09/21", opponent: "@ LAC", isHome: false, time: "4:05 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 4, date: "09/28", opponent: "vs IND", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 5, date: "10/05", opponent: "@ DAL", isHome: false, time: "8:20 PM", network: "NBC", isDivisional: false, isPrimetime: true },
+              { week: 6, date: "10/12", opponent: "@ LV", isHome: false, time: "4:05 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 7, date: "10/19", opponent: "@ NYJ", isHome: false, time: "8:20 PM", network: "NBC", isDivisional: false, isPrimetime: true },
+              { week: 8, date: "10/26", opponent: "vs NYG", isHome: true, time: "8:15 PM", network: "ESPN", isDivisional: false, isPrimetime: true },
+              { week: 9, date: "11/02", opponent: "BYE", isHome: true, time: "—", network: "—", isDivisional: false, isPrimetime: false, isBye: true },
+              { week: 10, date: "11/09", opponent: "vs WAS", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 11, date: "11/16", opponent: "@ BAL", isHome: false, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 12, date: "11/23", opponent: "vs CLE", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 13, date: "11/30", opponent: "@ CIN", isHome: false, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 14, date: "12/07", opponent: "@ CLE", isHome: false, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 15, date: "12/14", opponent: "vs BAL", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 16, date: "12/21", opponent: "@ KC", isHome: false, time: "1:00 PM", network: "Netflix", isDivisional: false, isPrimetime: false },
+              { week: 17, date: "12/28", opponent: "@ CIN", isHome: false, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 18, date: "01/04", opponent: "vs CLE", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false }
+            ]
+          },
+          {
+            id: "cin",
+            name: "Cincinnati Bengals",
+            abbreviation: "CIN",
+            city: "Cincinnati",
+            projectedRecord: "9-8",
+            games: [
+              { week: 1, date: "09/07", opponent: "vs NE", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 2, date: "09/14", opponent: "@ KC", isHome: false, time: "4:25 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 3, date: "09/21", opponent: "vs WAS", isHome: true, time: "8:15 PM", network: "ESPN", isDivisional: false, isPrimetime: true },
+              { week: 4, date: "09/28", opponent: "@ CAR", isHome: false, time: "1:00 PM", network: "FOX", isDivisional: false, isPrimetime: false },
+              { week: 5, date: "10/05", opponent: "vs BAL", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 6, date: "10/12", opponent: "@ NYG", isHome: false, time: "8:20 PM", network: "NBC", isDivisional: false, isPrimetime: true },
+              { week: 7, date: "10/19", opponent: "@ CLE", isHome: false, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 8, date: "10/26", opponent: "vs PHI", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 9, date: "11/02", opponent: "@ LV", isHome: false, time: "4:05 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 10, date: "11/09", opponent: "vs BAL", isHome: true, time: "8:15 PM", network: "Amazon", isDivisional: true, isPrimetime: true },
+              { week: 11, date: "11/16", opponent: "@ LAC", isHome: false, time: "8:20 PM", network: "NBC", isDivisional: false, isPrimetime: true },
+              { week: 12, date: "11/23", opponent: "BYE", isHome: true, time: "—", network: "—", isDivisional: false, isPrimetime: false, isBye: true },
+              { week: 13, date: "11/30", opponent: "vs PIT", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 14, date: "12/07", opponent: "vs DAL", isHome: true, time: "8:15 PM", network: "ESPN", isDivisional: false, isPrimetime: true },
+              { week: 15, date: "12/14", opponent: "@ TEN", isHome: false, time: "1:00 PM", network: "FOX", isDivisional: false, isPrimetime: false },
+              { week: 16, date: "12/21", opponent: "vs CLE", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 17, date: "12/28", opponent: "vs PIT", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 18, date: "01/04", opponent: "@ BAL", isHome: false, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false }
+            ]
+          },
+          {
+            id: "cle",
+            name: "Cleveland Browns",
+            abbreviation: "CLE",
+            city: "Cleveland",
+            projectedRecord: "7-10",
+            games: [
+              { week: 1, date: "09/07", opponent: "@ DAL", isHome: false, time: "4:25 PM", network: "FOX", isDivisional: false, isPrimetime: false },
+              { week: 2, date: "09/14", opponent: "vs JAC", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 3, date: "09/21", opponent: "@ NYG", isHome: false, time: "1:00 PM", network: "FOX", isDivisional: false, isPrimetime: false },
+              { week: 4, date: "09/28", opponent: "@ LV", isHome: false, time: "4:25 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 5, date: "10/05", opponent: "vs WAS", isHome: true, time: "1:00 PM", network: "FOX", isDivisional: false, isPrimetime: false },
+              { week: 6, date: "10/12", opponent: "@ PHI", isHome: false, time: "1:00 PM", network: "FOX", isDivisional: false, isPrimetime: false },
+              { week: 7, date: "10/19", opponent: "@ BAL", isHome: false, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 8, date: "10/26", opponent: "vs BAL", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 9, date: "11/02", opponent: "vs LAC", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 10, date: "11/09", opponent: "BYE", isHome: true, time: "—", network: "—", isDivisional: false, isPrimetime: false, isBye: true },
+              { week: 11, date: "11/16", opponent: "@ NO", isHome: false, time: "1:00 PM", network: "FOX", isDivisional: false, isPrimetime: false },
+              { week: 12, date: "11/23", opponent: "@ PIT", isHome: false, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 13, date: "11/30", opponent: "vs DEN", isHome: true, time: "8:15 PM", network: "ESPN", isDivisional: false, isPrimetime: true },
+              { week: 14, date: "12/07", opponent: "vs PIT", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 15, date: "12/14", opponent: "@ KC", isHome: false, time: "1:00 PM", network: "CBS", isDivisional: false, isPrimetime: false },
+              { week: 16, date: "12/21", opponent: "@ CIN", isHome: false, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 17, date: "12/28", opponent: "vs BAL", isHome: true, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false },
+              { week: 18, date: "01/04", opponent: "@ PIT", isHome: false, time: "1:00 PM", network: "CBS", isDivisional: true, isPrimetime: false }
+            ]
           }
-          // ... additional teams would go here for brevity
         ]
       },
       {
