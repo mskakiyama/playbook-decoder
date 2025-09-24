@@ -39,9 +39,6 @@ export function ScheduleHeader({ onSearch, searchQuery }: ScheduleHeaderProps) {
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
             2025 NFL Schedule
           </h1>
-          <p className="text-muted-foreground text-lg">
-            Complete regular season schedule for all 32 teams
-          </p>
         </div>
 
         {/* Search Bar */}
