@@ -15,6 +15,8 @@ import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "@/components/ui/tubelight-navbar";
 import { Home, Calendar, BookOpen, Newspaper } from "lucide-react";
+import { LanguageDropdown } from "@/components/ui/language-dropdown";
+import { useTranslatedText } from "@/hooks/useTranslatedText";
 const IndexContent = () => {
   const [selectedGame, setSelectedGame] = useState("");
   const [selectedPlay, setSelectedPlay] = useState(0);
@@ -30,6 +32,12 @@ const IndexContent = () => {
     user
   } = useAuth();
   const navigate = useNavigate();
+
+  // Translated text
+  const translatedTitle = useTranslatedText("NFL Plays Breakdown");
+  const translatedSubtitle = useTranslatedText("Deep dive into every play with interactive analysis");
+  const translatedSignOut = useTranslatedText("Sign Out");
+  const translatedSignIn = useTranslatedText("Sign In");
 
   const navItems = [
     { name: 'Home', url: '/', icon: Home },
@@ -50,15 +58,16 @@ const IndexContent = () => {
       <header className="relative h-80 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"></div>
         
-        {/* Auth Button */}
-        <div className="absolute top-6 right-6 z-20">
+        {/* Header Controls */}
+        <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
+          <LanguageDropdown />
           {user ? (
             <Button variant="glass" onClick={signOut} className="shadow-glass">
-              Sign Out
+              {translatedSignOut}
             </Button>
           ) : (
             <ShimmerButton onClick={() => navigate('/auth')} className="shadow-glass">
-              <span className="text-sm font-medium">Sign In</span>
+              <span className="text-sm font-medium">{translatedSignIn}</span>
             </ShimmerButton>
           )}
         </div>
@@ -67,10 +76,10 @@ const IndexContent = () => {
           <img src={playerImage} alt="Football Player" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
           <div className="text-center mx-8">
           <h1 className="text-3xl sm:text-4xl font-oswald font-bold text-white mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent leading-tight lg:text-7xl">
-            NFL Plays Breakdown
+            {translatedTitle}
           </h1>
             <p className="text-lg sm:text-xl text-white/90 leading-normal">
-              Deep dive into every play with interactive analysis
+              {translatedSubtitle}
             </p>
           </div>
           <img src={player2Image} alt="Football Player 2" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
