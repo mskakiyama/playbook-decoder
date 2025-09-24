@@ -25,7 +25,12 @@ interface TeamScheduleCardProps {
 
 export function TeamScheduleCard({ team, conference }: TeamScheduleCardProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
   const isAFC = conference.name === "AFC";
+
+  const getTeamLogoUrl = (abbreviation: string) => {
+    return `https://a.espncdn.com/i/teamlogos/nfl/500/${abbreviation.toLowerCase()}.png`;
+  };
 
   const formatOpponent = (opponent: string) => {
     if (opponent === "BYE") return "BYE WEEK";
@@ -70,11 +75,22 @@ export function TeamScheduleCard({ team, conference }: TeamScheduleCardProps) {
           <CollapsibleTrigger className="w-full">
             <div className="flex items-center justify-between text-left">
               <div className="flex items-center gap-3">
-                <div className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm",
-                  isAFC ? "bg-blue-500/20 text-blue-300" : "bg-red-500/20 text-red-300"
-                )}>
-                  {team.abbreviation}
+                <div className="w-8 h-8 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-sm border border-white/20 overflow-hidden">
+                  {!logoError ? (
+                    <img
+                      src={getTeamLogoUrl(team.abbreviation)}
+                      alt={`${team.name} logo`}
+                      className="w-6 h-6 object-contain"
+                      onError={() => setLogoError(true)}
+                    />
+                  ) : (
+                    <span className={cn(
+                      "font-bold text-xs",
+                      isAFC ? "text-blue-300" : "text-red-300"
+                    )}>
+                      {team.abbreviation}
+                    </span>
+                  )}
                 </div>
                 <div>
                   <CardTitle className="text-lg font-bold text-foreground">
