@@ -89,7 +89,7 @@ const Auth = () => {
         {/* Auth Card */}
         <Card className="bg-card/80 backdrop-blur-xl border-border shadow-elegant rounded-2xl">
           <CardHeader className="text-center pb-6 pt-12">
-            <CardTitle className="text-2xl font-semibold text-foreground mb-4">
+            <CardTitle className="text-2xl font-oswald font-bold text-foreground mb-4">
               {isSignUp ? 'Welcome to NFL Plays Breakdown' : 'Welcome Back'}
             </CardTitle>
             <p className="text-muted-foreground text-base leading-relaxed">
