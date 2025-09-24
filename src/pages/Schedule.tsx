@@ -3,12 +3,63 @@ import { ScheduleHeader } from "@/components/ScheduleHeader";
 import { ConferenceAccordion } from "@/components/ConferenceAccordion";
 import { nflScheduleData } from "@/data/nflSchedule";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { useNavigate } from "react-router-dom";
+import { NavBar } from "@/components/ui/tubelight-navbar";
+import { Home, Calendar, BookOpen, Newspaper } from "lucide-react";
+import playerImage from "@/assets/player.svg";
+import player2Image from "@/assets/player2.svg";
 
 export default function Schedule() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { signOut, user } = useAuth();
+  const navigate = useNavigate();
+
+  const navItems = [
+    { name: 'Home', url: '/', icon: Home },
+    { name: 'Schedule', url: '/schedule', icon: Calendar },
+    { name: 'Glossary', url: '/glossary', icon: BookOpen },
+    { name: 'News', url: '/news', icon: Newspaper }
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-background">
+    <div className="min-h-screen bg-black">
+      {/* Hero Header */}
+      <header className="relative h-80 flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"></div>
+        
+        {/* Auth Button */}
+        <div className="absolute top-6 right-6 z-20">
+          {user ? (
+            <Button variant="glass" onClick={signOut} className="shadow-glass">
+              Sign Out
+            </Button>
+          ) : (
+            <ShimmerButton onClick={() => navigate('/auth')} className="shadow-glass">
+              <span className="text-sm font-medium">Sign In</span>
+            </ShimmerButton>
+          )}
+        </div>
+
+        <div className="relative z-10 flex items-center justify-center max-w-4xl mx-auto px-6">
+          <img src={playerImage} alt="Football Player" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
+          <div className="text-center mx-8">
+            <h1 className="text-3xl sm:text-4xl font-oswald font-bold text-white mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent leading-tight lg:text-7xl">
+              2025 NFL Schedule
+            </h1>
+            <p className="text-lg sm:text-xl text-white/90 leading-normal">
+              Complete team schedules for all 32 NFL teams
+            </p>
+          </div>
+          <img src={player2Image} alt="Football Player 2" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
+        </div>
+      </header>
+
+      {/* Navigation Menu */}
+      <NavBar items={navItems} />
+
       {/* Header */}
       <ScheduleHeader 
         onSearch={setSearchQuery}
