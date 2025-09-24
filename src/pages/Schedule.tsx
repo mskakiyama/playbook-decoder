@@ -67,7 +67,7 @@ export default function Schedule() {
       />
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
+      <main className="container mx-auto px-6 py-4">
         <div className="space-y-8">
           {nflScheduleData.map((conference) => (
             <ConferenceAccordion
