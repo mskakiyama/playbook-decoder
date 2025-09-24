@@ -36,7 +36,7 @@ const IndexContent = () => {
     }
   }, [games, selectedGame]);
   const filteredPlays = playFilter === "all" ? plays || [] : (plays || []).filter(play => play.playType === playFilter);
-  return <div className="min-h-screen bg-gradient-background">
+  return <div className="min-h-screen bg-black">
       {/* Hero Header */}
       <header className="relative h-80 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"></div>
