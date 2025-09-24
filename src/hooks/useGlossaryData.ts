@@ -40,15 +40,20 @@ export const useGlossaryTerms = () => {
   const { data: positions, isLoading: positionsLoading, error: positionsError } = useNFLPositions();
   const { data: penalties, isLoading: penaltiesLoading, error: penaltiesError } = useNFLPenalties();
 
+  const isLoading = rulesLoading || positionsLoading || penaltiesLoading;
+  const hasData = rules && positions && penalties;
+
   return useQuery({
     queryKey: ['glossary-terms', rules, positions, penalties],
     queryFn: () => {
-      if (!rules || !positions || !penalties) {
-        throw new Error('Required data not available');
-      }
-      return transformToGlossaryTerms(rules, positions, penalties);
+      // Use available data, even if some APIs failed (mock data should be available)
+      const safeRules = rules || [];
+      const safePositions = positions || [];
+      const safePenalties = penalties || [];
+      
+      return transformToGlossaryTerms(safeRules, safePositions, safePenalties);
     },
-    enabled: !!rules && !!positions && !!penalties,
+    enabled: !isLoading, // Enable once loading is complete, regardless of success
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
     select: (data) => {
       // Group terms by category
