@@ -36,7 +36,7 @@ export function ScheduleHeader({ onSearch, searchQuery }: ScheduleHeaderProps) {
       <div className="container mx-auto px-6 py-4">
         {/* Main Title */}
         <div className="text-center mb-4">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             2025 NFL Schedule
           </h1>
         </div>
