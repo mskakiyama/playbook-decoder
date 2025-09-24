@@ -100,7 +100,7 @@ export function TeamScheduleCard({ team, conference }: TeamScheduleCardProps) {
 
         <CollapsibleContent>
           <CardContent className="pt-0">
-            <div className="overflow-hidden rounded-lg border border-border/30">
+            <div className="overflow-hidden rounded border border-border/30">
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/20 hover:bg-muted/30">

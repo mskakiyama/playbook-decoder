@@ -36,7 +36,7 @@ export function DivisionAccordion({ division, conference, searchQuery }: Divisio
       <AccordionItem value={`${conference.name}-${division.name}`} className="border-none">
         <AccordionTrigger
           className={cn(
-            "text-xl font-semibold px-4 py-3 rounded-lg hover:no-underline",
+            "text-xl font-semibold px-4 py-3 rounded hover:no-underline",
             "bg-gradient-to-r backdrop-blur-sm border border-border/20",
             "transition-all duration-300 hover:shadow-md",
             isAFC

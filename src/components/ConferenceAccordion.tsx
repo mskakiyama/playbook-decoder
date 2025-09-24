@@ -37,7 +37,7 @@ export function ConferenceAccordion({ conference, searchQuery }: ConferenceAccor
       <AccordionItem value={conference.name} className="border-none">
         <AccordionTrigger
           className={cn(
-            "text-2xl font-bold px-6 py-4 rounded-lg mb-4 hover:no-underline",
+            "text-2xl font-bold px-6 py-4 rounded mb-4 hover:no-underline",
             "bg-gradient-to-r backdrop-blur-sm border border-border/30",
             "transition-all duration-300 hover:shadow-glass-hover",
             isAFC 
