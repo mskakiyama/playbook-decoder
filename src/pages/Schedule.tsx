@@ -11,11 +11,20 @@ import { NavBar } from "@/components/ui/tubelight-navbar";
 import { Home, Calendar, BookOpen, Newspaper } from "lucide-react";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
+import { LanguageDropdown } from "@/components/ui/language-dropdown";
+import { useTranslatedText } from "@/hooks/useTranslatedText";
 
 export default function Schedule() {
   const [searchQuery, setSearchQuery] = useState("");
   const { signOut, user } = useAuth();
   const navigate = useNavigate();
+
+  // Translated text
+  const translatedTitle = useTranslatedText("2025 NFL Schedule");
+  const translatedSubtitle = useTranslatedText("Complete team schedules for all 32 NFL teams");
+  const translatedSignOut = useTranslatedText("Sign Out");
+  const translatedSignIn = useTranslatedText("Sign In");
+  const translatedNoTeamsFound = useTranslatedText("No Teams Found");
 
   const navItems = [
     { name: 'Home', url: '/', icon: Home },
@@ -30,15 +39,16 @@ export default function Schedule() {
       <header className="relative h-80 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"></div>
         
-        {/* Auth Button */}
-        <div className="absolute top-6 right-6 z-20">
+        {/* Header Controls */}
+        <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
+          <LanguageDropdown />
           {user ? (
             <Button variant="glass" onClick={signOut} className="shadow-glass">
-              Sign Out
+              {translatedSignOut}
             </Button>
           ) : (
             <ShimmerButton onClick={() => navigate('/auth')} className="shadow-glass">
-              <span className="text-sm font-medium">Sign In</span>
+              <span className="text-sm font-medium">{translatedSignIn}</span>
             </ShimmerButton>
           )}
         </div>
@@ -47,10 +57,10 @@ export default function Schedule() {
           <img src={playerImage} alt="Football Player" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
           <div className="text-center mx-8">
             <h1 className="text-3xl sm:text-4xl font-oswald font-bold text-white mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent leading-tight lg:text-7xl">
-              2025 NFL Schedule
+              {translatedTitle}
             </h1>
             <p className="text-lg sm:text-xl text-white/90 leading-normal">
-              Complete team schedules for all 32 NFL teams
+              {translatedSubtitle}
             </p>
           </div>
           <img src={player2Image} alt="Football Player 2" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
@@ -91,11 +101,10 @@ export default function Schedule() {
             <div className="text-center py-12">
               <div className="bg-card/40 backdrop-blur-sm border border-border/30 rounded-lg p-8 max-w-md mx-auto">
                 <h3 className="text-xl font-semibold text-foreground mb-2">
-                  No Teams Found
+                  {translatedNoTeamsFound}
                 </h3>
                 <p className="text-muted-foreground">
-                  No teams match your search for "{searchQuery}".
-                  Try searching by team name, city, or abbreviation.
+                  {useTranslatedText(`No teams match your search for "${searchQuery}". Try searching by team name, city, or abbreviation.`)}
                 </p>
               </div>
             </div>

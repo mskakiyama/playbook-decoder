@@ -40,20 +40,12 @@ export function ScheduleHeader({ onSearch, searchQuery }: ScheduleHeaderProps) {
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-background/80 via-background/90 to-background/80 border-b border-border/50 shadow-glass">
       <div className="container mx-auto px-6 py-2">
         {/* Header Content */}
-        <div className="flex items-center justify-between">
-          {/* Spacer for balance */}
-          <div className="w-20"></div>
-          
+        <div className="flex items-center justify-center">
           {/* Main Title */}
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
               {translatedTitle}
             </h1>
-          </div>
-
-          {/* Language Dropdown */}
-          <div className="flex justify-end w-20">
-            <LanguageDropdown />
           </div>
         </div>
 
