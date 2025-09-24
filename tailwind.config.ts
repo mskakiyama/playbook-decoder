@@ -17,6 +17,7 @@ export default {
         gugi: ["Gugi", "cursive"],
         oswald: ["Oswald", "sans-serif"],
         "helvetica-neue": ["Helvetica Neue", "Arial", "sans-serif"],
+        "helvetica-neue-condensed": ["Helvetica Neue Condensed", "Helvetica Neue", "Arial", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -92,7 +92,7 @@ const Auth = () => {
             <CardTitle className="text-2xl font-oswald font-bold text-foreground mb-4">
               {isSignUp ? 'Welcome to NFL Plays Breakdown' : 'Welcome Back'}
             </CardTitle>
-            <p className="font-helvetica-neue font-bold text-white text-sm leading-relaxed">
+            <p className="font-helvetica-neue-condensed font-bold text-white text-sm leading-relaxed">
               {isSignUp ? 'Create your account to access detailed NFL play analysis' : 'Sign in to continue your NFL analysis journey'}
             </p>
           </CardHeader>
