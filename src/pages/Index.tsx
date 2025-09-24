@@ -13,6 +13,8 @@ import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
+import { NavBar } from "@/components/ui/tubelight-navbar";
+import { Home, Calendar, BookOpen, Newspaper } from "lucide-react";
 const IndexContent = () => {
   const [selectedGame, setSelectedGame] = useState("");
   const [selectedPlay, setSelectedPlay] = useState(0);
@@ -28,6 +30,13 @@ const IndexContent = () => {
     user
   } = useAuth();
   const navigate = useNavigate();
+
+  const navItems = [
+    { name: 'Home', url: '/', icon: Home },
+    { name: 'Schedule', url: '/schedule', icon: Calendar },
+    { name: 'Glossary', url: '/glossary', icon: BookOpen },
+    { name: 'News', url: '/news', icon: Newspaper }
+  ];
 
   // Set first game as default when games load
   useEffect(() => {
@@ -67,6 +76,9 @@ const IndexContent = () => {
           <img src={player2Image} alt="Football Player 2" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
         </div>
       </header>
+
+      {/* Navigation Menu */}
+      <NavBar items={navItems} />
 
       <main className="container mx-auto px-6 py-8 space-y-8">
         {/* Game Selection & Filters */}
