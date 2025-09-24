@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import AuthGuard from "@/components/AuthGuard";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { useNavigate } from "react-router-dom";
 const IndexContent = () => {
   const [selectedGame, setSelectedGame] = useState("");
   const [selectedPlay, setSelectedPlay] = useState(0);
@@ -25,6 +27,7 @@ const IndexContent = () => {
     signOut,
     user
   } = useAuth();
+  const navigate = useNavigate();
 
   // Set first game as default when games load
   useEffect(() => {
@@ -38,12 +41,18 @@ const IndexContent = () => {
       <header className="relative h-80 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"></div>
         
-        {/* Sign Out Button */}
-        {user && <div className="absolute top-6 right-6 z-20">
+        {/* Auth Button */}
+        <div className="absolute top-6 right-6 z-20">
+          {user ? (
             <Button variant="glass" onClick={signOut} className="shadow-glass">
               Sign Out
             </Button>
-          </div>}
+          ) : (
+            <ShimmerButton onClick={() => navigate('/auth')} className="shadow-glass">
+              <span className="text-sm font-medium">Sign In</span>
+            </ShimmerButton>
+          )}
+        </div>
 
         <div className="relative z-10 flex items-center justify-center max-w-4xl mx-auto px-6">
           <img src={playerImage} alt="Football Player" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
