@@ -33,7 +33,7 @@ export function ScheduleHeader({ onSearch, searchQuery }: ScheduleHeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-background/80 via-background/90 to-background/80 border-b border-border/50 shadow-glass">
-      <div className="container mx-auto px-6 py-4">
+      <div className="container mx-auto px-6 py-2">
         {/* Main Title */}
         <div className="text-center">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
@@ -42,7 +42,7 @@ export function ScheduleHeader({ onSearch, searchQuery }: ScheduleHeaderProps) {
         </div>
 
         {/* Search Bar */}
-        <div className="relative max-w-md mx-auto">
+        <div className="relative max-w-md mx-auto mt-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
