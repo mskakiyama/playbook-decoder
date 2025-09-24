@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import { searchTeams, Team } from "@/data/nflSchedule";
 import { cn } from "@/lib/utils";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
+import { useTranslatedText } from "@/hooks/useTranslatedText";
 
 interface ScheduleHeaderProps {
   onSearch: (query: string) => void;
@@ -13,6 +14,9 @@ interface ScheduleHeaderProps {
 export function ScheduleHeader({ onSearch, searchQuery }: ScheduleHeaderProps) {
   const [searchResults, setSearchResults] = useState<Team[]>([]);
   const [showResults, setShowResults] = useState(false);
+  
+  const translatedTitle = useTranslatedText("2025 NFL Schedule");
+  const translatedPlaceholder = useTranslatedText("Search teams...");
 
   const handleSearch = (query: string) => {
     onSearch(query);
@@ -43,7 +47,7 @@ export function ScheduleHeader({ onSearch, searchQuery }: ScheduleHeaderProps) {
           {/* Main Title */}
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              2025 NFL Schedule
+              {translatedTitle}
             </h1>
           </div>
 
@@ -59,7 +63,7 @@ export function ScheduleHeader({ onSearch, searchQuery }: ScheduleHeaderProps) {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
               type="text"
-              placeholder="Search teams..."
+              placeholder={translatedPlaceholder}
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
               className={cn(

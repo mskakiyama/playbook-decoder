@@ -7,7 +7,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Globe } from "lucide-react";
+import { Globe, Loader2 } from "lucide-react";
+import { useTranslation } from "@/contexts/TranslationContext";
 
 const LANGUAGES = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -19,16 +20,13 @@ const LANGUAGES = [
 ];
 
 interface LanguageDropdownProps {
-  selectedLanguage?: string;
-  onLanguageChange?: (languageCode: string) => void;
   className?: string;
 }
 
 export const LanguageDropdown = ({ 
-  selectedLanguage = 'en',
-  onLanguageChange = () => {},
   className
 }: LanguageDropdownProps) => {
+  const { currentLanguage: selectedLanguage, changeLanguage, isTranslating } = useTranslation();
   const currentLanguage = LANGUAGES.find(lang => lang.code === selectedLanguage) || LANGUAGES[0];
 
   return (
@@ -43,7 +41,11 @@ export const LanguageDropdown = ({
             className
           )}
         >
-          <Globe className="h-4 w-4" />
+          {isTranslating ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Globe className="h-4 w-4" />
+          )}
           <span className="text-sm">{currentLanguage.flag}</span>
           <span className="hidden sm:inline text-sm">{currentLanguage.name}</span>
         </Button>
@@ -62,7 +64,7 @@ export const LanguageDropdown = ({
                 "hover:bg-muted/50",
                 selectedLanguage === language.code && "bg-muted/30"
               )}
-              onClick={() => onLanguageChange(language.code)}
+              onClick={() => changeLanguage(language.code)}
             >
               <span className="text-lg">{language.flag}</span>
               <span className="font-medium text-foreground">{language.name}</span>
