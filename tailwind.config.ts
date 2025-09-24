@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         gugi: ["Gugi", "cursive"],
         oswald: ["Oswald", "sans-serif"],
+        "helvetica-neue": ["Helvetica Neue", "Arial", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
