@@ -42,8 +42,7 @@ const IndexContent = () => {
   const navItems = [
     { name: 'Home', url: '/', icon: Home },
     { name: 'Schedule', url: '/schedule', icon: Calendar },
-    { name: 'Glossary', url: '/glossary', icon: BookOpen },
-    { name: 'News', url: '/news', icon: Newspaper }
+    { name: 'Glossary', url: '/glossary', icon: BookOpen }
   ];
 
   // Set first game as default when games load
