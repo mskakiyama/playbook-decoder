@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import {
-  fetchNFLRules,
+  fetchNFLPlays as fetchNFLRules,
   fetchNFLPositions,
   fetchNFLPenalties,
   searchGlossaryTerms,
   transformToGlossaryTerms,
   GlossaryTerm
-} from '@/lib/espn-glossary-api';
+} from '@/lib/custom-glossary-api';
 
 export const useNFLRules = () => {
   return useQuery({

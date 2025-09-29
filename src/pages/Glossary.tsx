@@ -12,7 +12,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGlossaryTerms, useGlossarySearch, useGlossaryStats } from "@/hooks/useGlossaryData";
-import { GlossaryTerm } from "@/lib/espn-glossary-api";
+import { GlossaryTerm } from "@/lib/custom-glossary-api";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
 import { useTranslation } from "react-i18next";
 
@@ -281,7 +281,7 @@ export default function Glossary() {
                 rel="noopener noreferrer"
                 className="text-primary hover:text-primary/80 transition-colors"
               >
-                NFL official rules
+                NFL
               </a>
               {" "}– Updated as of 2025
             </p>
