@@ -1,0 +1,52 @@
+{
+  "common": {
+    "home": "主页",
+    "schedule": "赛程",
+    "glossary": "术语表",
+    "signOut": "登出",
+    "signIn": "登录",
+    "search": "搜索",
+    "loading": "加载中...",
+    "noResults": "未找到结果",
+    "error": "发生错误"
+  },
+  "home": {
+    "title": "NFL比赛分析",
+    "subtitle": "互动式逐场比赛分析",
+    "selectGame": "选择比赛查看战术",
+    "selectPlay": "选择战术查看详情",
+    "allPlays": "所有战术",
+    "scoringPlays": "得分战术",
+    "timeline": "时间线"
+  },
+  "schedule": {
+    "title": "2025年NFL赛程",
+    "subtitle": "按会议和分区划分的完整赛季赛程",
+    "searchPlaceholder": "搜索球队...",
+    "noTeamsFound": "未找到球队",
+    "dataSource": "数据来源：ESPN NFL API"
+  },
+  "glossary": {
+    "title": "NFL术语表",
+    "subtitle": "您的橄榄球术语和定义指南",
+    "searchPlaceholder": "搜索术语...",
+    "rulesAndPlays": "规则与战术",
+    "positions": "位置",
+    "penalties": "处罚",
+    "otherTerms": "其他术语",
+    "dataSource": "定义来源：ESPN NFL术语表"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "哎呀！未找到页面",
+    "returnHome": "返回主页"
+  },
+  "plays": {
+    "quarter": "节",
+    "time": "时间",
+    "down": "档",
+    "distance": "距离",
+    "possession": "控球",
+    "yards": "码"
+  }
+}

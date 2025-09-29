@@ -1,0 +1,52 @@
+{
+  "common": {
+    "home": "ホーム",
+    "schedule": "スケジュール",
+    "glossary": "用語集",
+    "signOut": "サインアウト",
+    "signIn": "サインイン",
+    "search": "検索",
+    "loading": "読み込み中...",
+    "noResults": "結果が見つかりません",
+    "error": "エラーが発生しました"
+  },
+  "home": {
+    "title": "NFLプレー分析",
+    "subtitle": "インタラクティブなプレーバイプレー分析",
+    "selectGame": "プレーを見るにはゲームを選択してください",
+    "selectPlay": "詳細を見るにはプレーを選択してください",
+    "allPlays": "すべてのプレー",
+    "scoringPlays": "得点プレー",
+    "timeline": "タイムライン"
+  },
+  "schedule": {
+    "title": "2025年NFLスケジュール",
+    "subtitle": "カンファレンスとディビジョン別の完全なシーズンスケジュール",
+    "searchPlaceholder": "チームを検索...",
+    "noTeamsFound": "チームが見つかりません",
+    "dataSource": "データ提供：ESPN NFL API"
+  },
+  "glossary": {
+    "title": "NFL用語集",
+    "subtitle": "フットボール用語と定義のガイド",
+    "searchPlaceholder": "用語を検索...",
+    "rulesAndPlays": "ルールとプレー",
+    "positions": "ポジション",
+    "penalties": "ペナルティ",
+    "otherTerms": "その他の用語",
+    "dataSource": "定義提供：ESPN NFL用語集"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "おっと！ページが見つかりません",
+    "returnHome": "ホームに戻る"
+  },
+  "plays": {
+    "quarter": "Q",
+    "time": "時間",
+    "down": "ダウン",
+    "distance": "距離",
+    "possession": "所有",
+    "yards": "ヤード"
+  }
+}

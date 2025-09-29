@@ -1,0 +1,52 @@
+{
+  "common": {
+    "home": "Startseite",
+    "schedule": "Spielplan",
+    "glossary": "Glossar",
+    "signOut": "Abmelden",
+    "signIn": "Anmelden",
+    "search": "Suchen",
+    "loading": "Wird geladen...",
+    "noResults": "Keine Ergebnisse gefunden",
+    "error": "Ein Fehler ist aufgetreten"
+  },
+  "home": {
+    "title": "NFL Spielzug-Analyse",
+    "subtitle": "Interaktive Spielzug-für-Spielzug-Analyse",
+    "selectGame": "Wählen Sie ein Spiel aus, um Spielzüge zu sehen",
+    "selectPlay": "Wählen Sie einen Spielzug aus, um Details zu sehen",
+    "allPlays": "Alle Spielzüge",
+    "scoringPlays": "Punktende Spielzüge",
+    "timeline": "Zeitachse"
+  },
+  "schedule": {
+    "title": "NFL Spielplan 2025",
+    "subtitle": "Vollständiger Saisonplan nach Konferenz und Division",
+    "searchPlaceholder": "Teams suchen...",
+    "noTeamsFound": "Keine Teams gefunden",
+    "dataSource": "Daten von ESPN NFL API"
+  },
+  "glossary": {
+    "title": "NFL Glossar",
+    "subtitle": "Ihr Leitfaden für Football-Begriffe und Definitionen",
+    "searchPlaceholder": "Begriffe suchen...",
+    "rulesAndPlays": "Regeln & Spielzüge",
+    "positions": "Positionen",
+    "penalties": "Strafen",
+    "otherTerms": "Andere Begriffe",
+    "dataSource": "Definitionen vom ESPN NFL Glossar"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Hoppla! Seite nicht gefunden",
+    "returnHome": "Zurück zur Startseite"
+  },
+  "plays": {
+    "quarter": "Q",
+    "time": "Zeit",
+    "down": "Down",
+    "distance": "Distanz",
+    "possession": "Ballbesitz",
+    "yards": "Yards"
+  }
+}

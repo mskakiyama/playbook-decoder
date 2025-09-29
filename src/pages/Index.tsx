@@ -14,10 +14,11 @@ import player2Image from "@/assets/player2.svg";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Calendar, BookOpen, Newspaper } from "lucide-react";
+import { Home, Calendar, BookOpen } from "lucide-react";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
-import { useTranslatedText } from "@/hooks/useTranslatedText";
+import { useTranslation } from "react-i18next";
 const IndexContent = () => {
+  const { t } = useTranslation();
   const [selectedGame, setSelectedGame] = useState("");
   const [selectedPlay, setSelectedPlay] = useState(0);
   const [playFilter, setPlayFilter] = useState("all");
@@ -33,16 +34,10 @@ const IndexContent = () => {
   } = useAuth();
   const navigate = useNavigate();
 
-  // Translated text
-  const translatedTitle = useTranslatedText("NFL Plays Breakdown");
-  const translatedSubtitle = useTranslatedText("Deep dive into every play with interactive analysis");
-  const translatedSignOut = useTranslatedText("Sign Out");
-  const translatedSignIn = useTranslatedText("Sign In");
-
   const navItems = [
-    { name: 'Home', url: '/', icon: Home },
-    { name: 'Schedule', url: '/schedule', icon: Calendar },
-    { name: 'Glossary', url: '/glossary', icon: BookOpen }
+    { name: t('common.home'), url: '/', icon: Home },
+    { name: t('common.schedule'), url: '/schedule', icon: Calendar },
+    { name: t('common.glossary'), url: '/glossary', icon: BookOpen }
   ];
 
   // Set first game as default when games load
@@ -62,11 +57,11 @@ const IndexContent = () => {
           <LanguageDropdown />
           {user ? (
             <Button variant="glass" onClick={signOut} className="shadow-glass">
-              {translatedSignOut}
+              {t('common.signOut')}
             </Button>
           ) : (
             <ShimmerButton onClick={() => navigate('/auth')} className="shadow-glass">
-              <span className="text-sm font-medium">{translatedSignIn}</span>
+              <span className="text-sm font-medium">{t('common.signIn')}</span>
             </ShimmerButton>
           )}
         </div>
@@ -75,10 +70,10 @@ const IndexContent = () => {
           <img src={playerImage} alt="Football Player" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
           <div className="text-center mx-8">
           <h1 className="text-3xl sm:text-4xl font-oswald font-bold text-white mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent leading-tight lg:text-7xl">
-            {translatedTitle}
+            {t('home.title')}
           </h1>
             <p className="text-lg sm:text-xl text-white/90 leading-normal">
-              {translatedSubtitle}
+              {t('home.subtitle')}
             </p>
           </div>
           <img src={player2Image} alt="Football Player 2" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />

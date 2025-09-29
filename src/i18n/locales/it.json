@@ -1,0 +1,52 @@
+{
+  "common": {
+    "home": "Home",
+    "schedule": "Calendario",
+    "glossary": "Glossario",
+    "signOut": "Disconnetti",
+    "signIn": "Accedi",
+    "search": "Cerca",
+    "loading": "Caricamento...",
+    "noResults": "Nessun risultato trovato",
+    "error": "Si è verificato un errore"
+  },
+  "home": {
+    "title": "Analisi Giocate NFL",
+    "subtitle": "Analisi Interattiva Giocata per Giocata",
+    "selectGame": "Seleziona una partita per vedere le giocate",
+    "selectPlay": "Seleziona una giocata per vedere i dettagli",
+    "allPlays": "Tutte le Giocate",
+    "scoringPlays": "Giocate da Punto",
+    "timeline": "Linea Temporale"
+  },
+  "schedule": {
+    "title": "Calendario NFL 2025",
+    "subtitle": "Calendario Completo della Stagione per Conferenza e Divisione",
+    "searchPlaceholder": "Cerca squadre...",
+    "noTeamsFound": "Nessuna squadra trovata",
+    "dataSource": "Dati da ESPN NFL API"
+  },
+  "glossary": {
+    "title": "Glossario NFL",
+    "subtitle": "La Tua Guida ai Termini e Definizioni del Football",
+    "searchPlaceholder": "Cerca termini...",
+    "rulesAndPlays": "Regole e Giocate",
+    "positions": "Posizioni",
+    "penalties": "Penalità",
+    "otherTerms": "Altri Termini",
+    "dataSource": "Definizioni dal Glossario NFL di ESPN"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Ops! Pagina non trovata",
+    "returnHome": "Torna alla Home"
+  },
+  "plays": {
+    "quarter": "Q",
+    "time": "Tempo",
+    "down": "Down",
+    "distance": "Distanza",
+    "possession": "Possesso",
+    "yards": "yard"
+  }
+}

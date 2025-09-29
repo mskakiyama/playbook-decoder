@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Globe, Loader2 } from "lucide-react";
-import { useTranslation } from "@/contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 
 const LANGUAGES = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -17,6 +17,8 @@ const LANGUAGES = [
   { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
   { code: 'it', name: 'Italiano', flag: '🇮🇹' },
   { code: 'pt', name: 'Português', flag: '🇵🇹' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' },
 ];
 
 interface LanguageDropdownProps {
@@ -26,8 +28,14 @@ interface LanguageDropdownProps {
 export const LanguageDropdown = ({ 
   className
 }: LanguageDropdownProps) => {
-  const { currentLanguage: selectedLanguage, changeLanguage, isTranslating } = useTranslation();
-  const currentLanguage = LANGUAGES.find(lang => lang.code === selectedLanguage) || LANGUAGES[0];
+  const { i18n } = useTranslation();
+  const currentLanguage = LANGUAGES.find(lang => lang.code === i18n.language) || LANGUAGES[0];
+  const isChanging = i18n.isInitialized === false;
+
+  const handleLanguageChange = async (languageCode: string) => {
+    await i18n.changeLanguage(languageCode);
+    localStorage.setItem('selectedLanguage', languageCode);
+  };
 
   return (
     <DropdownMenu>
@@ -40,8 +48,9 @@ export const LanguageDropdown = ({
             "bg-transparent hover:bg-white/10 border-0",
             className
           )}
+          disabled={isChanging}
         >
-          {isTranslating ? (
+          {isChanging ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
             <Globe className="h-4 w-4" />
@@ -62,13 +71,13 @@ export const LanguageDropdown = ({
               className={cn(
                 "flex items-center gap-3 p-3 rounded-md cursor-pointer transition-colors",
                 "hover:bg-muted/50",
-                selectedLanguage === language.code && "bg-muted/30"
+                currentLanguage.code === language.code && "bg-muted/30"
               )}
-              onClick={() => changeLanguage(language.code)}
+              onClick={() => handleLanguageChange(language.code)}
             >
               <span className="text-lg">{language.flag}</span>
               <span className="font-medium text-foreground">{language.name}</span>
-              {selectedLanguage === language.code && (
+              {currentLanguage.code === language.code && (
                 <div className="ml-auto w-2 h-2 bg-primary rounded-full" />
               )}
             </DropdownMenuItem>

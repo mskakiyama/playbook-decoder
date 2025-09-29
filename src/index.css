@@ -167,5 +167,16 @@ All colors MUST be HSL.
     @apply text-foreground;
     background: var(--background);
     min-height: 100vh;
+    font-family: 'Oswald', 'Noto Sans JP', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  }
+  
+  /* Japanese language support */
+  :lang(ja) {
+    font-family: 'Noto Sans JP', 'Oswald', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  /* Chinese language support */
+  :lang(zh) {
+    font-family: 'Noto Sans SC', 'Oswald', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 }

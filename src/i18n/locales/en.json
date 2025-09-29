@@ -1,0 +1,52 @@
+{
+  "common": {
+    "home": "Home",
+    "schedule": "Schedule",
+    "glossary": "Glossary",
+    "signOut": "Sign out",
+    "signIn": "Sign in",
+    "search": "Search",
+    "loading": "Loading...",
+    "noResults": "No results found",
+    "error": "An error occurred"
+  },
+  "home": {
+    "title": "NFL Plays Breakdown",
+    "subtitle": "Interactive Play-by-Play Analysis",
+    "selectGame": "Select a game to see plays",
+    "selectPlay": "Select a play to see details",
+    "allPlays": "All Plays",
+    "scoringPlays": "Scoring Plays",
+    "timeline": "Timeline"
+  },
+  "schedule": {
+    "title": "2025 NFL Schedule",
+    "subtitle": "Complete Season Schedule by Conference and Division",
+    "searchPlaceholder": "Search teams...",
+    "noTeamsFound": "No teams found",
+    "dataSource": "Data sourced from ESPN NFL API"
+  },
+  "glossary": {
+    "title": "NFL Glossary",
+    "subtitle": "Your Guide to Football Terms and Definitions",
+    "searchPlaceholder": "Search terms...",
+    "rulesAndPlays": "Rules & Plays",
+    "positions": "Positions",
+    "penalties": "Penalties",
+    "otherTerms": "Other Terms",
+    "dataSource": "Definitions sourced from ESPN NFL Glossary"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Oops! Page not found",
+    "returnHome": "Return to Home"
+  },
+  "plays": {
+    "quarter": "Q",
+    "time": "Time",
+    "down": "Down",
+    "distance": "Distance",
+    "possession": "Possession",
+    "yards": "yards"
+  }
+}

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Calendar, BookOpen, Newspaper, Search, ChevronDown } from "lucide-react";
+import { Home, Calendar, BookOpen, Search } from "lucide-react";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
 import { Input } from "@/components/ui/input";
@@ -14,7 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGlossaryTerms, useGlossarySearch, useGlossaryStats } from "@/hooks/useGlossaryData";
 import { GlossaryTerm } from "@/lib/espn-glossary-api";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
-import { useTranslatedText } from "@/hooks/useTranslatedText";
+import { useTranslation } from "react-i18next";
 
 const TermCard = ({ term }: { term: GlossaryTerm }) => (
   <Card className="bg-card/40 backdrop-blur-sm border-border/30 hover:bg-card/60 transition-all duration-200 hover:scale-[1.02]">
@@ -27,7 +27,7 @@ const TermCard = ({ term }: { term: GlossaryTerm }) => (
       </CardDescription>
       {term.examples && term.examples.length > 0 && (
           <div className="mt-3 space-y-1">
-            <p className="text-xs font-medium text-foreground/80">{useTranslatedText("Examples:")}</p>
+            <p className="text-xs font-medium text-foreground/80">Examples:</p>
             <ul className="text-xs text-muted-foreground space-y-1">
             {term.examples.map((example, index) => (
               <li key={index} className="flex items-start">
@@ -56,7 +56,7 @@ const TermsGrid = ({ terms, isLoading }: { terms: GlossaryTerm[]; isLoading: boo
   if (terms.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-muted-foreground">{useTranslatedText("No terms found in this category.")}</p>
+        <p className="text-muted-foreground">No terms found in this category.</p>
       </div>
     );
   }
@@ -71,6 +71,7 @@ const TermsGrid = ({ terms, isLoading }: { terms: GlossaryTerm[]; isLoading: boo
 };
 
 export default function Glossary() {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
   const { signOut, user } = useAuth();
   const navigate = useNavigate();
@@ -79,24 +80,10 @@ export default function Glossary() {
   const { data: searchResults, isLoading: searchLoading } = useGlossarySearch(searchQuery);
   const stats = useGlossaryStats();
 
-  // Translated text
-  const translatedTitle = useTranslatedText("NFL Glossary");
-  const translatedSubtitle = useTranslatedText("Comprehensive reference for NFL terms and definitions");
-  const translatedSearchPlaceholder = useTranslatedText("Search NFL terms, positions, penalties...");
-  const translatedSignOut = useTranslatedText("Sign Out");
-  const translatedSignIn = useTranslatedText("Sign In");
-  const translatedNoTermsFound = useTranslatedText("No terms found in this category.");
-  const translatedNoResultsTitle = useTranslatedText("No Results Found");
-  const translatedRulesPlays = useTranslatedText("Rules & Plays");
-  const translatedPositions = useTranslatedText("Positions");
-  const translatedPenalties = useTranslatedText("Penalties");
-  const translatedOtherTerms = useTranslatedText("Other Terms");
-  const translatedExamples = useTranslatedText("Examples:");
-
   const navItems = [
-    { name: 'Home', url: '/', icon: Home },
-    { name: 'Schedule', url: '/schedule', icon: Calendar },
-    { name: 'Glossary', url: '/glossary', icon: BookOpen }
+    { name: t('common.home'), url: '/', icon: Home },
+    { name: t('common.schedule'), url: '/schedule', icon: Calendar },
+    { name: t('common.glossary'), url: '/glossary', icon: BookOpen }
   ];
 
   // Filter all categories based on search query
@@ -137,11 +124,11 @@ export default function Glossary() {
           <LanguageDropdown />
           {user ? (
             <Button variant="glass" onClick={signOut} className="shadow-glass">
-              {translatedSignOut}
+              {t('common.signOut')}
             </Button>
           ) : (
             <ShimmerButton onClick={() => navigate('/auth')} className="shadow-glass">
-              <span className="text-sm font-medium">{translatedSignIn}</span>
+              <span className="text-sm font-medium">{t('common.signIn')}</span>
             </ShimmerButton>
           )}
         </div>
@@ -150,10 +137,10 @@ export default function Glossary() {
           <img src={playerImage} alt="Football Player" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
           <div className="text-center mx-8">
             <h1 className="text-3xl sm:text-4xl font-oswald font-bold text-white mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent leading-tight lg:text-7xl">
-              {translatedTitle}
+              {t('glossary.title')}
             </h1>
             <p className="text-lg sm:text-xl text-white/90 leading-normal">
-              {translatedSubtitle}
+              {t('glossary.subtitle')}
             </p>
           </div>
           <img src={player2Image} alt="Football Player 2" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
@@ -170,7 +157,7 @@ export default function Glossary() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
               type="text"
-              placeholder={translatedSearchPlaceholder}
+              placeholder={t('glossary.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 bg-card/40 backdrop-blur-sm border-border/30 focus:bg-card/60 transition-all"
@@ -192,10 +179,10 @@ export default function Glossary() {
           <div className="text-center py-12">
             <div className="bg-card/40 backdrop-blur-sm border border-border/30 rounded-lg p-8 max-w-md mx-auto">
               <h3 className="text-xl font-semibold text-foreground mb-2">
-                {translatedNoResultsTitle}
+                No Results Found
               </h3>
               <p className="text-muted-foreground">
-                {useTranslatedText(`No terms match your search for "${searchQuery}". Try different keywords or browse by category below.`)}
+                No terms match your search for "{searchQuery}". Try different keywords or browse by category below.
               </p>
             </div>
           </div>
@@ -207,9 +194,9 @@ export default function Glossary() {
             <AccordionTrigger className="px-6 py-4 hover:no-underline">
               <div className="flex items-center space-x-4">
                 <div className="w-4 h-4 rounded-full bg-gradient-to-r from-blue-500 to-blue-600"></div>
-                <span className="font-bold text-lg">{translatedRulesPlays}</span>
+                <span className="font-bold text-lg">{t('glossary.rulesAndPlays')}</span>
                 <span className="text-sm text-muted-foreground">
-                  ({filteredData?.rules.length || 0} {useTranslatedText("terms")})
+                  ({filteredData?.rules.length || 0} terms)
                 </span>
               </div>
             </AccordionTrigger>
@@ -226,9 +213,9 @@ export default function Glossary() {
             <AccordionTrigger className="px-6 py-4 hover:no-underline">
               <div className="flex items-center space-x-4">
                 <div className="w-4 h-4 rounded-full bg-gradient-to-r from-field-green to-field-green-dark"></div>
-                <span className="font-bold text-lg">{translatedPositions}</span>
+                <span className="font-bold text-lg">{t('glossary.positions')}</span>
                 <span className="text-sm text-muted-foreground">
-                  ({filteredData?.positions.length || 0} {useTranslatedText("terms")})
+                  ({filteredData?.positions.length || 0} terms)
                 </span>
               </div>
             </AccordionTrigger>
@@ -245,9 +232,9 @@ export default function Glossary() {
             <AccordionTrigger className="px-6 py-4 hover:no-underline">
               <div className="flex items-center space-x-4">
                 <div className="w-4 h-4 rounded-full bg-gradient-to-r from-red-500 to-red-600"></div>
-                <span className="font-bold text-lg">{translatedPenalties}</span>
+                <span className="font-bold text-lg">{t('glossary.penalties')}</span>
                 <span className="text-sm text-muted-foreground">
-                  ({filteredData?.penalties.length || 0} {useTranslatedText("terms")})
+                  ({filteredData?.penalties.length || 0} terms)
                 </span>
               </div>
             </AccordionTrigger>
@@ -263,11 +250,11 @@ export default function Glossary() {
           {filteredData?.other && filteredData.other.length > 0 && (
             <AccordionItem value="other" className="bg-card/20 backdrop-blur-sm border border-border/30 rounded-lg overflow-hidden">
               <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4">
                   <div className="w-4 h-4 rounded-full bg-gradient-to-r from-touchdown-gold to-yellow-500"></div>
-                  <span className="font-bold text-lg">{translatedOtherTerms}</span>
+                  <span className="font-bold text-lg">{t('glossary.otherTerms')}</span>
                   <span className="text-sm text-muted-foreground">
-                    ({filteredData.other.length} {useTranslatedText("terms")})
+                    ({filteredData.other.length} terms)
                   </span>
                 </div>
               </AccordionTrigger>
