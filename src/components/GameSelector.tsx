@@ -1,6 +1,6 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Trophy, Clock, Loader2, Filter } from "lucide-react";
+import { Trophy, Clock, Loader2, Calendar } from "lucide-react";
 import { useAllGames } from "@/hooks/useNFLData";
 import { useState } from "react";
 
@@ -11,16 +11,41 @@ interface GameSelectorProps {
 
 export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) => {
   const { data: games, isLoading } = useAllGames();
-  const [selectedType, setSelectedType] = useState<string>('all');
+  const [selectedWeek, setSelectedWeek] = useState<string>('all');
   
   const currentGame = games?.find(game => game.id === selectedGame);
-  const seasonTypes = [...new Set(games?.map(game => game.seasonType))];
+  
+  // Get unique weeks from 2025 season games, sorted by week number
+  const weeks2025 = games
+    ?.filter(game => game.season === 2025)
+    ?.map(game => game.week)
+    .filter((week, index, self) => week && self.indexOf(week) === index)
+    .sort((a, b) => {
+      // Extract numeric week from strings like "Regular Season Week 1"
+      const getWeekNumber = (weekStr: string) => {
+        const match = weekStr.match(/Week (\d+)/);
+        return match ? parseInt(match[1]) : 0;
+      };
+      
+      // Sort preseason first, then regular season, then playoffs
+      const aIsPreseason = a.includes('Preseason');
+      const bIsPreseason = b.includes('Preseason');
+      const aIsPlayoff = a.includes('Playoff');
+      const bIsPlayoff = b.includes('Playoff');
+      
+      if (aIsPreseason && !bIsPreseason) return -1;
+      if (!aIsPreseason && bIsPreseason) return 1;
+      if (aIsPlayoff && !bIsPlayoff) return 1;
+      if (!aIsPlayoff && bIsPlayoff) return -1;
+      
+      return getWeekNumber(a) - getWeekNumber(b);
+    }) || [];
 
-  // Filter games for 2025 season only
+  // Filter games for 2025 season and selected week
   const filteredGames = games?.filter(game => {
     const seasonMatch = game.season === 2025;
-    const typeMatch = selectedType === 'all' || game.seasonType === selectedType;
-    return seasonMatch && typeMatch;
+    const weekMatch = selectedWeek === 'all' || game.week === selectedWeek;
+    return seasonMatch && weekMatch;
   });
 
   // Show completed games (games that have already happened)
@@ -45,16 +70,17 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
         <h2 className="text-xl font-semibold leading-tight text-foreground">Select Game</h2>
       </div>
 
-      {/* Filters */}
-      <div className="mb-4">
-        <Select value={selectedType} onValueChange={setSelectedType}>
+      {/* Week Filter */}
+      <div className="mb-4 flex items-center gap-2">
+        <Calendar className="h-4 w-4 text-muted-foreground" />
+        <Select value={selectedWeek} onValueChange={setSelectedWeek}>
           <SelectTrigger className="bg-muted backdrop-blur-md border border-white/20">
-            <SelectValue placeholder="All Types" />
+            <SelectValue placeholder="All Weeks" />
           </SelectTrigger>
           <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20">
-            <SelectItem value="all">All Types</SelectItem>
-            {seasonTypes.map(type => (
-              <SelectItem key={type} value={type}>{type}</SelectItem>
+            <SelectItem value="all">All Weeks</SelectItem>
+            {weeks2025.map(week => (
+              <SelectItem key={week} value={week}>{week}</SelectItem>
             ))}
           </SelectContent>
         </Select>
