@@ -48,10 +48,12 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
     return seasonMatch && weekMatch;
   });
 
-  // Show completed games (games that have already happened)
-  const completedGames = filteredGames?.filter(game => 
-    game.quarter === 'Final' || game.quarter === 'F'
-  );
+  // Show completed games (games that have already happened) and deduplicate by game ID
+  const completedGames = filteredGames
+    ?.filter(game => game.quarter === 'Final' || game.quarter === 'F')
+    .filter((game, index, self) => 
+      index === self.findIndex((g) => g.id === game.id)
+    );
   
   // Debug logging
   console.log('All games:', games?.length);
