@@ -1,8 +1,8 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { Trophy, Clock, Loader2, Filter } from "lucide-react";
 import { useAllGames } from "@/hooks/useNFLData";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 interface GameSelectorProps {
   selectedGame: string;
@@ -27,11 +27,29 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
   const completedGames = filteredGames?.filter(game => 
     game.quarter === 'Final' || game.quarter === 'F'
   );
-  
-  // Debug logging
-  console.log('All games:', games?.length);
-  console.log('Filtered games for 2025 season:', filteredGames?.length);
-  console.log('Completed games for 2025 season:', completedGames?.length);
+
+  // Group games by week and sort from Week 1 to present
+  const gamesByWeek = useMemo(() => {
+    if (!completedGames) return {};
+    
+    const grouped = completedGames.reduce((acc, game) => {
+      const week = game.week || 'Unknown';
+      if (!acc[week]) {
+        acc[week] = [];
+      }
+      acc[week].push(game);
+      return acc;
+    }, {} as Record<string, typeof completedGames>);
+
+    // Sort weeks numerically (Week 1, Week 2, etc.)
+    const sortedWeeks = Object.keys(grouped).sort((a, b) => {
+      const weekNumA = parseInt(a.replace(/\D/g, '')) || 0;
+      const weekNumB = parseInt(b.replace(/\D/g, '')) || 0;
+      return weekNumA - weekNumB;
+    });
+
+    return { grouped, sortedWeeks };
+  }, [completedGames]);
 
   // Find the most current upcoming game for the dropdown label
   const upcomingGame = completedGames?.[0]; // Show first completed game
@@ -88,30 +106,42 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
           )}
         </SelectTrigger>
         <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20 max-h-96">
-          {completedGames?.map((game, index) => (
-            <SelectItem key={`${game.id}-${index}`} value={game.id} className="focus:bg-primary-glass backdrop-blur-sm">
-              <div className="flex justify-between items-center w-full">
-                <div>
-                  <div className="font-semibold">
-                    {game.awayTeam} @ {game.homeTeam}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {game.week} • {game.date}
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="font-bold">
-                    {game.awayScore} - {game.homeScore}
-                  </div>
-                  <div className="text-sm text-muted-foreground flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {game.quarter}
-                  </div>
-                </div>
-              </div>
-            </SelectItem>
-          )) || []}
-          {(!completedGames || completedGames.length === 0) && (
+          {gamesByWeek.sortedWeeks.length > 0 ? (
+            gamesByWeek.sortedWeeks.map((week) => (
+              <SelectGroup key={week}>
+                <SelectLabel className="text-accent font-semibold px-2 py-2 sticky top-0 bg-card-glass backdrop-blur-xl border-b border-white/10">
+                  {week}
+                </SelectLabel>
+                {gamesByWeek.grouped[week].map((game, index) => (
+                  <SelectItem 
+                    key={`${game.id}-${index}`} 
+                    value={game.id} 
+                    className="focus:bg-primary-glass backdrop-blur-sm pl-6"
+                  >
+                    <div className="flex justify-between items-center w-full">
+                      <div>
+                        <div className="font-semibold">
+                          {game.awayTeam} @ {game.homeTeam}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          {game.date}
+                        </div>
+                      </div>
+                      <div className="text-right ml-4">
+                        <div className="font-bold">
+                          {game.awayScore} - {game.homeScore}
+                        </div>
+                        <div className="text-sm text-muted-foreground flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          {game.quarter}
+                        </div>
+                      </div>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            ))
+          ) : (
             <div className="p-4 text-center text-muted-foreground">
               No completed games available for 2025 season
             </div>
