@@ -69,7 +69,7 @@ const IndexContent = () => {
         <div className="relative z-10 flex items-center justify-center max-w-4xl mx-auto px-6">
           <img src={playerImage} alt="Football Player" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
           <div className="text-center mx-8">
-          <h1 className="text-3xl sm:text-4xl font-oswald font-bold text-white mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent leading-tight lg:text-7xl">
+          <h1 className="text-3xl sm:text-4xl font-oswald font-bold text-white mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent leading-tight lg:text-7xl whitespace-nowrap">
             {t('home.title')}
           </h1>
             <p className="text-lg sm:text-xl text-white/90 leading-normal">
