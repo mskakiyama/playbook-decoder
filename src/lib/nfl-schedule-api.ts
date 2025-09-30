@@ -95,37 +95,46 @@ export class NFLScheduleAPI {
     const recordMap = new Map<string, string>();
     
     try {
-      const url = `${ESPN_BASE_URL}/standings?season=2025&seasontype=2`;
+      // Fetch standings for both conferences
+      const url = `${ESPN_BASE_URL}/standings?season=2025`;
       const response = await fetch(url);
       
       if (!response.ok) {
-        console.warn("Failed to fetch standings");
+        console.warn("Failed to fetch standings, status:", response.status);
         return recordMap;
       }
       
       const data = await response.json();
+      console.log("Standings data structure:", data);
       
-      // Parse standings data
-      for (const entry of data.children || []) {
-        for (const standing of entry.standings?.entries || []) {
-          const team = standing.team;
-          const stats = standing.stats;
-          
-          if (team?.abbreviation && stats) {
-            // Find wins and losses in stats
-            const wins = stats.find((s: any) => s.name === 'wins')?.value || 0;
-            const losses = stats.find((s: any) => s.name === 'losses')?.value || 0;
-            const ties = stats.find((s: any) => s.name === 'ties')?.value || 0;
-            
-            const record = ties > 0 ? `${wins}-${losses}-${ties}` : `${wins}-${losses}`;
-            recordMap.set(team.abbreviation, record);
+      // Parse standings - ESPN API structure has children array with entries
+      if (data.children) {
+        for (const conference of data.children) {
+          if (conference.standings?.entries) {
+            for (const entry of conference.standings.entries) {
+              const abbr = entry.team?.abbreviation;
+              if (abbr && entry.stats) {
+                // Stats array has different stat types
+                let wins = 0, losses = 0, ties = 0;
+                
+                for (const stat of entry.stats) {
+                  if (stat.name === 'wins') wins = stat.value || 0;
+                  if (stat.name === 'losses') losses = stat.value || 0;
+                  if (stat.name === 'ties') ties = stat.value || 0;
+                }
+                
+                const record = ties > 0 ? `${wins}-${losses}-${ties}` : `${wins}-${losses}`;
+                recordMap.set(abbr, record);
+                console.log(`${abbr}: ${record}`);
+              }
+            }
           }
         }
       }
       
-      console.log(`Fetched standings for ${recordMap.size} teams`);
+      console.log(`Fetched current records for ${recordMap.size} teams`);
     } catch (error) {
-      console.warn("Error fetching standings:", error);
+      console.error("Error fetching standings:", error);
     }
     
     return recordMap;
@@ -293,10 +302,11 @@ export class NFLScheduleAPI {
           
           // Update current record from standings
           const currentRecord = standings.get(team.abbreviation);
-          if (currentRecord) {
+          if (currentRecord && currentRecord !== '0-0') {
             team.projectedRecord = currentRecord;
+            console.log(`Updated ${team.abbreviation} record to ${currentRecord}`);
           }
-          // Otherwise, keep the static data (already in team.games and projectedRecord)
+          // Otherwise, keep the projected record from static data
         }
       }
     }
