@@ -1,7 +1,7 @@
-import { Conference, Division, Team, Game } from "@/data/nflSchedule";
+import { Conference, Division, Team, Game, nflScheduleData } from "@/data/nflSchedule";
 
 const ESPN_BASE_URL = "https://site.api.espn.com/apis/site/v2/sports/football/nfl";
-const CACHE_KEY = "nfl_schedule_2025";
+const CACHE_KEY = `nfl_schedule_2025_${new Date().toISOString().split('T')[0]}`; // Include date for daily refresh
 const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 
 interface CachedData {
@@ -58,6 +58,19 @@ export class NFLScheduleAPI {
       console.log("Fetching 2025 NFL schedule from ESPN API...");
       const schedule = await this.fetchESPNSchedule();
       
+      // Validate data - ensure we have all teams
+      const teamCount = schedule.reduce((total, conf) => 
+        total + conf.divisions.reduce((divTotal, div) => divTotal + div.teams.length, 0), 0
+      );
+      
+      console.log(`Fetched schedule with ${teamCount} teams`);
+      
+      // If we don't have enough teams, use static data
+      if (teamCount < 16) {
+        console.warn("Incomplete data from API, using static fallback");
+        return nflScheduleData;
+      }
+      
       // Cache the response
       this.cacheSchedule(schedule);
       
@@ -72,7 +85,9 @@ export class NFLScheduleAPI {
         return staleCache;
       }
       
-      throw error;
+      // Final fallback to static data
+      console.log("Using static schedule data as final fallback");
+      return nflScheduleData;
     }
   }
 
@@ -211,44 +226,32 @@ export class NFLScheduleAPI {
     allGames: Map<string, Game[]>,
     teamInfo: Map<string, { name: string; city: string; id: string }>
   ): Conference[] {
-    const conferences: Conference[] = [
-      { name: 'AFC', color: 'hsl(214 100% 45%)', divisions: [] },
-      { name: 'NFC', color: 'hsl(0 100% 50%)', divisions: [] }
-    ];
-
-    const divisions = ['East', 'North', 'South', 'West'];
-
-    for (const conference of conferences) {
-      for (const divisionName of divisions) {
-        const division: Division = { name: divisionName, teams: [] };
-
-        // Find all teams in this conference and division
-        for (const [abbr, confDiv] of Object.entries(TEAM_CONFERENCE_MAP)) {
-          if (confDiv.conference === conference.name && confDiv.division === divisionName) {
-            const info = teamInfo.get(abbr);
-            const games = allGames.get(abbr) || [];
+    // Start with static data as template to ensure all teams are present
+    const staticSchedule = JSON.parse(JSON.stringify(nflScheduleData)) as Conference[];
+    
+    // Overlay API data on top of static data
+    for (const conference of staticSchedule) {
+      for (const division of conference.divisions) {
+        for (const team of division.teams) {
+          const apiGames = allGames.get(team.abbreviation);
+          const apiInfo = teamInfo.get(team.abbreviation);
+          
+          // If we have API data for this team, use it
+          if (apiGames && apiGames.length > 0) {
+            team.games = apiGames;
             
-            if (info && games.length > 0) {
-              const team: Team = {
-                id: info.id,
-                name: info.name,
-                abbreviation: abbr,
-                city: info.city,
-                projectedRecord: "—",
-                games
-              };
-              division.teams.push(team);
+            // Update team info if available from API
+            if (apiInfo) {
+              team.name = apiInfo.name;
+              team.city = apiInfo.city;
             }
           }
-        }
-
-        if (division.teams.length > 0) {
-          conference.divisions.push(division);
+          // Otherwise, keep the static data (already in team.games)
         }
       }
     }
 
-    return conferences;
+    return staticSchedule;
   }
 
   private static getCachedSchedule(): Conference[] | null {

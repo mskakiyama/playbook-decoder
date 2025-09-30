@@ -3,17 +3,19 @@ import { ScheduleHeader } from "@/components/ScheduleHeader";
 import { ConferenceAccordion } from "@/components/ConferenceAccordion";
 import { useNFLSchedule } from "@/hooks/useNFLSchedule";
 import { useTranslatedSchedule } from "@/hooks/useTranslatedSchedule";
+import { NFLScheduleAPI } from "@/lib/nfl-schedule-api";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Calendar, BookOpen, Loader2, RefreshCw } from "lucide-react";
+import { Home, Calendar, BookOpen, Loader2, RefreshCw, Trash2 } from "lucide-react";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 export default function Schedule() {
   const { t } = useTranslation();
@@ -32,6 +34,12 @@ export default function Schedule() {
     { name: t('common.schedule'), url: '/schedule', icon: Calendar },
     { name: t('common.glossary'), url: '/glossary', icon: BookOpen }
   ];
+
+  const handleClearCache = () => {
+    NFLScheduleAPI.clearCache();
+    toast.success("Cache cleared! Refreshing schedule...");
+    refetch();
+  };
 
   return (
     <div className="min-h-screen bg-black">
@@ -76,6 +84,19 @@ export default function Schedule() {
           onSearch={setSearchQuery}
           searchQuery={searchQuery}
         />
+        
+        {/* Cache Control */}
+        <div className="container mx-auto px-6 mt-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleClearCache}
+            className="gap-2"
+          >
+            <Trash2 className="h-4 w-4" />
+            Clear Cache & Refresh
+          </Button>
+        </div>
       </div>
 
       {/* Main Content */}
