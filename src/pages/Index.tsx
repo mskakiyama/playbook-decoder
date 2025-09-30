@@ -14,7 +14,7 @@ import player2Image from "@/assets/player2.svg";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Calendar, BookOpen } from "lucide-react";
+import { Home, Calendar, BookOpen, Trophy } from "lucide-react";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
 import { useTranslation } from "react-i18next";
 const IndexContent = () => {
@@ -37,6 +37,7 @@ const IndexContent = () => {
   const navItems = [
     { name: t('common.home'), url: '/', icon: Home },
     { name: t('common.schedule'), url: '/schedule', icon: Calendar },
+    { name: t('standings.title'), url: '/standings', icon: Trophy },
     { name: t('common.glossary'), url: '/glossary', icon: BookOpen }
   ];
 

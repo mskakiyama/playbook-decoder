@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Calendar, BookOpen, Loader2, RefreshCw } from "lucide-react";
+import { Home, Calendar, BookOpen, Trophy, Loader2, RefreshCw } from "lucide-react";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
@@ -32,6 +32,7 @@ export default function Schedule() {
   const navItems = [
     { name: t('common.home'), url: '/', icon: Home },
     { name: t('common.schedule'), url: '/schedule', icon: Calendar },
+    { name: t('standings.title'), url: '/standings', icon: Trophy },
     { name: t('common.glossary'), url: '/glossary', icon: BookOpen }
   ];
 
