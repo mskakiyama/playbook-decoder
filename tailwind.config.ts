@@ -14,6 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
+        sans: ["Poppins", "system-ui", "sans-serif"],
         gugi: ["Gugi", "cursive"],
         oswald: ["Oswald", "sans-serif"],
         "helvetica-neue": ["Helvetica Neue", "Arial", "sans-serif"],

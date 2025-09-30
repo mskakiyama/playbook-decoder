@@ -19,7 +19,7 @@ import { useTranslation } from "react-i18next";
 const TermCard = ({ term }: { term: GlossaryTerm }) => (
   <Card className="bg-card/40 backdrop-blur-sm border-border/30 hover:bg-card/60 transition-all duration-200 hover:scale-[1.02]">
     <CardHeader className="pb-3">
-      <CardTitle className="text-lg font-bold text-foreground">{term.name}</CardTitle>
+      <CardTitle className="text-lg font-sans font-bold text-foreground">{term.name}</CardTitle>
     </CardHeader>
     <CardContent className="pt-0">
       <CardDescription className="text-sm text-muted-foreground leading-relaxed">
@@ -151,8 +151,8 @@ export default function Glossary() {
       <NavBar items={navItems} />
 
       {/* Search Header */}
-      <section className="container mx-auto px-6 py-8">
-        <div className="max-w-2xl mx-auto">
+      <section className="container mx-auto px-6 py-6">
+        <div className="max-w-md mx-auto">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
@@ -160,7 +160,7 @@ export default function Glossary() {
               placeholder={t('glossary.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-card/40 backdrop-blur-sm border-border/30 focus:bg-card/60 transition-all"
+              className="pl-10 pr-4 py-3 text-base bg-card/40 backdrop-blur-sm border-border/30 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300"
             />
           </div>
           
@@ -194,7 +194,7 @@ export default function Glossary() {
             <AccordionTrigger className="px-6 py-4 hover:no-underline">
               <div className="flex items-center space-x-4">
                 <div className="w-4 h-4 rounded-full bg-gradient-to-r from-blue-500 to-blue-600"></div>
-                <span className="font-bold text-lg">{t('glossary.rulesAndPlays')}</span>
+                <span className="font-sans font-bold text-lg">{t('glossary.rulesAndPlays')}</span>
                 <span className="text-sm text-muted-foreground">
                   ({filteredData?.rules.length || 0} terms)
                 </span>
@@ -213,7 +213,7 @@ export default function Glossary() {
             <AccordionTrigger className="px-6 py-4 hover:no-underline">
               <div className="flex items-center space-x-4">
                 <div className="w-4 h-4 rounded-full bg-gradient-to-r from-field-green to-field-green-dark"></div>
-                <span className="font-bold text-lg">{t('glossary.positions')}</span>
+                <span className="font-sans font-bold text-lg">{t('glossary.positions')}</span>
                 <span className="text-sm text-muted-foreground">
                   ({filteredData?.positions.length || 0} terms)
                 </span>
@@ -232,7 +232,7 @@ export default function Glossary() {
             <AccordionTrigger className="px-6 py-4 hover:no-underline">
               <div className="flex items-center space-x-4">
                 <div className="w-4 h-4 rounded-full bg-gradient-to-r from-red-500 to-red-600"></div>
-                <span className="font-bold text-lg">{t('glossary.penalties')}</span>
+                <span className="font-sans font-bold text-lg">{t('glossary.penalties')}</span>
                 <span className="text-sm text-muted-foreground">
                   ({filteredData?.penalties.length || 0} terms)
                 </span>
@@ -252,7 +252,7 @@ export default function Glossary() {
               <AccordionTrigger className="px-6 py-4 hover:no-underline">
               <div className="flex items-center space-x-4">
                   <div className="w-4 h-4 rounded-full bg-gradient-to-r from-touchdown-gold to-yellow-500"></div>
-                  <span className="font-bold text-lg">{t('glossary.otherTerms')}</span>
+                  <span className="font-sans font-bold text-lg">{t('glossary.otherTerms')}</span>
                   <span className="text-sm text-muted-foreground">
                     ({filteredData.other.length} terms)
                   </span>
