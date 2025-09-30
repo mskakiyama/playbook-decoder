@@ -35,7 +35,7 @@ export function ScheduleHeader({ onSearch, searchQuery }: ScheduleHeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-background/80 via-background/90 to-background/80 border-b border-border/50 shadow-glass">
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-background/80 via-background/90 to-background/80 shadow-glass">
       <div className="container mx-auto px-6 py-2">
         {/* Header Content */}
         <div className="flex items-center justify-center">

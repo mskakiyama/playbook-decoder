@@ -151,7 +151,7 @@ export default function Glossary() {
       <NavBar items={navItems} />
 
       {/* Search Header */}
-      <section className="sticky top-0 z-40 backdrop-blur-xl bg-gradient-to-r from-background/80 via-background/90 to-background/80 border-b border-border/50 shadow-glass">
+      <section className="sticky top-0 z-40 backdrop-blur-xl bg-gradient-to-r from-background/80 via-background/90 to-background/80 shadow-glass">
         <div className="container mx-auto px-6 py-2">
           <div className="relative max-w-md mx-auto mt-4">
             <div className="relative">
