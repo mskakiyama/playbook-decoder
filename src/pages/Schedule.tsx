@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { ScheduleHeader } from "@/components/ScheduleHeader";
 import { ConferenceAccordion } from "@/components/ConferenceAccordion";
-import { nflScheduleData } from "@/data/nflSchedule";
+import { useNFLSchedule } from "@/hooks/useNFLSchedule";
+import { useTranslatedSchedule } from "@/hooks/useTranslatedSchedule";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Calendar, BookOpen } from "lucide-react";
+import { Home, Calendar, BookOpen, Loader2, RefreshCw } from "lucide-react";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
@@ -19,6 +20,12 @@ export default function Schedule() {
   const [searchQuery, setSearchQuery] = useState("");
   const { signOut, user } = useAuth();
   const navigate = useNavigate();
+  
+  // Fetch schedule data
+  const { data: scheduleData, isLoading, isError, error, refetch } = useNFLSchedule();
+  
+  // Translate schedule data
+  const { translatedConferences, isTranslating } = useTranslatedSchedule(scheduleData || []);
 
   const navItems = [
     { name: t('common.home'), url: '/', icon: Home },
@@ -73,38 +80,77 @@ export default function Schedule() {
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-4">
-        <div className="space-y-8">
-          {nflScheduleData.map((conference) => (
-            <ConferenceAccordion
-              key={conference.name}
-              conference={conference}
-              searchQuery={searchQuery}
-            />
-          ))}
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex flex-col items-center justify-center py-20">
+            <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+            <p className="text-lg text-muted-foreground">{t('common.loading')}</p>
+          </div>
+        )}
 
-          {/* No Results Message */}
-          {searchQuery && 
-           nflScheduleData.every(conference => 
-             conference.divisions.every(division =>
-               !division.teams.some(team =>
-                 team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                 team.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                 team.abbreviation.toLowerCase().includes(searchQuery.toLowerCase())
-               )
-             )
-           ) && (
-             <div className="text-center py-12">
-              <div className="bg-card/40 backdrop-blur-sm border border-border/30 rounded-lg p-8 max-w-md mx-auto">
-                <h3 className="text-xl font-semibold text-foreground mb-2">
-                  {t('schedule.noTeamsFound')}
-                </h3>
-                <p className="text-muted-foreground">
-                  No teams match your search for "{searchQuery}". Try searching by team name, city, or abbreviation.
-                </p>
-              </div>
+        {/* Error State */}
+        {isError && (
+          <div className="text-center py-12">
+            <div className="bg-destructive/10 backdrop-blur-sm border border-destructive/30 rounded-lg p-8 max-w-md mx-auto">
+              <h3 className="text-xl font-semibold text-destructive mb-2">
+                {t('common.error')}
+              </h3>
+              <p className="text-muted-foreground mb-4">
+                Unable to load schedule. Please try again.
+              </p>
+              <Button 
+                onClick={() => refetch()} 
+                variant="outline"
+                className="gap-2"
+              >
+                <RefreshCw className="h-4 w-4" />
+                Retry
+              </Button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
+        {/* Schedule Content */}
+        {!isLoading && !isError && translatedConferences && (
+          <div className="space-y-8">
+            {isTranslating && (
+              <div className="bg-primary/10 backdrop-blur-sm border border-primary/30 rounded-lg p-3 text-center">
+                <p className="text-sm text-primary">Translating schedule data...</p>
+              </div>
+            )}
+            
+            {translatedConferences.map((conference) => (
+              <ConferenceAccordion
+                key={conference.name}
+                conference={conference}
+                searchQuery={searchQuery}
+              />
+            ))}
+
+            {/* No Results Message */}
+            {searchQuery && 
+             translatedConferences.every(conference => 
+               conference.divisions.every(division =>
+                 !division.teams.some(team =>
+                   team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                   team.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                   team.abbreviation.toLowerCase().includes(searchQuery.toLowerCase())
+                 )
+               )
+             ) && (
+               <div className="text-center py-12">
+                <div className="bg-card/40 backdrop-blur-sm border border-border/30 rounded-lg p-8 max-w-md mx-auto">
+                  <h3 className="text-xl font-semibold text-foreground mb-2">
+                    {t('schedule.noTeamsFound')}
+                  </h3>
+                  <p className="text-muted-foreground">
+                    No teams match your search for "{searchQuery}". Try searching by team name, city, or abbreviation.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </main>
 
       {/* Footer */}

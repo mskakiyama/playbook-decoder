@@ -54,7 +54,7 @@ export function DivisionAccordion({ division, conference, searchQuery }: Divisio
         </AccordionTrigger>
         
         <AccordionContent className="pb-0 pt-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             {filteredTeams.map((team) => (
               <TeamScheduleCard
                 key={team.id}

@@ -1,6 +1,7 @@
 import { Team, Conference } from "@/data/nflSchedule";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "react-i18next";
 import {
   Table,
   TableBody,
@@ -24,6 +25,7 @@ interface TeamScheduleCardProps {
 }
 
 export function TeamScheduleCard({ team, conference }: TeamScheduleCardProps) {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
   const isAFC = conference.name === "AFC";
@@ -33,7 +35,7 @@ export function TeamScheduleCard({ team, conference }: TeamScheduleCardProps) {
   };
 
   const formatOpponent = (opponent: string) => {
-    if (opponent === "BYE") return "BYE WEEK";
+    if (opponent === "BYE" || opponent.includes("BYE")) return t('schedule.byeWeek') || "BYE WEEK";
     return opponent;
   };
 
@@ -120,11 +122,11 @@ export function TeamScheduleCard({ team, conference }: TeamScheduleCardProps) {
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/20 hover:bg-muted/30">
-                    <TableHead className="w-16 text-xs font-semibold">Week</TableHead>
-                    <TableHead className="w-20 text-xs font-semibold">Date</TableHead>
-                    <TableHead className="text-xs font-semibold">Opponent</TableHead>
-                    <TableHead className="w-20 text-xs font-semibold">Time</TableHead>
-                    <TableHead className="w-16 text-xs font-semibold">TV</TableHead>
+                    <TableHead className="w-16 text-xs font-semibold">{t('schedule.week')}</TableHead>
+                    <TableHead className="w-20 text-xs font-semibold">{t('schedule.date')}</TableHead>
+                    <TableHead className="text-xs font-semibold">{t('schedule.opponent')}</TableHead>
+                    <TableHead className="w-20 text-xs font-semibold">{t('schedule.time')}</TableHead>
+                    <TableHead className="w-16 text-xs font-semibold">{t('schedule.tv')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -193,19 +195,19 @@ export function TeamScheduleCard({ team, conference }: TeamScheduleCardProps) {
             <div className="mt-4 flex flex-wrap gap-2 text-xs">
               <div className="flex items-center gap-1">
                 <div className="w-3 h-3 rounded bg-gradient-to-r from-touchdown-gold/30 to-touchdown-gold/50" />
-                <span className="text-muted-foreground">Divisional</span>
+                <span className="text-muted-foreground">{t('schedule.divisional')}</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-3 h-3 rounded bg-gradient-to-r from-purple-500/30 to-purple-600/50" />
-                <span className="text-muted-foreground">Primetime</span>
+                <span className="text-muted-foreground">{t('schedule.primetime')}</span>
               </div>
               <div className="flex items-center gap-1">
                 <Home className="h-3 w-3 text-field-green" />
-                <span className="text-muted-foreground">Home</span>
+                <span className="text-muted-foreground">{t('schedule.home')}</span>
               </div>
               <div className="flex items-center gap-1">
                 <Plane className="h-3 w-3 text-muted-foreground" />
-                <span className="text-muted-foreground">Away</span>
+                <span className="text-muted-foreground">{t('schedule.away')}</span>
               </div>
             </div>
           </CardContent>

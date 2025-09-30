@@ -24,7 +24,17 @@
     "subtitle": "按会议和分区划分的完整赛季赛程",
     "searchPlaceholder": "搜索球队...",
     "noTeamsFound": "未找到球队",
-    "dataSource": "数据来源：ESPN NFL API"
+    "dataSource": "数据来源：ESPN NFL API",
+    "week": "周",
+    "date": "日期",
+    "opponent": "对手",
+    "time": "时间",
+    "tv": "电视台",
+    "home": "主场",
+    "away": "客场",
+    "divisional": "分区内",
+    "primetime": "黄金时段",
+    "byeWeek": "轮空周"
   },
   "glossary": {
     "title": "NFL术语表",

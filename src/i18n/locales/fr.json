@@ -24,7 +24,17 @@
     "subtitle": "Calendrier Complet de la Saison par Conférence et Division",
     "searchPlaceholder": "Rechercher des équipes...",
     "noTeamsFound": "Aucune équipe trouvée",
-    "dataSource": "Données provenant de l'API NFL d'ESPN"
+    "dataSource": "Données provenant de l'API NFL d'ESPN",
+    "week": "Semaine",
+    "date": "Date",
+    "opponent": "Adversaire",
+    "time": "Heure",
+    "tv": "TV",
+    "home": "Domicile",
+    "away": "Extérieur",
+    "divisional": "Divisionnaire",
+    "primetime": "Prime Time",
+    "byeWeek": "SEMAINE DE REPOS"
   },
   "glossary": {
     "title": "Glossaire NFL",

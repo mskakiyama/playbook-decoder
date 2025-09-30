@@ -24,7 +24,17 @@
     "subtitle": "Calendário Completo da Temporada por Conferência e Divisão",
     "searchPlaceholder": "Pesquisar times...",
     "noTeamsFound": "Nenhum time encontrado",
-    "dataSource": "Dados da API NFL da ESPN"
+    "dataSource": "Dados da API NFL da ESPN",
+    "week": "Semana",
+    "date": "Data",
+    "opponent": "Adversário",
+    "time": "Hora",
+    "tv": "TV",
+    "home": "Casa",
+    "away": "Fora",
+    "divisional": "Divisional",
+    "primetime": "Horário Nobre",
+    "byeWeek": "SEMANA DE FOLGA"
   },
   "glossary": {
     "title": "Glossário NFL",

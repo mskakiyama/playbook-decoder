@@ -24,7 +24,17 @@
     "subtitle": "Complete Season Schedule by Conference and Division",
     "searchPlaceholder": "Search teams...",
     "noTeamsFound": "No teams found",
-    "dataSource": "Data sourced from ESPN NFL API"
+    "dataSource": "Data sourced from ESPN NFL API",
+    "week": "Week",
+    "date": "Date",
+    "opponent": "Opponent",
+    "time": "Time",
+    "tv": "TV",
+    "home": "Home",
+    "away": "Away",
+    "divisional": "Divisional",
+    "primetime": "Primetime",
+    "byeWeek": "BYE WEEK"
   },
   "glossary": {
     "title": "NFL Glossary",

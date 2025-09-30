@@ -24,7 +24,17 @@
     "subtitle": "Vollständiger Saisonplan nach Konferenz und Division",
     "searchPlaceholder": "Teams suchen...",
     "noTeamsFound": "Keine Teams gefunden",
-    "dataSource": "Daten von ESPN NFL API"
+    "dataSource": "Daten von ESPN NFL API",
+    "week": "Woche",
+    "date": "Datum",
+    "opponent": "Gegner",
+    "time": "Zeit",
+    "tv": "TV",
+    "home": "Heimspiel",
+    "away": "Auswärts",
+    "divisional": "Division",
+    "primetime": "Hauptsendezeit",
+    "byeWeek": "SPIELFREIE WOCHE"
   },
   "glossary": {
     "title": "NFL Glossar",

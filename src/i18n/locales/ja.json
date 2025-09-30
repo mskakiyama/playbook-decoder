@@ -24,7 +24,17 @@
     "subtitle": "カンファレンスとディビジョン別の完全なシーズンスケジュール",
     "searchPlaceholder": "チームを検索...",
     "noTeamsFound": "チームが見つかりません",
-    "dataSource": "データ提供：ESPN NFL API"
+    "dataSource": "データ提供：ESPN NFL API",
+    "week": "週",
+    "date": "日付",
+    "opponent": "対戦相手",
+    "time": "時間",
+    "tv": "テレビ",
+    "home": "ホーム",
+    "away": "アウェイ",
+    "divisional": "地区内",
+    "primetime": "プライムタイム",
+    "byeWeek": "バイウィーク"
   },
   "glossary": {
     "title": "NFL用語集",
