@@ -64,7 +64,7 @@ export default function Schedule() {
       <NavBar items={navItems} />
 
       {/* Header */}
-      <div className="mt-8">
+      <div className="mt-2">
         <ScheduleHeader 
           onSearch={setSearchQuery}
           searchQuery={searchQuery}
