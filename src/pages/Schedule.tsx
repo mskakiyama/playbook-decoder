@@ -64,10 +64,12 @@ export default function Schedule() {
       <NavBar items={navItems} />
 
       {/* Header */}
-      <ScheduleHeader 
-        onSearch={setSearchQuery}
-        searchQuery={searchQuery}
-      />
+      <div className="mt-8">
+        <ScheduleHeader 
+          onSearch={setSearchQuery}
+          searchQuery={searchQuery}
+        />
+      </div>
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-4">
