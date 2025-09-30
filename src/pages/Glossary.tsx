@@ -151,21 +151,22 @@ export default function Glossary() {
       <NavBar items={navItems} />
 
       {/* Search Header */}
-      <section className="container mx-auto px-6 py-6">
-        <div className="max-w-md mx-auto">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              type="text"
-              placeholder={t('glossary.searchPlaceholder')}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 pr-4 py-3 text-base bg-card/40 backdrop-blur-sm border-border/30 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300"
-            />
+      <section className="sticky top-0 z-40 backdrop-blur-xl bg-gradient-to-r from-background/80 via-background/90 to-background/80 border-b border-border/50 shadow-glass">
+        <div className="container mx-auto px-6 py-2">
+          <div className="relative max-w-md mx-auto mt-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                type="text"
+                placeholder={t('glossary.searchPlaceholder')}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 pr-4 py-3 text-base bg-card/40 backdrop-blur-sm border-border/30 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300"
+              />
+            </div>
           </div>
-          
           {/* Stats */}
-          <div className="mt-4 text-center">
+          <div className="mb-2 text-center">
             <p className="text-sm text-muted-foreground">
               {stats.total} total terms • {stats.byCategory.rules} rules • {stats.byCategory.positions} positions • {stats.byCategory.penalties} penalties
             </p>
