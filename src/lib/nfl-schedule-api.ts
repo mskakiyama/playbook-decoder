@@ -95,9 +95,16 @@ export class NFLScheduleAPI {
     const recordMap = new Map<string, string>();
     
     try {
-      // Fetch standings for both conferences
-      const url = `${ESPN_BASE_URL}/standings?season=2025`;
-      const response = await fetch(url);
+      // Try 2025 season first
+      let url = `${ESPN_BASE_URL}/standings?season=2025&seasontype=2`;
+      let response = await fetch(url);
+      
+      // If 2025 data not available, try 2024 season as reference
+      if (!response.ok || response.status === 404) {
+        console.log("2025 standings not available, trying 2024 season");
+        url = `${ESPN_BASE_URL}/standings?season=2024&seasontype=2`;
+        response = await fetch(url);
+      }
       
       if (!response.ok) {
         console.warn("Failed to fetch standings, status:", response.status);
@@ -105,7 +112,6 @@ export class NFLScheduleAPI {
       }
       
       const data = await response.json();
-      console.log("Standings data structure:", data);
       
       // Parse standings - ESPN API structure has children array with entries
       if (data.children) {
@@ -118,21 +124,24 @@ export class NFLScheduleAPI {
                 let wins = 0, losses = 0, ties = 0;
                 
                 for (const stat of entry.stats) {
-                  if (stat.name === 'wins') wins = stat.value || 0;
-                  if (stat.name === 'losses') losses = stat.value || 0;
-                  if (stat.name === 'ties') ties = stat.value || 0;
+                  if (stat.name === 'wins') wins = parseInt(stat.value) || 0;
+                  if (stat.name === 'losses') losses = parseInt(stat.value) || 0;
+                  if (stat.name === 'ties') ties = parseInt(stat.value) || 0;
                 }
                 
                 const record = ties > 0 ? `${wins}-${losses}-${ties}` : `${wins}-${losses}`;
                 recordMap.set(abbr, record);
-                console.log(`${abbr}: ${record}`);
               }
             }
           }
         }
       }
       
-      console.log(`Fetched current records for ${recordMap.size} teams`);
+      console.log(`✓ Fetched current records for ${recordMap.size} teams`);
+      if (recordMap.size > 0) {
+        const sampleTeam = Array.from(recordMap.entries())[0];
+        console.log(`  Sample: ${sampleTeam[0]} = ${sampleTeam[1]}`);
+      }
     } catch (error) {
       console.error("Error fetching standings:", error);
     }
@@ -302,11 +311,9 @@ export class NFLScheduleAPI {
           
           // Update current record from standings
           const currentRecord = standings.get(team.abbreviation);
-          if (currentRecord && currentRecord !== '0-0') {
+          if (currentRecord) {
             team.projectedRecord = currentRecord;
-            console.log(`Updated ${team.abbreviation} record to ${currentRecord}`);
           }
-          // Otherwise, keep the projected record from static data
         }
       }
     }
