@@ -165,12 +165,6 @@ export default function Glossary() {
               />
             </div>
           </div>
-          {/* Stats */}
-          <div className="mb-2 text-center">
-            <p className="text-sm text-muted-foreground">
-              {stats.total} total terms • {stats.byCategory.rules} rules • {stats.byCategory.positions} positions • {stats.byCategory.penalties} penalties
-            </p>
-          </div>
         </div>
       </section>
 
