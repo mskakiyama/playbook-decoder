@@ -91,9 +91,52 @@ export class NFLScheduleAPI {
     }
   }
 
+  private static async fetchStandings(): Promise<Map<string, string>> {
+    const recordMap = new Map<string, string>();
+    
+    try {
+      const url = `${ESPN_BASE_URL}/standings?season=2025&seasontype=2`;
+      const response = await fetch(url);
+      
+      if (!response.ok) {
+        console.warn("Failed to fetch standings");
+        return recordMap;
+      }
+      
+      const data = await response.json();
+      
+      // Parse standings data
+      for (const entry of data.children || []) {
+        for (const standing of entry.standings?.entries || []) {
+          const team = standing.team;
+          const stats = standing.stats;
+          
+          if (team?.abbreviation && stats) {
+            // Find wins and losses in stats
+            const wins = stats.find((s: any) => s.name === 'wins')?.value || 0;
+            const losses = stats.find((s: any) => s.name === 'losses')?.value || 0;
+            const ties = stats.find((s: any) => s.name === 'ties')?.value || 0;
+            
+            const record = ties > 0 ? `${wins}-${losses}-${ties}` : `${wins}-${losses}`;
+            recordMap.set(team.abbreviation, record);
+          }
+        }
+      }
+      
+      console.log(`Fetched standings for ${recordMap.size} teams`);
+    } catch (error) {
+      console.warn("Error fetching standings:", error);
+    }
+    
+    return recordMap;
+  }
+
   private static async fetchESPNSchedule(): Promise<Conference[]> {
     const allGames: Map<string, Game[]> = new Map();
     const teamInfo: Map<string, { name: string; city: string; id: string }> = new Map();
+    
+    // Fetch current standings for records
+    const standings = await this.fetchStandings();
 
     // Fetch all 18 weeks of the 2025 regular season
     for (let week = 1; week <= 18; week++) {
@@ -219,12 +262,13 @@ export class NFLScheduleAPI {
     }
 
     // Organize into conference/division structure
-    return this.organizeIntoConferences(allGames, teamInfo);
+    return this.organizeIntoConferences(allGames, teamInfo, standings);
   }
 
   private static organizeIntoConferences(
     allGames: Map<string, Game[]>,
-    teamInfo: Map<string, { name: string; city: string; id: string }>
+    teamInfo: Map<string, { name: string; city: string; id: string }>,
+    standings: Map<string, string>
   ): Conference[] {
     // Start with static data as template to ensure all teams are present
     const staticSchedule = JSON.parse(JSON.stringify(nflScheduleData)) as Conference[];
@@ -246,7 +290,13 @@ export class NFLScheduleAPI {
               team.city = apiInfo.city;
             }
           }
-          // Otherwise, keep the static data (already in team.games)
+          
+          // Update current record from standings
+          const currentRecord = standings.get(team.abbreviation);
+          if (currentRecord) {
+            team.projectedRecord = currentRecord;
+          }
+          // Otherwise, keep the static data (already in team.games and projectedRecord)
         }
       }
     }
