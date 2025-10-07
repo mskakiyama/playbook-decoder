@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { GameSelector } from "@/components/GameSelector";
 import { PlayTimeline } from "@/components/PlayTimeline";
 import { PlayDiagram } from "@/components/PlayDiagram";
@@ -8,14 +8,13 @@ import { PlaysGrid } from "@/components/PlaysGrid";
 import { useAllGames, usePlayByPlay } from "@/hooks/useNFLData";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import AuthGuard from "@/components/AuthGuard";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Calendar, BookOpen, Trophy, AlertCircle } from "lucide-react";
+import { Home, Calendar, BookOpen, Trophy } from "lucide-react";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
 import { useTranslation } from "react-i18next";
 const IndexContent = () => {
@@ -23,16 +22,12 @@ const IndexContent = () => {
   const [selectedGame, setSelectedGame] = useState("");
   const [selectedPlay, setSelectedPlay] = useState(0);
   const [playFilter, setPlayFilter] = useState("all");
-  const triedGames = useRef<Set<string>>(new Set());
   const {
     data: games
   } = useAllGames();
   const {
-    data: playsData
+    data: plays
   } = usePlayByPlay(selectedGame);
-  
-  const plays = playsData?.plays || [];
-  const isMockData = playsData?.isMockData || false;
   const {
     signOut,
     user
@@ -49,24 +44,28 @@ const IndexContent = () => {
   // Set most recent completed game with available play-by-play data as default
   useEffect(() => {
     if (games && games.length > 0 && !selectedGame) {
-      // Filter to completed games with play-by-play data, prioritizing historical games (2024 and earlier)
-      // These are more likely to have complete play-by-play data
+      // Filter to 2025 season completed games with play-by-play data, sorted by date (most recent first)
       const completedGames = games
         .filter(game => {
           const isCompleted = game.quarter === 'Final' || game.quarter === 'F';
+          const is2025 = game.season === 2025;
           const hasPlayByPlay = (game as any).playByPlayAvailable !== false; // Include if undefined or true
-          return isCompleted && hasPlayByPlay;
+          return isCompleted && is2025 && hasPlayByPlay;
         })
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       
       if (completedGames.length > 0) {
-        // Select the most recent completed game with available play-by-play data
+        // Select the most recent game with available play-by-play data
         setSelectedGame(completedGames[0].id);
-        console.log('Selected game:', completedGames[0].homeTeam, 'vs', completedGames[0].awayTeam, 'Season:', completedGames[0].season);
+        console.log('Selected game:', completedGames[0].homeTeam, 'vs', completedGames[0].awayTeam);
       } else {
-        // Fallback to any completed game
+        // Fallback to any completed 2025 game if no games with playByPlayAvailable flag
         const fallbackGames = games
-          .filter(game => game.quarter === 'Final' || game.quarter === 'F')
+          .filter(game => {
+            const isCompleted = game.quarter === 'Final' || game.quarter === 'F';
+            const is2025 = game.season === 2025;
+            return isCompleted && is2025;
+          })
           .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         
         if (fallbackGames.length > 0) {
@@ -76,31 +75,6 @@ const IndexContent = () => {
       }
     }
   }, [games, selectedGame]);
-
-  // Auto-select next game if current game has mock data
-  useEffect(() => {
-    if (games && games.length > 0 && selectedGame && isMockData && playsData) {
-      // Mark this game as tried
-      triedGames.current.add(selectedGame);
-      
-      // Get list of completed games sorted by date (trying all seasons, not just 2025)
-      const completedGames = games
-        .filter(game => {
-          const isCompleted = game.quarter === 'Final' || game.quarter === 'F';
-          const notTried = !triedGames.current.has(game.id);
-          return isCompleted && notTried;
-        })
-        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-      
-      // Try the next game
-      if (completedGames.length > 0) {
-        console.log('Current game has mock data, trying next game:', completedGames[0].homeTeam, 'vs', completedGames[0].awayTeam, 'Season:', completedGames[0].season);
-        setSelectedGame(completedGames[0].id);
-      } else {
-        console.log('No more games to try with real data');
-      }
-    }
-  }, [games, selectedGame, isMockData, playsData]);
   const filteredPlays = playFilter === "all" ? plays || [] : (plays || []).filter(play => play.playType === playFilter);
   return <div className="min-h-screen bg-black">
       {/* Hero Header */}
@@ -144,33 +118,16 @@ const IndexContent = () => {
           <div className="lg:col-span-2 space-y-8">
             <GameSelector selectedGame={selectedGame} onGameChange={setSelectedGame} />
             
-            {/* Show message if data is not available */}
-            {isMockData ? (
-              <Card className="p-12 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass text-center">
-                <div className="flex flex-col items-center gap-4">
-                  <div className="p-4 bg-gradient-glass-accent rounded-full">
-                    <AlertCircle className="h-12 w-12 text-muted-foreground" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">Data Not Available</h3>
-                    <p className="text-muted-foreground">
-                      The data for this game is not available yet, please select a different game.
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            ) : (
-              /* All Plays Grid - Shows when "All Plays" filter is selected */
-              playFilter === "all" && <PlaysGrid plays={filteredPlays} onPlaySelect={setSelectedPlay} />
-            )}
+            {/* All Plays Grid - Shows when "All Plays" filter is selected */}
+            {playFilter === "all" && <PlaysGrid plays={filteredPlays} onPlaySelect={setSelectedPlay} />}
           </div>
           <aside className="space-y-8">
             <FilterBar activeFilter={playFilter} onFilterChange={setPlayFilter} plays={plays} />
           </aside>
         </section>
 
-        {/* Main Content Grid - Hidden when All Plays is selected or data is not available */}
-        {playFilter !== "all" && !isMockData && <section className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        {/* Main Content Grid - Hidden when All Plays is selected */}
+        {playFilter !== "all" && <section className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             {/* Play Timeline */}
             <aside className="xl:col-span-1">
               <PlayTimeline plays={filteredPlays} selectedPlay={selectedPlay} onPlaySelect={setSelectedPlay} />
