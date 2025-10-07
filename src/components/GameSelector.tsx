@@ -82,11 +82,13 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
         </div>
 
         {/* Week Filter */}
-        <div className="mb-4 flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-muted-foreground" />
+        <div className="mb-4">
           <Select value={selectedWeek} onValueChange={setSelectedWeek}>
             <SelectTrigger className="bg-muted backdrop-blur-md border border-white/20">
-              <SelectValue placeholder="All Weeks" />
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-muted-foreground" />
+                <SelectValue placeholder="All Weeks" />
+              </div>
             </SelectTrigger>
             <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20">
               {weeks2025.map(week => (
@@ -96,28 +98,32 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
           </Select>
         </div>
 
-        <div className="flex items-center gap-2">
-          <CircleDot className="h-4 w-4 text-muted-foreground" />
-          <Select value={selectedGame} onValueChange={onGameChange} disabled={isLoading}>
-            <SelectTrigger className="w-full bg-muted backdrop-blur-md border border-white/20 hover:bg-primary-glass transition-all duration-300">
+        <Select value={selectedGame} onValueChange={onGameChange} disabled={isLoading}>
+          <SelectTrigger className="w-full bg-muted backdrop-blur-md border border-white/20 hover:bg-primary-glass transition-all duration-300">
             {isLoading ? (
               <div className="flex items-center gap-2">
                 <Loader2 className="h-4 w-4 animate-spin" />
                 <span>Loading games...</span>
               </div>
             ) : upcomingGame ? (
-              <div className="flex justify-between items-center w-full">
-                <div className="font-semibold">
-                  {upcomingGame.awayTeam} @ {upcomingGame.homeTeam}
-                </div>
-                <div className="text-right">
-                  <div className="font-bold">
-                    {upcomingGame.awayScore} - {upcomingGame.homeScore}
+              <div className="flex items-center gap-2 w-full">
+                <CircleDot className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <div className="flex justify-between items-center flex-1">
+                  <div className="font-semibold">
+                    {upcomingGame.awayTeam} @ {upcomingGame.homeTeam}
+                  </div>
+                  <div className="text-right">
+                    <div className="font-bold">
+                      {upcomingGame.awayScore} - {upcomingGame.homeScore}
+                    </div>
                   </div>
                 </div>
               </div>
             ) : (
-              <SelectValue placeholder="Choose a game" />
+              <div className="flex items-center gap-2">
+                <CircleDot className="h-4 w-4 text-muted-foreground" />
+                <SelectValue placeholder="Choose a game" />
+              </div>
             )}
           </SelectTrigger>
           <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20 max-h-96">
@@ -151,7 +157,6 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
             )}
           </SelectContent>
         </Select>
-        </div>
       </Card>
 
       {/* Latest Game Display - Shows most recent completed game */}
