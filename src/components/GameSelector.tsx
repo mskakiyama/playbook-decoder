@@ -53,7 +53,8 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
     ?.filter(game => game.quarter === 'Final' || game.quarter === 'F')
     .filter((game, index, self) => 
       index === self.findIndex((g) => g.id === game.id)
-    );
+    )
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // Sort by date, most recent first
   
   // Debug logging
   console.log('All games:', games?.length);
@@ -147,26 +148,30 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
         </SelectContent>
       </Select>
 
-      {/* Current Game Display */}
-      {currentGame && (
+      {/* Latest Game Display - Shows most recent completed game */}
+      {completedGames && completedGames.length > 0 && (
         <div className="mt-6 p-4 bg-gradient-glass-primary backdrop-blur-md rounded border border-white/20 shadow-glass">
+          <div className="text-xs text-muted-foreground mb-2 text-center">Latest Game</div>
           <div className="grid grid-cols-3 items-center text-center">
             <div>
-              <div className="font-bold text-lg">{currentGame.awayTeam}</div>
+              <div className="font-bold text-lg">{completedGames[0].awayTeam}</div>
               <div className="text-2xl font-bold text-accent animate-score-pop bg-gradient-to-r from-accent to-touchdown-gold bg-clip-text text-transparent">
-                {currentGame.awayScore}
+                {completedGames[0].awayScore}
               </div>
             </div>
             <div className="text-muted-foreground">
               <div className="text-sm">VS</div>
-              <div className="font-semibold">{currentGame.quarter}</div>
+              <div className="font-semibold">{completedGames[0].quarter}</div>
             </div>
             <div>
-              <div className="font-bold text-lg">{currentGame.homeTeam}</div>
+              <div className="font-bold text-lg">{completedGames[0].homeTeam}</div>
               <div className="text-2xl font-bold text-accent animate-score-pop bg-gradient-to-r from-accent to-touchdown-gold bg-clip-text text-transparent">
-                {currentGame.homeScore}
+                {completedGames[0].homeScore}
               </div>
             </div>
+          </div>
+          <div className="text-xs text-muted-foreground mt-2 text-center">
+            {completedGames[0].week} • {completedGames[0].date}
           </div>
         </div>
       )}
