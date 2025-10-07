@@ -48,8 +48,11 @@ export const usePlayByPlay = (eventId: string | null) => {
     enabled: !!eventId,
     refetchInterval: 15000, // Refetch every 15 seconds for live play updates
     select: (data) => {
-      if (!data) return [];
-      return data.plays.map(transformESPNPlayToAppPlay).reverse(); // Most recent plays first
+      if (!data) return { plays: [], isMockData: false };
+      return {
+        plays: data.plays.map(transformESPNPlayToAppPlay).reverse(), // Most recent plays first
+        isMockData: (data as any).isMockData || false
+      };
     },
   });
 };

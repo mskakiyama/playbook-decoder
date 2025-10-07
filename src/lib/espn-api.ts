@@ -408,8 +408,9 @@ const generateMockPlayByPlay = (eventId: string): ESPNPlayByPlay => {
 
   return {
     id: eventId,
-    plays
-  };
+    plays,
+    isMockData: true // Add flag to indicate this is mock data
+  } as any;
 };
 
 export const fetchPlayByPlay = async (eventId: string): Promise<ESPNPlayByPlay> => {
@@ -419,7 +420,8 @@ export const fetchPlayByPlay = async (eventId: string): Promise<ESPNPlayByPlay> 
       console.warn(`Play-by-play not available for event ${eventId}, using mock data`);
       return generateMockPlayByPlay(eventId);
     }
-    return response.json();
+    const data = await response.json();
+    return { ...data, isMockData: false } as any;
   } catch (error) {
     console.warn(`Failed to fetch play-by-play for event ${eventId}, using mock data:`, error);
     return generateMockPlayByPlay(eventId);

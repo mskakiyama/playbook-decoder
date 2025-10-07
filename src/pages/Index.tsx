@@ -8,6 +8,7 @@ import { PlaysGrid } from "@/components/PlaysGrid";
 import { useAllGames, usePlayByPlay } from "@/hooks/useNFLData";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import AuthGuard from "@/components/AuthGuard";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
@@ -26,8 +27,11 @@ const IndexContent = () => {
     data: games
   } = useAllGames();
   const {
-    data: plays
+    data: playsData
   } = usePlayByPlay(selectedGame);
+  
+  const plays = playsData?.plays || [];
+  const isMockData = playsData?.isMockData || false;
   const {
     signOut,
     user
@@ -118,16 +122,35 @@ const IndexContent = () => {
           <div className="lg:col-span-2 space-y-8">
             <GameSelector selectedGame={selectedGame} onGameChange={setSelectedGame} />
             
-            {/* All Plays Grid - Shows when "All Plays" filter is selected */}
-            {playFilter === "all" && <PlaysGrid plays={filteredPlays} onPlaySelect={setSelectedPlay} />}
+            {/* Show message if data is not available */}
+            {isMockData ? (
+              <Card className="p-12 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass text-center">
+                <div className="flex flex-col items-center gap-4">
+                  <div className="p-4 bg-gradient-glass-accent rounded-full">
+                    <svg className="h-12 w-12 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Data Not Available</h3>
+                    <p className="text-muted-foreground">
+                      The data for this game is not available yet, please select a different game.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            ) : (
+              /* All Plays Grid - Shows when "All Plays" filter is selected */
+              playFilter === "all" && <PlaysGrid plays={filteredPlays} onPlaySelect={setSelectedPlay} />
+            )}
           </div>
           <aside className="space-y-8">
             <FilterBar activeFilter={playFilter} onFilterChange={setPlayFilter} plays={plays} />
           </aside>
         </section>
 
-        {/* Main Content Grid - Hidden when All Plays is selected */}
-        {playFilter !== "all" && <section className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        {/* Main Content Grid - Hidden when All Plays is selected or data is not available */}
+        {playFilter !== "all" && !isMockData && <section className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             {/* Play Timeline */}
             <aside className="xl:col-span-1">
               <PlayTimeline plays={filteredPlays} selectedPlay={selectedPlay} onPlaySelect={setSelectedPlay} />
