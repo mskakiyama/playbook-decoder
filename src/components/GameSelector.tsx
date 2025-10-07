@@ -162,7 +162,6 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
             </div>
             <div className="text-muted-foreground">
               <div className="text-sm">VS</div>
-              <div className="font-semibold">{completedGames[0].quarter}</div>
             </div>
             <div>
               <div className="font-bold text-lg">{completedGames[0].homeTeam}</div>
