@@ -15,7 +15,7 @@ import player2Image from "@/assets/player2.svg";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Calendar, BookOpen, Trophy } from "lucide-react";
+import { Home, Calendar, BookOpen, Trophy, AlertCircle } from "lucide-react";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
 import { useTranslation } from "react-i18next";
 const IndexContent = () => {
@@ -127,9 +127,7 @@ const IndexContent = () => {
               <Card className="p-12 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass text-center">
                 <div className="flex flex-col items-center gap-4">
                   <div className="p-4 bg-gradient-glass-accent rounded-full">
-                    <svg className="h-12 w-12 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                    <AlertCircle className="h-12 w-12 text-muted-foreground" />
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Data Not Available</h3>
