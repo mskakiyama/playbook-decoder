@@ -93,17 +93,17 @@ export const FilterBar = ({ activeFilter, onFilterChange, plays = [] }: FilterBa
         <h3 className="text-sm font-semibold text-muted-foreground mb-3">
           QUICK FILTERS
         </h3>
-        <div className="space-y-2">
-          <Button variant="ghost" size="sm" className="w-full justify-start text-sm bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent">
+        <div className="flex flex-wrap gap-2">
+          <Button variant="ghost" size="sm" className="rounded-full text-sm px-3 py-1 h-auto bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent transition-all duration-300">
             🏆 Touchdown Plays (4)
           </Button>
-          <Button variant="ghost" size="sm" className="w-full justify-start text-sm bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent">
+          <Button variant="ghost" size="sm" className="rounded-full text-sm px-3 py-1 h-auto bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent transition-all duration-300">
             🚫 Turnovers (2)
           </Button>
-          <Button variant="ghost" size="sm" className="w-full justify-start text-sm bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent">
+          <Button variant="ghost" size="sm" className="rounded-full text-sm px-3 py-1 h-auto bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent transition-all duration-300">
             ⭐ Key Plays (6)
           </Button>
-          <Button variant="ghost" size="sm" className="w-full justify-start text-sm bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent">
+          <Button variant="ghost" size="sm" className="rounded-full text-sm px-3 py-1 h-auto bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent transition-all duration-300">
             🎯 Red Zone (5)
           </Button>
         </div>
