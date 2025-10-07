@@ -104,13 +104,8 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
             </div>
           ) : upcomingGame ? (
             <div className="flex justify-between items-center w-full">
-              <div>
-                <div className="font-semibold">
-                  {upcomingGame.awayTeam} @ {upcomingGame.homeTeam}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  {upcomingGame.week} • {upcomingGame.date}
-                </div>
+              <div className="font-semibold">
+                {upcomingGame.awayTeam} @ {upcomingGame.homeTeam}
               </div>
               <div className="text-right">
                 <div className="font-bold">
