@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { GameSelector } from "@/components/GameSelector";
 import { PlayTimeline } from "@/components/PlayTimeline";
 import { PlayDiagram } from "@/components/PlayDiagram";
@@ -23,6 +23,7 @@ const IndexContent = () => {
   const [selectedGame, setSelectedGame] = useState("");
   const [selectedPlay, setSelectedPlay] = useState(0);
   const [playFilter, setPlayFilter] = useState("all");
+  const triedGames = useRef<Set<string>>(new Set());
   const {
     data: games
   } = useAllGames();
@@ -79,6 +80,32 @@ const IndexContent = () => {
       }
     }
   }, [games, selectedGame]);
+
+  // Auto-select next game if current game has mock data
+  useEffect(() => {
+    if (games && games.length > 0 && selectedGame && isMockData && playsData) {
+      // Mark this game as tried
+      triedGames.current.add(selectedGame);
+      
+      // Get list of completed 2025 games sorted by date
+      const completedGames = games
+        .filter(game => {
+          const isCompleted = game.quarter === 'Final' || game.quarter === 'F';
+          const is2025 = game.season === 2025;
+          const notTried = !triedGames.current.has(game.id);
+          return isCompleted && is2025 && notTried;
+        })
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      
+      // Try the next game
+      if (completedGames.length > 0) {
+        console.log('Current game has mock data, trying next game:', completedGames[0].homeTeam, 'vs', completedGames[0].awayTeam);
+        setSelectedGame(completedGames[0].id);
+      } else {
+        console.log('No more games to try with real data');
+      }
+    }
+  }, [games, selectedGame, isMockData, playsData]);
   const filteredPlays = playFilter === "all" ? plays || [] : (plays || []).filter(play => play.playType === playFilter);
   return <div className="min-h-screen bg-black">
       {/* Hero Header */}
