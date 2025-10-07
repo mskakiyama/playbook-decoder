@@ -188,7 +188,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
             </div>
           </div>
           <div className="text-xs text-muted-foreground mt-4 text-center">
-            {completedGames[0].week} • {completedGames[0].date}
+            {completedGames[0].date}
           </div>
         </Card>
       )}
