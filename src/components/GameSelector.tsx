@@ -2,7 +2,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card } from "@/components/ui/card";
 import { Trophy, Clock, Loader2, Calendar } from "lucide-react";
 import { useAllGames } from "@/hooks/useNFLData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface GameSelectorProps {
   selectedGame: string;
@@ -11,7 +11,7 @@ interface GameSelectorProps {
 
 export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) => {
   const { data: games, isLoading } = useAllGames();
-  const [selectedWeek, setSelectedWeek] = useState<string>('all');
+  const [selectedWeek, setSelectedWeek] = useState<string>('');
   
   const currentGame = games?.find(game => game.id === selectedGame);
   
@@ -41,10 +41,17 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
       return getWeekNumber(a) - getWeekNumber(b);
     }) || [];
 
+  // Set default week to the latest week
+  useEffect(() => {
+    if (weeks2025.length > 0 && !selectedWeek) {
+      setSelectedWeek(weeks2025[weeks2025.length - 1]);
+    }
+  }, [weeks2025, selectedWeek]);
+
   // Filter games for 2025 season and selected week
   const filteredGames = games?.filter(game => {
     const seasonMatch = game.season === 2025;
-    const weekMatch = selectedWeek === 'all' || game.week === selectedWeek;
+    const weekMatch = game.week === selectedWeek;
     return seasonMatch && weekMatch;
   });
 
@@ -78,10 +85,9 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
         <Calendar className="h-4 w-4 text-muted-foreground" />
         <Select value={selectedWeek} onValueChange={setSelectedWeek}>
           <SelectTrigger className="bg-muted backdrop-blur-md border border-white/20">
-            <SelectValue placeholder="All Weeks" />
+            <SelectValue placeholder="Select Week" />
           </SelectTrigger>
           <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20">
-            <SelectItem value="all">All Weeks</SelectItem>
             {weeks2025.map(week => (
               <SelectItem key={week} value={week}>{week}</SelectItem>
             ))}
