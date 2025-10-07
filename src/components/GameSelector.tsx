@@ -154,9 +154,16 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
       {/* Latest Game Display - Shows most recent completed game */}
       {completedGames && completedGames.length > 0 && (
         <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass transition-all duration-300 hover:shadow-glass-hover mt-4">
-          <div className="text-xs text-muted-foreground mb-2 text-center">Latest Game</div>
-          <div className="grid grid-cols-3 items-center text-center">
-            <div>
+          <div className="grid grid-cols-3 items-center text-center gap-4">
+            <div className="flex flex-col items-center">
+              <img 
+                src={`https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/${completedGames[0].awayTeamAbbr}.png&h=80&w=80`}
+                alt={`${completedGames[0].awayTeam} helmet`}
+                className="w-16 h-16 mb-2 object-contain"
+                onError={(e) => {
+                  e.currentTarget.src = `https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/${completedGames[0].awayTeamAbbr.toLowerCase()}.png`;
+                }}
+              />
               <div className="font-bold text-lg">{completedGames[0].awayTeam}</div>
               <div className="text-2xl font-bold text-accent animate-score-pop bg-gradient-to-r from-accent to-touchdown-gold bg-clip-text text-transparent">
                 {completedGames[0].awayScore}
@@ -165,14 +172,22 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
             <div className="text-muted-foreground">
               <div className="text-sm">VS</div>
             </div>
-            <div>
+            <div className="flex flex-col items-center">
+              <img 
+                src={`https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/${completedGames[0].homeTeamAbbr}.png&h=80&w=80`}
+                alt={`${completedGames[0].homeTeam} helmet`}
+                className="w-16 h-16 mb-2 object-contain"
+                onError={(e) => {
+                  e.currentTarget.src = `https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/${completedGames[0].homeTeamAbbr.toLowerCase()}.png`;
+                }}
+              />
               <div className="font-bold text-lg">{completedGames[0].homeTeam}</div>
               <div className="text-2xl font-bold text-accent animate-score-pop bg-gradient-to-r from-accent to-touchdown-gold bg-clip-text text-transparent">
                 {completedGames[0].homeScore}
               </div>
             </div>
           </div>
-          <div className="text-xs text-muted-foreground mt-2 text-center">
+          <div className="text-xs text-muted-foreground mt-4 text-center">
             {completedGames[0].week} • {completedGames[0].date}
           </div>
         </Card>

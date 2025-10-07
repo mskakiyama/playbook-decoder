@@ -440,6 +440,8 @@ export const transformESPNGameToAppGame = (espnGame: ESPNGame) => {
     id: espnGame.id,
     homeTeam: homeTeam?.team.displayName || '',
     awayTeam: awayTeam?.team.displayName || '',
+    homeTeamAbbr: homeTeam?.team.abbreviation || '',
+    awayTeamAbbr: awayTeam?.team.abbreviation || '',
     homeScore: parseInt(homeTeam?.score || '0'),
     awayScore: parseInt(awayTeam?.score || '0'),
     quarter: competition.status.type.shortDetail,
