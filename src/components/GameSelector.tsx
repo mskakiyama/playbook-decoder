@@ -149,7 +149,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
 
       {/* Current Game Display */}
       {currentGame && (
-        <div className="mt-6 p-4 bg-gradient-glass-primary backdrop-blur-md rounded-xl border border-white/20 shadow-glass">
+        <div className="mt-6 p-4 bg-gradient-glass-primary backdrop-blur-md rounded border border-white/20 shadow-glass">
           <div className="grid grid-cols-3 items-center text-center">
             <div>
               <div className="font-bold text-lg">{currentGame.awayTeam}</div>
