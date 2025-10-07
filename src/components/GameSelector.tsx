@@ -88,7 +88,6 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
             <SelectValue placeholder="All Weeks" />
           </SelectTrigger>
           <SelectContent className="bg-card-glass backdrop-blur-xl border border-white/20">
-            <SelectItem value="all">All Weeks</SelectItem>
             {weeks2025.map(week => (
               <SelectItem key={week} value={week}>{week}</SelectItem>
             ))}
