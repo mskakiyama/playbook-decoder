@@ -159,22 +159,22 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
         </Select>
       </Card>
 
-      {/* Latest Game Display - Shows most recent completed game */}
-      {completedGames && completedGames.length > 0 && (
+      {/* Selected Game Display - Shows currently selected game */}
+      {currentGame && (
         <Card className="p-6 bg-card-glass backdrop-blur-xl border border-white/20 shadow-glass transition-all duration-300 hover:shadow-glass-hover mt-4">
           <div className="grid grid-cols-3 items-center text-center gap-4">
             <div className="flex flex-col items-center">
               <img 
-                src={`https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/${completedGames[0].awayTeamAbbr}.png&h=80&w=80`}
-                alt={`${completedGames[0].awayTeam} helmet`}
+                src={`https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/${currentGame.awayTeamAbbr}.png&h=80&w=80`}
+                alt={`${currentGame.awayTeam} helmet`}
                 className="w-16 h-16 mb-2 object-contain"
                 onError={(e) => {
-                  e.currentTarget.src = `https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/${completedGames[0].awayTeamAbbr.toLowerCase()}.png`;
+                  e.currentTarget.src = `https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/${currentGame.awayTeamAbbr.toLowerCase()}.png`;
                 }}
               />
-              <div className="font-bold text-lg">{completedGames[0].awayTeam}</div>
+              <div className="font-bold text-lg">{currentGame.awayTeam}</div>
               <div className="text-2xl font-bold text-accent animate-score-pop bg-gradient-to-r from-accent to-touchdown-gold bg-clip-text text-transparent">
-                {completedGames[0].awayScore}
+                {currentGame.awayScore}
               </div>
             </div>
             <div className="text-muted-foreground">
@@ -182,21 +182,21 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
             </div>
             <div className="flex flex-col items-center">
               <img 
-                src={`https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/${completedGames[0].homeTeamAbbr}.png&h=80&w=80`}
-                alt={`${completedGames[0].homeTeam} helmet`}
+                src={`https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/${currentGame.homeTeamAbbr}.png&h=80&w=80`}
+                alt={`${currentGame.homeTeam} helmet`}
                 className="w-16 h-16 mb-2 object-contain"
                 onError={(e) => {
-                  e.currentTarget.src = `https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/${completedGames[0].homeTeamAbbr.toLowerCase()}.png`;
+                  e.currentTarget.src = `https://a.espncdn.com/i/teamlogos/nfl/500/scoreboard/${currentGame.homeTeamAbbr.toLowerCase()}.png`;
                 }}
               />
-              <div className="font-bold text-lg">{completedGames[0].homeTeam}</div>
+              <div className="font-bold text-lg">{currentGame.homeTeam}</div>
               <div className="text-2xl font-bold text-accent animate-score-pop bg-gradient-to-r from-accent to-touchdown-gold bg-clip-text text-transparent">
-                {completedGames[0].homeScore}
+                {currentGame.homeScore}
               </div>
             </div>
           </div>
           <div className="text-xs text-muted-foreground mt-4 text-center">
-            {completedGames[0].date}
+            {currentGame.date}
           </div>
         </Card>
       )}
