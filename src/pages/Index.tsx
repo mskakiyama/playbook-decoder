@@ -49,28 +49,24 @@ const IndexContent = () => {
   // Set most recent completed game with available play-by-play data as default
   useEffect(() => {
     if (games && games.length > 0 && !selectedGame) {
-      // Filter to 2025 season completed games with play-by-play data, sorted by date (most recent first)
+      // Filter to completed games with play-by-play data, prioritizing historical games (2024 and earlier)
+      // These are more likely to have complete play-by-play data
       const completedGames = games
         .filter(game => {
           const isCompleted = game.quarter === 'Final' || game.quarter === 'F';
-          const is2025 = game.season === 2025;
           const hasPlayByPlay = (game as any).playByPlayAvailable !== false; // Include if undefined or true
-          return isCompleted && is2025 && hasPlayByPlay;
+          return isCompleted && hasPlayByPlay;
         })
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       
       if (completedGames.length > 0) {
-        // Select the most recent game with available play-by-play data
+        // Select the most recent completed game with available play-by-play data
         setSelectedGame(completedGames[0].id);
-        console.log('Selected game:', completedGames[0].homeTeam, 'vs', completedGames[0].awayTeam);
+        console.log('Selected game:', completedGames[0].homeTeam, 'vs', completedGames[0].awayTeam, 'Season:', completedGames[0].season);
       } else {
-        // Fallback to any completed 2025 game if no games with playByPlayAvailable flag
+        // Fallback to any completed game
         const fallbackGames = games
-          .filter(game => {
-            const isCompleted = game.quarter === 'Final' || game.quarter === 'F';
-            const is2025 = game.season === 2025;
-            return isCompleted && is2025;
-          })
+          .filter(game => game.quarter === 'Final' || game.quarter === 'F')
           .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         
         if (fallbackGames.length > 0) {
@@ -87,19 +83,18 @@ const IndexContent = () => {
       // Mark this game as tried
       triedGames.current.add(selectedGame);
       
-      // Get list of completed 2025 games sorted by date
+      // Get list of completed games sorted by date (trying all seasons, not just 2025)
       const completedGames = games
         .filter(game => {
           const isCompleted = game.quarter === 'Final' || game.quarter === 'F';
-          const is2025 = game.season === 2025;
           const notTried = !triedGames.current.has(game.id);
-          return isCompleted && is2025 && notTried;
+          return isCompleted && notTried;
         })
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       
       // Try the next game
       if (completedGames.length > 0) {
-        console.log('Current game has mock data, trying next game:', completedGames[0].homeTeam, 'vs', completedGames[0].awayTeam);
+        console.log('Current game has mock data, trying next game:', completedGames[0].homeTeam, 'vs', completedGames[0].awayTeam, 'Season:', completedGames[0].season);
         setSelectedGame(completedGames[0].id);
       } else {
         console.log('No more games to try with real data');
