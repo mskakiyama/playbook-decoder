@@ -452,7 +452,8 @@ export const transformESPNGameToAppGame = (espnGame: ESPNGame) => {
     }),
     week: espnGame.week ? `${seasonType} Week ${espnGame.week.number}` : seasonType,
     season: espnGame.season?.year || new Date().getFullYear(),
-    seasonType: seasonType
+    seasonType: seasonType,
+    playByPlayAvailable: competition.playByPlayAvailable || false
   };
 };
 

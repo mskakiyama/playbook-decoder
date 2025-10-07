@@ -41,16 +41,37 @@ const IndexContent = () => {
     { name: t('common.glossary'), url: '/glossary', icon: BookOpen }
   ];
 
-  // Set most recent completed game as default when games load
+  // Set most recent completed game with available play-by-play data as default
   useEffect(() => {
     if (games && games.length > 0 && !selectedGame) {
-      // Filter to completed games and sort by date (most recent first)
+      // Filter to 2025 season completed games with play-by-play data, sorted by date (most recent first)
       const completedGames = games
-        .filter(game => game.quarter === 'Final' || game.quarter === 'F')
+        .filter(game => {
+          const isCompleted = game.quarter === 'Final' || game.quarter === 'F';
+          const is2025 = game.season === 2025;
+          const hasPlayByPlay = (game as any).playByPlayAvailable !== false; // Include if undefined or true
+          return isCompleted && is2025 && hasPlayByPlay;
+        })
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       
       if (completedGames.length > 0) {
+        // Select the most recent game with available play-by-play data
         setSelectedGame(completedGames[0].id);
+        console.log('Selected game:', completedGames[0].homeTeam, 'vs', completedGames[0].awayTeam);
+      } else {
+        // Fallback to any completed 2025 game if no games with playByPlayAvailable flag
+        const fallbackGames = games
+          .filter(game => {
+            const isCompleted = game.quarter === 'Final' || game.quarter === 'F';
+            const is2025 = game.season === 2025;
+            return isCompleted && is2025;
+          })
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        
+        if (fallbackGames.length > 0) {
+          setSelectedGame(fallbackGames[0].id);
+          console.log('Fallback selected game:', fallbackGames[0].homeTeam, 'vs', fallbackGames[0].awayTeam);
+        }
       }
     }
   }, [games, selectedGame]);
