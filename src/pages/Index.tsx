@@ -41,10 +41,17 @@ const IndexContent = () => {
     { name: t('common.glossary'), url: '/glossary', icon: BookOpen }
   ];
 
-  // Set first game as default when games load
+  // Set most recent completed game as default when games load
   useEffect(() => {
     if (games && games.length > 0 && !selectedGame) {
-      setSelectedGame(games[0].id);
+      // Filter to completed games and sort by date (most recent first)
+      const completedGames = games
+        .filter(game => game.quarter === 'Final' || game.quarter === 'F')
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      
+      if (completedGames.length > 0) {
+        setSelectedGame(completedGames[0].id);
+      }
     }
   }, [games, selectedGame]);
   const filteredPlays = playFilter === "all" ? plays || [] : (plays || []).filter(play => play.playType === playFilter);
