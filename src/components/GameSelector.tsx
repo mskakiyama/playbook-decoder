@@ -11,7 +11,7 @@ interface GameSelectorProps {
 
 export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) => {
   const { data: games, isLoading } = useAllGames();
-  const [selectedWeek, setSelectedWeek] = useState<string>('all');
+  const [selectedWeek, setSelectedWeek] = useState<string>('');
   
   const currentGame = games?.find(game => game.id === selectedGame);
   
@@ -43,15 +43,15 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
 
   // Set default week to latest week once data loads
   useEffect(() => {
-    if (games && weeks2025.length > 0 && selectedWeek === 'all') {
+    if (games && weeks2025.length > 0 && !selectedWeek) {
       setSelectedWeek(weeks2025[weeks2025.length - 1]);
     }
-  }, [games, weeks2025, selectedWeek]);
+  }, [games, weeks2025.length]);
 
   // Filter games for 2025 season and selected week
   const filteredGames = games?.filter(game => {
     const seasonMatch = game.season === 2025;
-    const weekMatch = selectedWeek === 'all' || game.week === selectedWeek;
+    const weekMatch = !selectedWeek || game.week === selectedWeek;
     return seasonMatch && weekMatch;
   });
 
