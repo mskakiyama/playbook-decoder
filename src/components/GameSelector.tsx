@@ -2,7 +2,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card } from "@/components/ui/card";
 import { Trophy, Clock, Loader2, Calendar } from "lucide-react";
 import { useAllGames } from "@/hooks/useNFLData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface GameSelectorProps {
   selectedGame: string;
@@ -40,6 +40,13 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
       
       return getWeekNumber(a) - getWeekNumber(b);
     }) || [];
+
+  // Set default week to latest week once data loads
+  useEffect(() => {
+    if (games && weeks2025.length > 0 && selectedWeek === 'all') {
+      setSelectedWeek(weeks2025[weeks2025.length - 1]);
+    }
+  }, [games, weeks2025, selectedWeek]);
 
   // Filter games for 2025 season and selected week
   const filteredGames = games?.filter(game => {
