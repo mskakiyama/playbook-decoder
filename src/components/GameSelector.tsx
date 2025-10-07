@@ -1,6 +1,6 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { Trophy, Clock, Loader2, Calendar, Gamepad2 } from "lucide-react";
+import { Trophy, Clock, Loader2, Calendar, CircleDot } from "lucide-react";
 import { useAllGames } from "@/hooks/useNFLData";
 import { useState, useEffect } from "react";
 
@@ -97,7 +97,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
         </div>
 
         <div className="flex items-center gap-2">
-          <Gamepad2 className="h-4 w-4 text-muted-foreground" />
+          <CircleDot className="h-4 w-4 text-muted-foreground" />
           <Select value={selectedGame} onValueChange={onGameChange} disabled={isLoading}>
             <SelectTrigger className="w-full bg-muted backdrop-blur-md border border-white/20 hover:bg-primary-glass transition-all duration-300">
             {isLoading ? (
