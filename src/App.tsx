@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Schedule from "./pages/Schedule";
 import Standings from "./pages/Standings";
+import StandingsRealtime from "./pages/StandingsRealtime";
 import Glossary from "./pages/Glossary";
 import NotFound from "./pages/NotFound";
 
@@ -26,7 +27,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/schedule" element={<Schedule />} />
-              <Route path="/standings" element={<Standings />} />
+              <Route path="/standings" element={<StandingsRealtime />} />
               <Route path="/glossary" element={<Glossary />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

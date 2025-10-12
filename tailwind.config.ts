@@ -58,7 +58,7 @@ export default {
           foreground: "hsl(var(--card-foreground))",
           glass: "hsl(var(--card-glass))",
         },
-        /* Glassmorphism NFL colors */
+        /* Neon NFL colors */
         "field-green": {
           DEFAULT: "hsl(var(--field-green))",
           dark: "hsl(var(--field-green-dark))",
@@ -71,6 +71,12 @@ export default {
         "interception-red": "hsl(var(--interception-red))",
         "success-green": "hsl(var(--success-green))",
         "neutral-gray": "hsl(var(--neutral-gray))",
+        "neon-cyan": "hsl(var(--neon-cyan))",
+        "neon-blue": "hsl(var(--neon-blue))",
+        "neon-green": "hsl(var(--neon-green))",
+        "neon-pink": "hsl(var(--neon-pink))",
+        "neon-purple": "hsl(var(--neon-purple))",
+        "neon-orange": "hsl(var(--neon-orange))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -101,6 +107,9 @@ export default {
         'glass-hover': 'var(--shadow-glass-hover)',
         'play-card': 'var(--shadow-play-card)',
         'diagram': 'var(--shadow-diagram)',
+        'neon-cyan': 'var(--shadow-neon-cyan)',
+        'neon-pink': 'var(--shadow-neon-pink)',
+        'neon-green': 'var(--shadow-neon-green)',
       },
       backgroundImage: {
         'gradient-glass-primary': 'var(--gradient-glass-primary)',
@@ -184,6 +193,8 @@ export default {
         "score-pop": "score-pop 0.6s ease-out",
         "star-movement-bottom": "star-movement-bottom linear infinite alternate",
         "star-movement-top": "star-movement-top linear infinite alternate",
+        "pulse-neon": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "glow-pulse": "field-glow 2s ease-in-out infinite",
       },
     },
   },
