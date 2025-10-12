@@ -34,8 +34,16 @@ const IndexContent = () => {
   } = useAuth();
   const navigate = useNavigate();
 
+  // Redirect to auth if this is first visit and not authenticated
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem('hasVisitedAuth');
+    if (!hasVisited && !user) {
+      navigate('/auth');
+    }
+  }, [user, navigate]);
+
   const navItems = [
-    { name: t('common.home'), url: '/home', icon: Home },
+    { name: t('common.home'), url: '/', icon: Home },
     { name: t('common.schedule'), url: '/schedule', icon: Calendar },
     { name: t('standings.title'), url: '/standings', icon: Trophy },
     { name: t('common.glossary'), url: '/glossary', icon: BookOpen }
@@ -89,7 +97,7 @@ const IndexContent = () => {
               {t('common.signOut')}
             </Button>
           ) : (
-            <ShimmerButton onClick={() => navigate('/')} className="shadow-glass">
+            <ShimmerButton onClick={() => navigate('/auth')} className="shadow-glass">
               <span className="text-sm font-medium">{t('common.signIn')}</span>
             </ShimmerButton>
           )}

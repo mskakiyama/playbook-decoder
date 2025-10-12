@@ -36,6 +36,7 @@ const Auth = () => {
   // Redirect authenticated users to main page
   useEffect(() => {
     if (user) {
+      sessionStorage.setItem('hasVisitedAuth', 'true');
       navigate('/');
     }
   }, [user, navigate]);
@@ -68,6 +69,9 @@ const Auth = () => {
           title: "Check your email",
           description: "We've sent you a confirmation link."
         });
+      } else {
+        // Set flag on successful sign in
+        sessionStorage.setItem('hasVisitedAuth', 'true');
       }
     } catch (err) {
       toast({
@@ -95,6 +99,7 @@ const Auth = () => {
     setIsSignUp(!isSignUp);
   };
   const handleSkip = () => {
+    sessionStorage.setItem('hasVisitedAuth', 'true');
     navigate('/');
   };
   return <SignInPage title={isSignUp ? <span className="font-light text-foreground tracking-tighter">Create Account</span> : <span className="font-light tracking-tighter" style={{
