@@ -190,7 +190,7 @@ export const SignInPage: React.FC<SignInPageProps> = ({
                 borderRadius="12px"
               >
                 <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight">
-                  Skip for now
+                  Skip and go to the Dashboard
                 </span>
               </ShimmerButton>
             )}
