@@ -12,7 +12,7 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
 
   useEffect(() => {
     if (!loading && !user) {
-      navigate('/auth');
+      navigate('/');
     }
   }, [user, loading, navigate]);
 
