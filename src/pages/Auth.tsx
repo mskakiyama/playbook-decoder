@@ -108,7 +108,7 @@ const Auth = () => {
         isSignUp ? (
           <span className="font-light text-foreground tracking-tighter">Create Account</span>
         ) : (
-          <span className="font-light text-foreground tracking-tighter">Welcome Back</span>
+          <span className="font-light tracking-tighter" style={{ color: '#0E0F0F' }}>Welcome Back</span>
         )
       }
       description={
