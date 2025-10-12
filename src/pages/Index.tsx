@@ -112,7 +112,7 @@ const IndexContent = () => {
       {/* Navigation Menu */}
       <NavBar items={navItems} />
 
-      <main className="container mx-auto px-6 py-8 space-y-8">
+      <main className="container mx-auto px-6 py-8 space-y-8 bg-transparent">
         {/* Game Selection & Filters */}
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">

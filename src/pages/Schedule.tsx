@@ -87,7 +87,7 @@ export default function Schedule() {
       </div>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-4">
+      <main className="container mx-auto px-6 py-4 bg-transparent">
         {/* Loading State */}
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-20">

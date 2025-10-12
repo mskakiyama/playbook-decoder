@@ -170,7 +170,7 @@ export default function Glossary() {
       </section>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 pb-16">
+      <main className="container mx-auto px-6 pb-16 bg-transparent">
         {searchQuery.trim() && !hasResults && !searchLoading && (
           <div className="text-center py-12">
             <div className="bg-card/40 backdrop-blur-sm border border-border/30 rounded-lg p-8 max-w-md mx-auto">

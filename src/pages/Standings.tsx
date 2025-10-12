@@ -125,7 +125,7 @@ export default function Standings() {
       </div>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
+      <main className="container mx-auto px-6 py-8 bg-transparent">
         {/* Loading State */}
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-20">
