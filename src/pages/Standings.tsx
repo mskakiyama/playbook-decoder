@@ -29,7 +29,7 @@ export default function Standings() {
   const { data: standingsData, isLoading, isError, refetch } = useNFLStandings();
 
   const navItems = [
-    { name: 'Dashboard', url: '/home', icon: Home },
+    { name: t('common.home'), url: '/', icon: Home },
     { name: t('common.schedule'), url: '/schedule', icon: Calendar },
     { name: t('standings.title'), url: '/standings', icon: Trophy },
     { name: t('common.glossary'), url: '/glossary', icon: BookOpen }
