@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { StarBorder } from './star-border';
 
 // --- HELPER COMPONENTS (ICONS) ---
 
@@ -182,9 +183,14 @@ export const SignInPage: React.FC<SignInPageProps> = ({
             </button>
 
             {onSkip && (
-              <button onClick={onSkip} className="animate-element animate-delay-900 w-full text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
+              <StarBorder
+                as="button"
+                onClick={onSkip}
+                className="animate-element animate-delay-900 w-full"
+                speed="6s"
+              >
                 Skip for now
-              </button>
+              </StarBorder>
             )}
 
             <p className="animate-element animate-delay-1000 text-center text-sm" style={{ color: '#0E0F0F' }}>

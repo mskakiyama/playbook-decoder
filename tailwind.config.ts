@@ -125,6 +125,14 @@ export default {
             height: "0",
           },
         },
+        "star-movement-bottom": {
+          "0%": { transform: "translate(0%, 0%)", opacity: "1" },
+          "100%": { transform: "translate(-100%, 0%)", opacity: "0" },
+        },
+        "star-movement-top": {
+          "0%": { transform: "translate(0%, 0%)", opacity: "1" },
+          "100%": { transform: "translate(100%, 0%)", opacity: "0" },
+        },
         /* NFL Play Animation Effects */
         "play-highlight": {
           "0%": { transform: "scale(1)", boxShadow: "0 0 0 0 hsl(var(--accent) / 0.7)" },
@@ -173,7 +181,9 @@ export default {
         "play-highlight": "play-highlight 2s ease-in-out",
         "player-move": "player-move 3s ease-in-out infinite",
         "field-glow": "field-glow 3s ease-in-out infinite",
-        "score-pop": "score-pop 0.6s ease-out"
+        "score-pop": "score-pop 0.6s ease-out",
+        "star-movement-bottom": "star-movement-bottom linear infinite alternate",
+        "star-movement-top": "star-movement-top linear infinite alternate",
       },
     },
   },
