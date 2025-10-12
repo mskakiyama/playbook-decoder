@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { StarBorder } from './star-border';
+import { ShimmerButton } from './shimmer-button';
 
 // --- HELPER COMPONENTS (ICONS) ---
 
@@ -183,14 +183,16 @@ export const SignInPage: React.FC<SignInPageProps> = ({
             </button>
 
             {onSkip && (
-              <StarBorder
-                as="button"
+              <ShimmerButton
                 onClick={onSkip}
                 className="animate-element animate-delay-900 w-full"
-                speed="6s"
+                shimmerDuration="3s"
+                borderRadius="12px"
               >
-                Skip for now
-              </StarBorder>
+                <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight">
+                  Skip for now
+                </span>
+              </ShimmerButton>
             )}
 
             <p className="animate-element animate-delay-1000 text-center text-sm" style={{ color: '#0E0F0F' }}>
