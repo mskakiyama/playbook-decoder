@@ -1,104 +1,148 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { useToast } from '@/hooks/use-toast';
-import { SignInPage, Testimonial } from '@/components/ui/sign-in';
-import nflPlayerBg from '@/assets/nfl-player-bg.png';
-const testimonials: Testimonial[] = [{
-  avatarSrc: "https://randomuser.me/api/portraits/men/32.jpg",
-  name: "Tom Brady Fan",
-  handle: "@nflfanatic",
-  text: "This platform has completely transformed how I analyze NFL plays. Essential for any football enthusiast!"
-}, {
-  avatarSrc: "https://randomuser.me/api/portraits/women/44.jpg",
-  name: "Sarah Johnson",
-  handle: "@sportsanalyst",
-  text: "The detailed breakdowns and play-by-play analysis are unmatched. A must-have for serious NFL fans."
-}, {
-  avatarSrc: "https://randomuser.me/api/portraits/men/67.jpg",
-  name: "Mike Davis",
-  handle: "@coachmiked",
-  text: "As a coach, this tool helps me study game footage efficiently. The insights are incredibly valuable."
-}];
+import { useState, useEffect } from "react";
+import { GameSelector } from "@/components/GameSelector";
+import { PlayTimeline } from "@/components/PlayTimeline";
+import { PlayDiagram } from "@/components/PlayDiagram";
+import { PlayCard } from "@/components/PlayCard";
+import { FilterBar } from "@/components/FilterBar";
+import { PlaysGrid } from "@/components/PlaysGrid";
+import { useAllGames, usePlayByPlay } from "@/hooks/useNFLData";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import playerImage from "@/assets/player.svg";
+import player2Image from "@/assets/player2.svg";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { useNavigate } from "react-router-dom";
+import { NavBar } from "@/components/ui/tubelight-navbar";
+import { Home, Calendar, BookOpen, Trophy } from "lucide-react";
+import { LanguageDropdown } from "@/components/ui/language-dropdown";
+import { useTranslation } from "react-i18next";
+
 const Auth = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
+  const [selectedGame, setSelectedGame] = useState("");
+  const [selectedPlay, setSelectedPlay] = useState(0);
+  const [playFilter, setPlayFilter] = useState("all");
   const {
-    signUp,
-    signIn,
+    data: games
+  } = useAllGames();
+  const {
+    data: plays
+  } = usePlayByPlay(selectedGame);
+  const {
+    signOut,
     user
   } = useAuth();
-  const {
-    toast
-  } = useToast();
   const navigate = useNavigate();
 
-  // Redirect authenticated users to main page
+  const navItems = [
+    { name: 'Dashboard', url: '/home', icon: Home },
+    { name: t('common.schedule'), url: '/schedule', icon: Calendar },
+    { name: t('standings.title'), url: '/standings', icon: Trophy },
+    { name: t('common.glossary'), url: '/glossary', icon: BookOpen }
+  ];
+
+  // Set most recent completed game with available play-by-play data as default
   useEffect(() => {
-    if (user) {
-      navigate('/home');
-    }
-  }, [user, navigate]);
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    if (!email || !password) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive"
-      });
-      return;
-    }
-    setLoading(true);
-    try {
-      const {
-        error
-      } = isSignUp ? await signUp(email, password) : await signIn(email, password);
-      if (error) {
-        toast({
-          title: "Authentication Error",
-          description: error.message,
-          variant: "destructive"
-        });
-      } else if (isSignUp) {
-        toast({
-          title: "Check your email",
-          description: "We've sent you a confirmation link."
-        });
+    if (games && games.length > 0 && !selectedGame) {
+      // Filter to 2025 season completed games with play-by-play data, sorted by date (most recent first)
+      const completedGames = games
+        .filter(game => {
+          const isCompleted = game.quarter === 'Final' || game.quarter === 'F';
+          const is2025 = game.season === 2025;
+          const hasPlayByPlay = (game as any).playByPlayAvailable !== false; // Include if undefined or true
+          return isCompleted && is2025 && hasPlayByPlay;
+        })
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      
+      if (completedGames.length > 0) {
+        // Select the most recent game with available play-by-play data
+        setSelectedGame(completedGames[0].id);
+        console.log('Selected game:', completedGames[0].homeTeam, 'vs', completedGames[0].awayTeam);
+      } else {
+        // Fallback to any completed 2025 game if no games with playByPlayAvailable flag
+        const fallbackGames = games
+          .filter(game => {
+            const isCompleted = game.quarter === 'Final' || game.quarter === 'F';
+            const is2025 = game.season === 2025;
+            return isCompleted && is2025;
+          })
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        
+        if (fallbackGames.length > 0) {
+          setSelectedGame(fallbackGames[0].id);
+          console.log('Fallback selected game:', fallbackGames[0].homeTeam, 'vs', fallbackGames[0].awayTeam);
+        }
       }
-    } catch (err) {
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred",
-        variant: "destructive"
-      });
-    } finally {
-      setLoading(false);
     }
-  };
-  const handleGoogleSignIn = () => {
-    toast({
-      title: "Coming Soon",
-      description: "Google sign-in will be available soon!"
-    });
-  };
-  const handleResetPassword = () => {
-    toast({
-      title: "Reset Password",
-      description: "Password reset functionality coming soon!"
-    });
-  };
-  const handleToggleMode = () => {
-    setIsSignUp(!isSignUp);
-  };
-  const handleSkip = () => {
-    navigate('/home');
-  };
-  return <SignInPage title={isSignUp ? <span className="font-light text-foreground tracking-tighter">Create Account</span> : <span className="font-light tracking-tighter" style={{
-    color: '#0E0F0F'
-  }}>NFL Plays Breakdown</span>} description={isSignUp ? "Join NFL Plays Breakdown and start analyzing every play like a pro" : "Access your account and dive deep into NFL play analysis"} heroImageSrc={nflPlayerBg} testimonials={testimonials} onSignIn={handleFormSubmit} onGoogleSignIn={handleGoogleSignIn} onResetPassword={handleResetPassword} onCreateAccount={handleToggleMode} onSkip={handleSkip} loading={loading} showSignUp={isSignUp} />;
+  }, [games, selectedGame]);
+  const filteredPlays = playFilter === "all" ? plays || [] : (plays || []).filter(play => play.playType === playFilter);
+  return <div className="min-h-screen bg-black">
+      {/* Hero Header */}
+      <header className="relative h-80 flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"></div>
+        
+        {/* Header Controls */}
+        <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
+          <LanguageDropdown />
+          {user ? (
+            <Button variant="glass" onClick={signOut} className="shadow-glass">
+              {t('common.signOut')}
+            </Button>
+          ) : (
+            <ShimmerButton onClick={() => navigate('/')} className="shadow-glass">
+              <span className="text-sm font-medium">{t('common.signIn')}</span>
+            </ShimmerButton>
+          )}
+        </div>
+
+        <div className="relative z-10 flex items-center justify-center max-w-4xl mx-auto px-6">
+          <img src={playerImage} alt="Football Player" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
+          <div className="text-center mx-8">
+          <h1 className="text-3xl sm:text-4xl font-oswald font-bold text-white mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent leading-tight lg:text-7xl whitespace-nowrap">
+            {t('home.title')}
+          </h1>
+            <p className="text-lg sm:text-xl text-white/90 leading-normal">
+              {t('home.subtitle')}
+            </p>
+          </div>
+          <img src={player2Image} alt="Football Player 2" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
+        </div>
+      </header>
+
+      {/* Navigation Menu */}
+      <NavBar items={navItems} />
+
+      <main className="container mx-auto px-6 py-8 space-y-8 bg-transparent">
+        {/* Game Selection & Filters */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            <GameSelector selectedGame={selectedGame} onGameChange={setSelectedGame} />
+            
+            {/* All Plays Grid - Shows when "All Plays" filter is selected */}
+            {playFilter === "all" && <PlaysGrid plays={filteredPlays} onPlaySelect={setSelectedPlay} />}
+          </div>
+          <aside className="space-y-8">
+            <FilterBar activeFilter={playFilter} onFilterChange={setPlayFilter} plays={plays} />
+          </aside>
+        </section>
+
+        {/* Main Content Grid - Hidden when All Plays is selected */}
+        {playFilter !== "all" && <section className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            {/* Play Timeline */}
+            <aside className="xl:col-span-1">
+              <PlayTimeline plays={filteredPlays} selectedPlay={selectedPlay} onPlaySelect={setSelectedPlay} />
+            </aside>
+
+            {/* Play Details & Diagram */}
+            <div className="xl:col-span-2 space-y-8">
+              {/* Selected Play Card */}
+              {filteredPlays.length > 0 && filteredPlays[selectedPlay] && <PlayCard play={filteredPlays[selectedPlay]} expanded={true} />}
+
+              {/* Interactive Play Diagram */}
+              <PlayDiagram play={filteredPlays[selectedPlay]} />
+            </div>
+          </section>}
+      </main>
+    </div>;
 };
 export default Auth;
