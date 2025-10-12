@@ -81,7 +81,7 @@ export default function Glossary() {
   const stats = useGlossaryStats();
 
   const navItems = [
-    { name: t('common.home'), url: '/dashboard', icon: Home },
+    { name: t('common.home'), url: '/', icon: Home },
     { name: t('common.schedule'), url: '/schedule', icon: Calendar },
     { name: t('standings.title'), url: '/standings', icon: Trophy },
     { name: t('common.glossary'), url: '/glossary', icon: BookOpen }
@@ -128,7 +128,7 @@ export default function Glossary() {
               {t('common.signOut')}
             </Button>
           ) : (
-            <ShimmerButton onClick={() => navigate('/')} className="shadow-glass">
+            <ShimmerButton onClick={() => navigate('/auth')} className="shadow-glass">
               <span className="text-sm font-medium">{t('common.signIn')}</span>
             </ShimmerButton>
           )}
