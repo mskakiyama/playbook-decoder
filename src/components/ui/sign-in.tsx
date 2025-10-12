@@ -131,24 +131,24 @@ export const SignInPage: React.FC<SignInPageProps> = ({
       <section className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="flex flex-col gap-6">
-            <h1 className="animate-element animate-delay-100 text-4xl md:text-5xl font-semibold leading-tight">{title}</h1>
-            <p className="animate-element animate-delay-200 text-muted-foreground">{description}</p>
+            <h1 className="animate-element animate-delay-100 text-4xl md:text-5xl font-semibold leading-tight" style={{ color: '#0E0F0F' }}>{title}</h1>
+            <p className="animate-element animate-delay-200" style={{ color: '#0E0F0F' }}>{description}</p>
 
             <form className="space-y-5" onSubmit={onSignIn}>
               <div className="animate-element animate-delay-300">
-                <label className="text-sm font-medium text-muted-foreground">Email Address</label>
+                <label className="text-sm font-medium" style={{ color: '#0E0F0F' }}>Email Address</label>
                 <GlassInputWrapper>
-                  <input name="email" type="email" placeholder="Enter your email address" className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none" />
+                  <input name="email" type="email" placeholder="Enter your email address" className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none" style={{ color: '#0E0F0F' }} />
                 </GlassInputWrapper>
               </div>
 
               <div className="animate-element animate-delay-400">
-                <label className="text-sm font-medium text-muted-foreground">Password</label>
+                <label className="text-sm font-medium" style={{ color: '#0E0F0F' }}>Password</label>
                 <GlassInputWrapper>
                   <div className="relative">
-                    <input name="password" type={showPassword ? 'text' : 'password'} placeholder="Enter your password" className="w-full bg-transparent text-sm p-4 pr-12 rounded-2xl focus:outline-none" />
+                    <input name="password" type={showPassword ? 'text' : 'password'} placeholder="Enter your password" className="w-full bg-transparent text-sm p-4 pr-12 rounded-2xl focus:outline-none" style={{ color: '#0E0F0F' }} />
                     <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-3 flex items-center">
-                      {showPassword ? <EyeOff className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" /> : <Eye className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />}
+                      {showPassword ? <EyeOff className="w-5 h-5 transition-colors" style={{ color: '#0E0F0F' }} /> : <Eye className="w-5 h-5 transition-colors" style={{ color: '#0E0F0F' }} />}
                     </button>
                   </div>
                 </GlassInputWrapper>
@@ -158,7 +158,7 @@ export const SignInPage: React.FC<SignInPageProps> = ({
                 <div className="animate-element animate-delay-500 flex items-center justify-between text-sm">
                   <label className="flex items-center gap-3 cursor-pointer">
                     <input type="checkbox" name="rememberMe" className="custom-checkbox" />
-                    <span className="text-foreground/90">Keep me signed in</span>
+                    <span style={{ color: '#0E0F0F' }}>Keep me signed in</span>
                   </label>
                   <a href="#" onClick={(e) => { e.preventDefault(); onResetPassword?.(); }} className="hover:underline text-violet-400 transition-colors">Reset password</a>
                 </div>
@@ -171,15 +171,15 @@ export const SignInPage: React.FC<SignInPageProps> = ({
 
             <div className="animate-element animate-delay-700 relative flex items-center justify-center">
               <span className="w-full border-t border-border"></span>
-              <span className="px-4 text-sm text-muted-foreground bg-background absolute">Or continue with</span>
+              <span className="px-4 text-sm bg-background absolute" style={{ color: '#0E0F0F' }}>Or continue with</span>
             </div>
 
-            <button onClick={onGoogleSignIn} className="animate-element animate-delay-800 w-full flex items-center justify-center gap-3 border border-border rounded-2xl py-4 hover:bg-secondary transition-colors">
+            <button onClick={onGoogleSignIn} className="animate-element animate-delay-800 w-full flex items-center justify-center gap-3 border border-border rounded-2xl py-4 hover:bg-secondary transition-colors" style={{ color: '#0E0F0F' }}>
                 <GoogleIcon />
                 Continue with Google
             </button>
 
-            <p className="animate-element animate-delay-900 text-center text-sm text-muted-foreground">
+            <p className="animate-element animate-delay-900 text-center text-sm" style={{ color: '#0E0F0F' }}>
               {showSignUp ? 'Already have an account?' : 'New to our platform?'} <a href="#" onClick={(e) => { e.preventDefault(); onCreateAccount?.(); }} className="text-violet-400 hover:underline transition-colors">{showSignUp ? 'Sign In' : 'Create Account'}</a>
             </p>
           </div>
