@@ -15,6 +15,8 @@ import { StandingsTable } from "@/components/StandingsTable";
 import { PlayoffPicture } from "@/components/PlayoffPicture";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { NFLStandingsAPI } from "@/lib/nfl-standings-api";
+import { PowerRankings } from "@/components/PowerRankings";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Standings() {
   const { t } = useTranslation();
@@ -166,67 +168,86 @@ export default function Standings() {
               </p>
             </div>
 
-            {/* No Results Message */}
-            {!hasResults && (
-              <div className="text-center py-12">
-                <div className="bg-card/40 backdrop-blur-sm border border-border/30 rounded-lg p-8 max-w-md mx-auto">
-                  <h3 className="text-xl font-semibold text-foreground mb-2">
-                    {t('standings.noResults')}
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {t('standings.noResultsMessage')}
-                  </p>
-                </div>
-              </div>
-            )}
+            {/* Tabs for Standings and Power Rankings */}
+            <Tabs defaultValue="standings" className="w-full">
+              <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
+                <TabsTrigger value="standings" className="font-semibold">
+                  Division Standings
+                </TabsTrigger>
+                <TabsTrigger value="power-rankings" className="font-semibold">
+                  Power Rankings
+                </TabsTrigger>
+              </TabsList>
 
-            {/* Conferences */}
-            {hasResults && (
-              <Accordion type="multiple" defaultValue={["AFC", "NFC"]} className="space-y-6">
-                {filteredConferences.map((conference) => (
-                  <AccordionItem
-                    key={conference.name}
-                    value={conference.name}
-                    className="bg-card/20 backdrop-blur-sm border border-border/30 rounded-lg overflow-hidden"
-                  >
-                    <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                      <div className="flex items-center space-x-4">
-                        <div className={`w-4 h-4 rounded-full ${
-                          conference.name === 'AFC' 
-                            ? 'bg-gradient-to-r from-red-500 to-red-600'
-                            : 'bg-gradient-to-r from-blue-500 to-blue-600'
-                        }`}></div>
-                        <span className="font-oswald font-bold text-2xl">{conference.name}</span>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="px-6 pb-6">
-                      <div className="space-y-6">
-                        {conference.divisions.map((division) => (
-                          <div key={division.name} className="space-y-3">
-                            <h3 className="text-lg font-sans font-bold text-foreground flex items-center gap-2">
-                              <span className="w-2 h-2 rounded-full bg-primary"></span>
-                              {conference.name} {division.name}
-                            </h3>
-                            <StandingsTable
-                              teams={division.teams}
-                              divisionName={division.name}
-                              conferenceName={conference.name}
-                            />
+              <TabsContent value="standings" className="space-y-12">
+                {/* No Results Message */}
+                {!hasResults && (
+                  <div className="text-center py-12">
+                    <div className="bg-card/40 backdrop-blur-sm border border-border/30 rounded-lg p-8 max-w-md mx-auto">
+                      <h3 className="text-xl font-semibold text-foreground mb-2">
+                        {t('standings.noResults')}
+                      </h3>
+                      <p className="text-muted-foreground">
+                        {t('standings.noResultsMessage')}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Conferences */}
+                {hasResults && (
+                  <Accordion type="multiple" defaultValue={["AFC", "NFC"]} className="space-y-6">
+                    {filteredConferences.map((conference) => (
+                      <AccordionItem
+                        key={conference.name}
+                        value={conference.name}
+                        className="bg-card/20 backdrop-blur-sm border border-border/30 rounded-lg overflow-hidden"
+                      >
+                        <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                          <div className="flex items-center space-x-4">
+                            <div className={`w-4 h-4 rounded-full ${
+                              conference.name === 'AFC' 
+                                ? 'bg-gradient-to-r from-red-500 to-red-600'
+                                : 'bg-gradient-to-r from-blue-500 to-blue-600'
+                            }`}></div>
+                            <span className="font-oswald font-bold text-2xl">{conference.name}</span>
                           </div>
-                        ))}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            )}
+                        </AccordionTrigger>
+                        <AccordionContent className="px-6 pb-6">
+                          <div className="space-y-6">
+                            {conference.divisions.map((division) => (
+                              <div key={division.name} className="space-y-3">
+                                <h3 className="text-lg font-sans font-bold text-foreground flex items-center gap-2">
+                                  <span className="w-2 h-2 rounded-full bg-primary"></span>
+                                  {conference.name} {division.name}
+                                </h3>
+                                <StandingsTable
+                                  teams={division.teams}
+                                  divisionName={division.name}
+                                  conferenceName={conference.name}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                )}
 
-            {/* Playoff Picture */}
-            {!isLoading && !isError && standingsData && !searchQuery && conferenceFilter === "all" && divisionFilter === "all" && (
-              <div className="mt-16">
-                <PlayoffPicture standingsData={standingsData} />
-              </div>
-            )}
+                {/* Playoff Picture */}
+                {!searchQuery && conferenceFilter === "all" && divisionFilter === "all" && (
+                  <div className="mt-16">
+                    <PlayoffPicture standingsData={standingsData} />
+                  </div>
+                )}
+              </TabsContent>
+
+              <TabsContent value="power-rankings">
+                <PowerRankings />
+              </TabsContent>
+            </Tabs>
+
 
             {/* View Schedule Button */}
             <div className="text-center pt-8">
