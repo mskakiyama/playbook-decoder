@@ -31,6 +31,7 @@ interface SignInPageProps {
   onGoogleSignIn?: () => void;
   onResetPassword?: () => void;
   onCreateAccount?: () => void;
+  onSkip?: () => void;
   loading?: boolean;
   showSignUp?: boolean;
 }
@@ -65,6 +66,7 @@ export const SignInPage: React.FC<SignInPageProps> = ({
   onGoogleSignIn,
   onResetPassword,
   onCreateAccount,
+  onSkip,
   loading = false,
   showSignUp = false,
 }) => {
@@ -179,7 +181,13 @@ export const SignInPage: React.FC<SignInPageProps> = ({
                 Continue with Google
             </button>
 
-            <p className="animate-element animate-delay-900 text-center text-sm" style={{ color: '#0E0F0F' }}>
+            {onSkip && (
+              <button onClick={onSkip} className="animate-element animate-delay-900 w-full text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
+                Skip for now
+              </button>
+            )}
+
+            <p className="animate-element animate-delay-1000 text-center text-sm" style={{ color: '#0E0F0F' }}>
               {showSignUp ? 'Already have an account?' : 'New to our platform?'} <a href="#" onClick={(e) => { e.preventDefault(); onCreateAccount?.(); }} className="text-violet-400 hover:underline transition-colors">{showSignUp ? 'Sign In' : 'Create Account'}</a>
             </p>
           </div>

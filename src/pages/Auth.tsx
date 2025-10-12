@@ -102,6 +102,10 @@ const Auth = () => {
     setIsSignUp(!isSignUp);
   };
 
+  const handleSkip = () => {
+    navigate('/');
+  };
+
   return (
     <SignInPage
       title={
@@ -122,6 +126,7 @@ const Auth = () => {
       onGoogleSignIn={handleGoogleSignIn}
       onResetPassword={handleResetPassword}
       onCreateAccount={handleToggleMode}
+      onSkip={handleSkip}
       loading={loading}
       showSignUp={isSignUp}
     />
