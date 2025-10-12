@@ -36,7 +36,7 @@ const Auth = () => {
   // Redirect authenticated users to main page
   useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate('/home');
     }
   }, [user, navigate]);
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -95,7 +95,7 @@ const Auth = () => {
     setIsSignUp(!isSignUp);
   };
   const handleSkip = () => {
-    navigate('/');
+    navigate('/home');
   };
   return <SignInPage title={isSignUp ? <span className="font-light text-foreground tracking-tighter">Create Account</span> : <span className="font-light tracking-tighter" style={{
     color: '#0E0F0F'
