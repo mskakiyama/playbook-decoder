@@ -173,8 +173,7 @@ export const SignInPage: React.FC<SignInPageProps> = ({
             </form>
 
             <div className="animate-element animate-delay-700 relative flex items-center justify-center">
-              <span className="w-full border-t border-border"></span>
-              <span className="px-4 text-sm bg-background absolute" style={{ color: '#0E0F0F' }}>Or continue with</span>
+              <span className="px-4 text-sm bg-background" style={{ color: '#0E0F0F' }}>Or continue with</span>
             </div>
 
             <button onClick={onGoogleSignIn} className="animate-element animate-delay-800 w-full flex items-center justify-center gap-3 border border-border rounded-2xl py-4 hover:bg-secondary transition-colors" style={{ color: '#0E0F0F' }}>
