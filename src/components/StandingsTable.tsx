@@ -1,23 +1,61 @@
 import { useState } from "react";
 import { TeamStandings } from "@/lib/nfl-standings-api";
+import { LiveGame } from "@/lib/real-time-standings-api";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
-import { Trophy, TrendingUp, TrendingDown, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { Trophy, TrendingUp, TrendingDown, ArrowUpDown, ArrowUp, ArrowDown, Radio } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface StandingsTableProps {
   teams: TeamStandings[];
   divisionName: string;
   conferenceName: string;
+  liveGames?: LiveGame[];
 }
 
 type SortField = 'rank' | 'team' | 'winPct' | 'div' | 'conf' | 'pf' | 'pa' | 'streak';
 type SortDirection = 'asc' | 'desc';
 
-export const StandingsTable = ({ teams, divisionName, conferenceName }: StandingsTableProps) => {
+export const StandingsTable = ({ teams, divisionName, conferenceName, liveGames = [] }: StandingsTableProps) => {
   const { t } = useTranslation();
   const [sortField, setSortField] = useState<SortField>('rank');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  
+  // Check if team is in a live game
+  const isTeamLive = (abbr: string): LiveGame | undefined => {
+    return liveGames.find(game => 
+      game.homeTeam.abbr === abbr || game.awayTeam.abbr === abbr
+    );
+  };
+  
+  const getPlayoffBadge = (clinchIndicator?: string) => {
+    if (!clinchIndicator) return null;
+    
+    const badges: Record<string, { text: string; variant: string }> = {
+      'x': { text: '✓ Clinched Playoff', variant: 'success' },
+      'y': { text: '✓ Clinched Division', variant: 'success' },
+      'z': { text: '✓ Clinched Bye', variant: 'gold' },
+      'e': { text: '✗ Eliminated', variant: 'destructive' }
+    };
+    
+    const badge = badges[clinchIndicator.toLowerCase()];
+    if (!badge) return null;
+    
+    return (
+      <Badge 
+        variant="outline" 
+        className={cn(
+          "text-xs ml-2",
+          badge.variant === 'success' && "border-success-green/40 text-success-green",
+          badge.variant === 'gold' && "border-touchdown-gold/40 text-touchdown-gold",
+          badge.variant === 'destructive' && "border-destructive/40 text-destructive"
+        )}
+      >
+        {badge.text}
+      </Badge>
+    );
+  };
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -119,6 +157,7 @@ export const StandingsTable = ({ teams, divisionName, conferenceName }: Standing
               {t('standings.pa')}
               {getSortIcon('pa')}
             </TableHead>
+            <TableHead className="text-center hidden lg:table-cell">PD</TableHead>
             <TableHead className="text-center hidden xl:table-cell">{t('standings.home')}</TableHead>
             <TableHead className="text-center hidden xl:table-cell">{t('standings.away')}</TableHead>
             <TableHead 
@@ -131,13 +170,16 @@ export const StandingsTable = ({ teams, divisionName, conferenceName }: Standing
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sortedTeams.map((team) => (
+          {sortedTeams.map((team) => {
+            const liveGame = isTeamLive(team.abbreviation);
+            return (
             <TableRow
               key={team.abbreviation}
               className={cn(
-                "border-border/30 transition-colors",
+                "border-border/30 transition-colors cursor-pointer",
                 team.rank === 1 && "bg-success-green/10 hover:bg-success-green/15",
-                isWildCardContender(team.rank, team.winPct) && "bg-primary/5 hover:bg-primary/10"
+                isWildCardContender(team.rank, team.winPct) && "bg-primary/5 hover:bg-primary/10",
+                liveGame && "bg-red-500/5 border-l-4 border-l-red-500 animate-pulse"
               )}
             >
               <TableCell className="text-center font-medium">
@@ -159,8 +201,17 @@ export const StandingsTable = ({ teams, divisionName, conferenceName }: Standing
                       className="h-6 w-6 object-contain"
                     />
                   )}
-                  <div>
-                    <div className="font-medium text-foreground">{team.team}</div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-medium text-foreground">{team.team}</span>
+                      {liveGame && (
+                        <Badge className="bg-red-500 text-white text-xs animate-pulse">
+                          <Radio className="h-3 w-3 mr-1" />
+                          LIVE
+                        </Badge>
+                      )}
+                      {getPlayoffBadge(team.clinchIndicator)}
+                    </div>
                     <div className="text-xs text-muted-foreground sm:hidden">
                       {team.winPct.toFixed(3)}
                     </div>
@@ -171,7 +222,15 @@ export const StandingsTable = ({ teams, divisionName, conferenceName }: Standing
                 {team.record}
               </TableCell>
               <TableCell className="text-center font-mono text-sm hidden sm:table-cell">
-                {team.winPct.toFixed(3)}
+                <span className={cn(
+                  "font-semibold",
+                  team.winPct >= 0.750 && "text-success-green",
+                  team.winPct >= 0.500 && team.winPct < 0.750 && "text-field-green",
+                  team.winPct >= 0.400 && team.winPct < 0.500 && "text-yellow-500",
+                  team.winPct < 0.400 && "text-destructive"
+                )}>
+                  {team.winPct.toFixed(3)}
+                </span>
               </TableCell>
               <TableCell className="text-center font-mono text-xs text-muted-foreground hidden md:table-cell">
                 {team.div}
@@ -184,6 +243,16 @@ export const StandingsTable = ({ teams, divisionName, conferenceName }: Standing
               </TableCell>
               <TableCell className="text-center font-mono text-sm hidden lg:table-cell">
                 {team.pa}
+              </TableCell>
+              <TableCell className="text-center font-mono text-sm hidden lg:table-cell">
+                <span className={cn(
+                  "font-bold",
+                  team.pf - team.pa > 0 && "text-success-green",
+                  team.pf - team.pa < 0 && "text-destructive",
+                  team.pf - team.pa === 0 && "text-muted-foreground"
+                )}>
+                  {team.pf - team.pa > 0 ? '+' : ''}{team.pf - team.pa}
+                </span>
               </TableCell>
               <TableCell className="text-center font-mono text-xs text-muted-foreground hidden xl:table-cell">
                 {team.home}
@@ -198,7 +267,7 @@ export const StandingsTable = ({ teams, divisionName, conferenceName }: Standing
                 </div>
               </TableCell>
             </TableRow>
-          ))}
+          )})}
         </TableBody>
       </Table>
     </div>

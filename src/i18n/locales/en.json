@@ -104,6 +104,15 @@
     "refresh": "Refresh Data",
     "sortBy": "Sort by",
     "loading": "Loading standings...",
-    "errorLoading": "Failed to load standings"
+    "errorLoading": "Failed to load standings",
+    "liveGames": "Live Games",
+    "ultraLiveMode": "Ultra Live Mode - 15s Updates",
+    "pointDifferential": "PD",
+    "clinched": "Clinched",
+    "eliminated": "Eliminated",
+    "inTheHunt": "In The Hunt",
+    "playoffPercentage": "Playoff %",
+    "pullToRefresh": "Pull to refresh",
+    "releaseToRefresh": "Release to refresh"
   }
 }

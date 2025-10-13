@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Home, Calendar, Trophy, BookOpen } from "lucide-react";
 import { NavBar } from "@/components/ui/tubelight-navbar";
@@ -7,16 +7,19 @@ import { StandingsFilters } from "@/components/StandingsFilters";
 import { StandingsTable } from "@/components/StandingsTable";
 import { PlayoffPicture } from "@/components/PlayoffPicture";
 import { StandingsRealTimeClock } from "@/components/StandingsRealTimeClock";
+import { LiveGamesTicker } from "@/components/LiveGamesTicker";
 import { useNFLStandings } from "@/hooks/useNFLStandings";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
 import playerImage from "@/assets/player.svg";
 import player2Image from "@/assets/player2.svg";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
+import { NFLStandingsAPI } from "@/lib/nfl-standings-api";
 
 const Standings = () => {
   const { t } = useTranslation();
@@ -26,6 +29,14 @@ const Standings = () => {
   const [conferenceFilter, setConferenceFilter] = useState("all");
   const [divisionFilter, setDivisionFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  
+  // Pull-to-refresh state
+  const [pullDistance, setPullDistance] = useState(0);
+  const [isPulling, setIsPulling] = useState(false);
+  const startYRef = useRef(0);
+  
+  const gameTimeStatus = NFLStandingsAPI.isGameTime();
+  const liveGames = standingsData?.liveGames || [];
 
   const navItems = [
     { name: t('common.home'), url: '/', icon: Home },
@@ -71,6 +82,47 @@ const Standings = () => {
 
   const allTeams = getAllTeams();
 
+  // Pull-to-refresh handlers
+  useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) => {
+      if (window.scrollY === 0) {
+        startYRef.current = e.touches[0].clientY;
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (window.scrollY !== 0) return;
+      
+      const currentY = e.touches[0].clientY;
+      const distance = currentY - startYRef.current;
+      
+      if (distance > 0) {
+        setPullDistance(Math.min(distance, 100));
+        if (distance > 70) {
+          setIsPulling(true);
+        }
+      }
+    };
+
+    const handleTouchEnd = () => {
+      if (isPulling) {
+        refetch();
+      }
+      setPullDistance(0);
+      setIsPulling(false);
+    };
+
+    document.addEventListener('touchstart', handleTouchStart);
+    document.addEventListener('touchmove', handleTouchMove);
+    document.addEventListener('touchend', handleTouchEnd);
+    
+    return () => {
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [isPulling, refetch]);
+
   return (
     <div className="min-h-screen bg-black">
       {/* Hero Header */}
@@ -102,8 +154,18 @@ const Standings = () => {
             <h1 className="text-3xl sm:text-4xl font-oswald font-bold text-white mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent leading-tight lg:text-7xl">
               {t('standings.pageTitle')}
             </h1>
-            <p className="text-lg sm:text-xl text-white/90 leading-normal">
-              {t('standings.subtitle')}
+            <p className="text-lg sm:text-xl text-white/90 leading-normal flex items-center justify-center gap-2 flex-wrap">
+              {standingsData?.week && (
+                <Badge variant="outline" className="bg-primary/20 text-primary border-primary/40 font-semibold">
+                  Week {standingsData.week}
+                </Badge>
+              )}
+              {gameTimeStatus.isGameDay && (
+                <Badge className="bg-red-500/90 text-white border-red-400 animate-pulse font-semibold">
+                  🔴 LIVE MODE - 15s Updates
+                </Badge>
+              )}
+              <span>{t('standings.subtitle')}</span>
             </p>
           </div>
           <img src={player2Image} alt="Football Player 2" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
@@ -112,6 +174,25 @@ const Standings = () => {
 
       {/* Navigation Menu */}
       <NavBar items={navItems} />
+
+      {/* Pull to Refresh Indicator */}
+      {pullDistance > 0 && (
+        <div 
+          className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center transition-all"
+          style={{ height: `${pullDistance}px` }}
+        >
+          <div className="text-white text-sm font-medium">
+            {isPulling ? '↻ Release to refresh' : '↓ Pull to refresh'}
+          </div>
+        </div>
+      )}
+
+      {/* Live Games Ticker */}
+      {liveGames.length > 0 && (
+        <div className="bg-black/80 backdrop-blur-sm border-b border-red-500/30">
+          <LiveGamesTicker games={liveGames} />
+        </div>
+      )}
 
       {/* Update Info Bar */}
       <div className="bg-card/20 backdrop-blur-sm border-b border-border/30 py-3">
@@ -170,7 +251,7 @@ const Standings = () => {
                     AFC
                   </h2>
                   <div className="grid gap-6 lg:grid-cols-2">
-                    {['North', 'South', 'East', 'West'].map(division => {
+                  {['North', 'South', 'East', 'West'].map(division => {
                       const teams = filterTeams(getTeamsByDivision(allTeams, division), 'AFC');
                       if (teams.length === 0) return null;
                       return (
@@ -179,6 +260,7 @@ const Standings = () => {
                           teams={teams}
                           divisionName={division}
                           conferenceName="AFC"
+                          liveGames={liveGames}
                         />
                       );
                     })}
@@ -191,7 +273,7 @@ const Standings = () => {
                     NFC
                   </h2>
                   <div className="grid gap-6 lg:grid-cols-2">
-                    {['North', 'South', 'East', 'West'].map(division => {
+                  {['North', 'South', 'East', 'West'].map(division => {
                       const teams = filterTeams(getTeamsByDivision(allTeams, division), 'NFC');
                       if (teams.length === 0) return null;
                       return (
@@ -200,6 +282,7 @@ const Standings = () => {
                           teams={teams}
                           divisionName={division}
                           conferenceName="NFC"
+                          liveGames={liveGames}
                         />
                       );
                     })}
@@ -219,6 +302,7 @@ const Standings = () => {
                         teams={teams}
                         divisionName={division}
                         conferenceName="AFC"
+                        liveGames={liveGames}
                       />
                     );
                   })}
@@ -237,6 +321,7 @@ const Standings = () => {
                         teams={teams}
                         divisionName={division}
                         conferenceName="NFC"
+                        liveGames={liveGames}
                       />
                     );
                   })}
