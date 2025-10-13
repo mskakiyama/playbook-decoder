@@ -117,7 +117,7 @@ export default function StandingsRealtime() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-background">
       {/* Hero Header */}
       <header className="relative h-80 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm">
