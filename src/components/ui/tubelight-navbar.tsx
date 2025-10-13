@@ -40,11 +40,11 @@ export function NavBar({ items, className }: NavBarProps) {
   return (
     <div
       className={cn(
-        "flex justify-center z-50 mb-8 -mt-6",
+        "w-full px-6 flex justify-center z-50 mb-8 -mt-6",
         className,
       )}
     >
-      <div className="flex items-center gap-3 bg-background/5 border border-border backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
+      <div className="flex items-center justify-between w-full max-w-7xl bg-background/5 border border-border backdrop-blur-lg py-1 px-6 rounded-full shadow-lg">
         {items.map((item) => {
           const Icon = item.icon
           const isActive = activeTab === item.name
