@@ -38,13 +38,11 @@ export function ScheduleHeader({ onSearch, searchQuery }: ScheduleHeaderProps) {
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80">
       <div className="container mx-auto px-6 pb-4">
         {/* Header Content */}
-        <div className="flex items-center justify-center">
-          {/* Main Title */}
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              {t('schedule.title')}
-            </h1>
-          </div>
+        {/* Main Title */}
+        <div className="text-center">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            {t('schedule.title')}
+          </h1>
         </div>
 
         {/* Search Bar */}
