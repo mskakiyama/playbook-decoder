@@ -140,7 +140,7 @@ const IndexContent = () => {
 
         {/* Horizontal Play Timeline - Below Game Selector */}
         {playFilter !== "all" && (
-          <section className="-mx-6">
+          <section className="w-full lg:w-2/3">
             <PlayTimeline plays={filteredPlays} selectedPlay={selectedPlay} onPlaySelect={setSelectedPlay} />
           </section>
         )}
