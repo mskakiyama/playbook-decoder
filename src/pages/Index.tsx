@@ -17,7 +17,6 @@ import { NavBar } from "@/components/ui/tubelight-navbar";
 import { Home, Calendar, BookOpen, Trophy } from "lucide-react";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
 import { useTranslation } from "react-i18next";
-import { Separator } from "@/components/ui/separator";
 const IndexContent = () => {
   const { t } = useTranslation();
   const [selectedGame, setSelectedGame] = useState("");
@@ -138,11 +137,6 @@ const IndexContent = () => {
             <FilterBar activeFilter={playFilter} onFilterChange={setPlayFilter} plays={plays} />
           </aside>
         </section>
-
-        {/* Full-width separator */}
-        <div className="-mx-6">
-          <Separator className="bg-border/30" />
-        </div>
 
         {/* Horizontal Play Timeline - Below Game Selector */}
         {playFilter !== "all" && (
