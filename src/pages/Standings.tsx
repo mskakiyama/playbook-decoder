@@ -11,9 +11,17 @@ import { useNFLStandings } from "@/hooks/useNFLStandings";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { useNavigate } from "react-router-dom";
+import playerImage from "@/assets/player.svg";
+import player2Image from "@/assets/player2.svg";
+import { LanguageDropdown } from "@/components/ui/language-dropdown";
 
 const Standings = () => {
   const { t } = useTranslation();
+  const { signOut, user } = useAuth();
+  const navigate = useNavigate();
   const { data: standingsData, isLoading, error, refetch, isRefetching } = useNFLStandings();
   const [conferenceFilter, setConferenceFilter] = useState("all");
   const [divisionFilter, setDivisionFilter] = useState("all");
@@ -64,30 +72,56 @@ const Standings = () => {
   const allTeams = getAllTeams();
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-background/95 via-background/98 to-background/95 border-b border-border/40">
-        <div className="container mx-auto px-6 py-6">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent" style={{ fontFamily: 'Oswald, sans-serif' }}>
-                {t('standings.pageTitle')}
-              </h1>
-              <p className="text-muted-foreground mt-2" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                {t('standings.subtitle')}
-              </p>
-            </div>
-            <StandingsRealTimeClock 
-              isRefetching={isRefetching} 
-              onRefresh={() => refetch()} 
-            />
+    <div className="min-h-screen bg-black">
+      {/* Hero Header */}
+      <header className="relative h-80 flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"></div>
+        
+        {/* Sign In/Out - Top Left */}
+        <div className="absolute top-6 left-6 z-20">
+          {user ? (
+            <Button variant="glass" onClick={signOut} className="shadow-glass">
+              {t('common.signOut')}
+            </Button>
+          ) : (
+            <ShimmerButton onClick={() => navigate('/auth')} className="shadow-glass">
+              <span className="text-sm font-medium">{t('common.signIn')}</span>
+            </ShimmerButton>
+          )}
+        </div>
+
+        {/* Language Dropdown - Top Right */}
+        <div className="absolute top-6 right-6 z-20">
+          <LanguageDropdown />
+        </div>
+
+        {/* Center Content with Player Images */}
+        <div className="relative z-10 flex items-center justify-center max-w-4xl mx-auto px-6">
+          <img src={playerImage} alt="Football Player" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
+          <div className="text-center mx-8">
+            <h1 className="text-3xl sm:text-4xl font-oswald font-bold text-white mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent leading-tight lg:text-7xl">
+              {t('standings.pageTitle')}
+            </h1>
+            <p className="text-lg sm:text-xl text-white/90 leading-normal">
+              {t('standings.subtitle')}
+            </p>
           </div>
-          <NavBar items={navItems} />
+          <img src={player2Image} alt="Football Player 2" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
         </div>
       </header>
 
+      {/* Navigation Menu */}
+      <NavBar items={navItems} />
+
+      {/* Update Info Bar */}
+      <div className="bg-card/20 backdrop-blur-sm border-b border-border/30 py-3">
+        <div className="container mx-auto px-6">
+          <StandingsRealTimeClock isRefetching={isRefetching} onRefresh={() => refetch()} />
+        </div>
+      </div>
+
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
+      <main className="container mx-auto px-6 py-8 bg-transparent">
         {/* Filters */}
         <StandingsFilters
           conferenceFilter={conferenceFilter}
@@ -132,7 +166,7 @@ const Standings = () => {
               <TabsContent value="all" className="space-y-8">
                 {/* AFC */}
                 <div className="space-y-6">
-                  <h2 className="text-3xl font-bold text-primary" style={{ fontFamily: 'Oswald, sans-serif' }}>
+                  <h2 className="text-3xl font-oswald font-bold text-primary">
                     AFC
                   </h2>
                   <div className="grid gap-6 lg:grid-cols-2">
@@ -153,7 +187,7 @@ const Standings = () => {
 
                 {/* NFC */}
                 <div className="space-y-6">
-                  <h2 className="text-3xl font-bold text-primary" style={{ fontFamily: 'Oswald, sans-serif' }}>
+                  <h2 className="text-3xl font-oswald font-bold text-primary">
                     NFC
                   </h2>
                   <div className="grid gap-6 lg:grid-cols-2">
@@ -227,9 +261,25 @@ const Standings = () => {
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 py-8 border-t border-border/40">
-        <div className="container mx-auto px-6 text-center text-sm text-muted-foreground">
-          <p>{t('standings.dataSource')}</p>
+      <footer className="border-t border-border/30 bg-card/20 backdrop-blur-sm mt-16">
+        <div className="container mx-auto px-6 py-8">
+          <div className="text-center text-muted-foreground">
+            <p className="text-sm">
+              Data from{" "}
+              <a 
+                href="https://www.espn.com/nfl/standings" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 transition-colors"
+              >
+                ESPN
+              </a>
+              {" "}– Updated as of 2025-2026 Season
+            </p>
+            <p className="text-xs mt-2 opacity-75">
+              Standings update every 30 seconds during game season. Check official NFL sources for the most current information.
+            </p>
+          </div>
         </div>
       </footer>
     </div>
