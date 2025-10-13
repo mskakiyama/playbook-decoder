@@ -14,11 +14,6 @@ const testimonials: Testimonial[] = [{
   name: "Sarah Johnson",
   handle: "@sportsanalyst",
   text: "The detailed breakdowns and play-by-play analysis are unmatched. A must-have for serious NFL fans."
-}, {
-  avatarSrc: "https://randomuser.me/api/portraits/men/67.jpg",
-  name: "Mike Davis",
-  handle: "@coachmiked",
-  text: "As a coach, this tool helps me study game footage efficiently. The insights are incredibly valuable."
 }];
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
