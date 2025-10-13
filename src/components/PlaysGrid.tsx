@@ -43,7 +43,7 @@ export const PlaysGrid = ({ plays, onPlaySelect }: PlaysGridProps) => {
   };
 
   return (
-    <div className="-mx-6 space-y-6">
+    <div className="space-y-6">
       <div className="flex items-center gap-3">
         <Clock className="h-5 w-5 text-primary" />
         <h2 className="text-2xl font-bold">All Plays ({plays.length})</h2>
