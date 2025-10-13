@@ -23,7 +23,7 @@ export const StandingsFilters = ({
   const { t } = useTranslation();
 
   return (
-    <div className="sticky top-0 z-40 backdrop-blur-xl bg-gradient-to-r from-background/80 via-background/90 to-background/80 shadow-glass">
+    <div className="sticky top-0 z-40 backdrop-blur-xl bg-gradient-to-r from-background/80 via-background/90 to-background/80">
       <div className="container mx-auto px-6 py-4">
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
