@@ -1,10 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { 
   Filter, 
-  Search, 
   Target, 
   TrendingUp, 
   Star,
@@ -79,45 +83,57 @@ export const FilterBar = ({ activeFilter, onFilterChange, plays = [] }: FilterBa
         })}
       </div>
 
-      {/* Quick Filters */}
+      {/* Additional Filters Accordion */}
       <div className="mt-6 pt-6 border-t border-white/10">
-        <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-          QUICK FILTERS
-        </h3>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="ghost" size="sm" className="rounded-full text-sm px-3 py-1 h-auto bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent transition-all duration-300">
-            🏆 Touchdown Plays (4)
-          </Button>
-          <Button variant="ghost" size="sm" className="rounded-full text-sm px-3 py-1 h-auto bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent transition-all duration-300">
-            🚫 Turnovers (2)
-          </Button>
-          <Button variant="ghost" size="sm" className="rounded-full text-sm px-3 py-1 h-auto bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent transition-all duration-300">
-            ⭐ Key Plays (6)
-          </Button>
-          <Button variant="ghost" size="sm" className="rounded-full text-sm px-3 py-1 h-auto bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent transition-all duration-300">
-            🎯 Red Zone (5)
-          </Button>
-        </div>
-      </div>
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="filters" className="border-none">
+            <AccordionTrigger className="text-sm font-semibold text-muted-foreground hover:no-underline py-2">
+              ADDITIONAL FILTERS
+            </AccordionTrigger>
+            <AccordionContent className="space-y-6 pt-4">
+              {/* Quick Filters */}
+              <div>
+                <h3 className="text-sm font-semibold text-muted-foreground mb-3">
+                  QUICK FILTERS
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  <Button variant="ghost" size="sm" className="rounded-full text-sm px-3 py-1 h-auto bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent transition-all duration-300">
+                    🏆 Touchdown Plays (4)
+                  </Button>
+                  <Button variant="ghost" size="sm" className="rounded-full text-sm px-3 py-1 h-auto bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent transition-all duration-300">
+                    🚫 Turnovers (2)
+                  </Button>
+                  <Button variant="ghost" size="sm" className="rounded-full text-sm px-3 py-1 h-auto bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent transition-all duration-300">
+                    ⭐ Key Plays (6)
+                  </Button>
+                  <Button variant="ghost" size="sm" className="rounded-full text-sm px-3 py-1 h-auto bg-card-glass backdrop-blur-lg border border-white/5 hover:bg-gradient-glass-accent transition-all duration-300">
+                    🎯 Red Zone (5)
+                  </Button>
+                </div>
+              </div>
 
-      {/* Active Filters Display */}
-      {activeFilter !== "all" && (
-        <div className="mt-6 pt-6 border-t border-white/10">
-          <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-            ACTIVE FILTERS
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            <Badge 
-              variant="secondary" 
-              className="bg-gradient-glass-primary backdrop-blur-lg text-primary cursor-pointer hover:bg-gradient-glass-secondary border border-white/20"
-              onClick={() => onFilterChange("all")}
-            >
-              {filterOptions.find(f => f.id === activeFilter)?.label}
-              <span className="ml-2">×</span>
-            </Badge>
-          </div>
-        </div>
-      )}
+              {/* Active Filters Display */}
+              {activeFilter !== "all" && (
+                <div className="pt-4 border-t border-white/10">
+                  <h3 className="text-sm font-semibold text-muted-foreground mb-3">
+                    ACTIVE FILTERS
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge 
+                      variant="secondary" 
+                      className="bg-gradient-glass-primary backdrop-blur-lg text-primary cursor-pointer hover:bg-gradient-glass-secondary border border-white/20"
+                      onClick={() => onFilterChange("all")}
+                    >
+                      {filterOptions.find(f => f.id === activeFilter)?.label}
+                      <span className="ml-2">×</span>
+                    </Badge>
+                  </div>
+                </div>
+              )}
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
     </Card>
   );
 };
