@@ -1,5 +1,3 @@
-import { LiveGame } from './real-time-standings-api';
-
 const ESPN_BASE_URL = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl';
 const CACHE_KEY = 'nfl_standings_cache';
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
@@ -18,7 +16,6 @@ export interface TeamStandings {
   away: string;
   streak: string;
   logo?: string;
-  clinchIndicator?: string;
 }
 
 export interface DivisionStandings {
@@ -35,12 +32,6 @@ export interface StandingsData {
   conferences: ConferenceStandings[];
   lastUpdated: string;
   week: number;
-  liveGames: LiveGame[];
-}
-
-export interface GameTimeStatus {
-  isGameDay: boolean;
-  interval: number | false;
 }
 
 // Mock data fallback
@@ -130,8 +121,7 @@ const MOCK_STANDINGS: StandingsData = {
     }
   ],
   lastUpdated: "2025-09-29",
-  week: 4,
-  liveGames: []
+  week: 4
 };
 
 // Check if current date is during NFL game days (Sept 4, 2025 - Jan 4, 2026)
@@ -140,42 +130,6 @@ export const isGameSeason = (): boolean => {
   const seasonStart = new Date('2025-09-04');
   const seasonEnd = new Date('2026-01-04');
   return now >= seasonStart && now <= seasonEnd;
-};
-
-// Determine if it's game time and return appropriate polling interval
-export const isGameTime = (): GameTimeStatus => {
-  const now = new Date();
-  const day = now.getDay(); // 0 = Sunday, 1 = Monday, 4 = Thursday, 6 = Saturday
-  const hour = now.getHours();
-  const etHour = hour - 5; // Simplified ET conversion (adjust for timezone)
-
-  // Sunday 1-11 PM ET (most games)
-  if (day === 0 && etHour >= 13 && etHour <= 23) {
-    return { isGameDay: true, interval: 15 * 1000 }; // 15 seconds
-  }
-
-  // Monday Night Football (8-11 PM ET)
-  if (day === 1 && etHour >= 20 && etHour <= 23) {
-    return { isGameDay: true, interval: 15 * 1000 }; // 15 seconds
-  }
-
-  // Thursday Night Football (8-11 PM ET)
-  if (day === 4 && etHour >= 20 && etHour <= 23) {
-    return { isGameDay: true, interval: 15 * 1000 }; // 15 seconds
-  }
-
-  // Saturday games (late season, 1-11 PM ET)
-  if (day === 6 && etHour >= 13 && etHour <= 23) {
-    return { isGameDay: true, interval: 20 * 1000 }; // 20 seconds
-  }
-
-  // Game season but not game time
-  if (isGameSeason()) {
-    return { isGameDay: false, interval: 5 * 60 * 1000 }; // 5 minutes
-  }
-
-  // Off-season
-  return { isGameDay: false, interval: false };
 };
 
 // Cache management
@@ -211,60 +165,6 @@ export const clearStandingsCache = () => {
   localStorage.removeItem(CACHE_KEY);
 };
 
-// Fetch live games from ESPN API
-const fetchLiveGames = async (): Promise<LiveGame[]> => {
-  try {
-    const response = await fetch(`${ESPN_BASE_URL}/scoreboard`);
-    if (!response.ok) return [];
-
-    const data = await response.json();
-    const liveGames: LiveGame[] = [];
-
-    if (data.events) {
-      for (const event of data.events) {
-        const status = event.status?.type?.state;
-        if (status !== 'in') continue; // Only live games
-
-        const competition = event.competitions?.[0];
-        if (!competition) continue;
-
-        const homeTeam = competition.competitors?.find((c: any) => c.homeAway === 'home');
-        const awayTeam = competition.competitors?.find((c: any) => c.homeAway === 'away');
-
-        if (homeTeam && awayTeam) {
-          liveGames.push({
-            gameId: event.id,
-            status: 'LIVE',
-            quarter: `Q${event.status?.period || 1}`,
-            timeRemaining: event.status?.displayClock || '15:00',
-            homeTeam: {
-              abbr: homeTeam.team?.abbreviation || '',
-              name: homeTeam.team?.displayName || '',
-              score: parseInt(homeTeam.score) || 0,
-              possession: homeTeam.possession || false,
-              redZone: false
-            },
-            awayTeam: {
-              abbr: awayTeam.team?.abbreviation || '',
-              name: awayTeam.team?.displayName || '',
-              score: parseInt(awayTeam.score) || 0,
-              possession: awayTeam.possession || false,
-              redZone: false
-            },
-            lastPlay: event.competitions?.[0]?.situation?.lastPlay?.text || 'Kickoff',
-            lastUpdate: Date.now()
-          });
-        }
-      }
-    }
-
-    return liveGames;
-  } catch (error) {
-    console.error('Error fetching live games:', error);
-    return [];
-  }
-};
-
 // Fetch standings from ESPN API
 export const fetchStandings = async (): Promise<StandingsData> => {
   // Check cache first
@@ -275,49 +175,39 @@ export const fetchStandings = async (): Promise<StandingsData> => {
   }
 
   try {
-    // Fetch both standings and live games in parallel
-    const [standingsResponse, liveGames] = await Promise.all([
-      (async () => {
-        // Try 2025 season first
-        let url = `${ESPN_BASE_URL}/standings?season=2025&seasontype=2`;
-        let response = await fetch(url);
-        
-        // If 2025 data not available, try 2024 season
-        if (!response.ok || response.status === 404) {
-          console.log('2025 standings not available, trying 2024 season');
-          url = `${ESPN_BASE_URL}/standings?season=2024&seasontype=2`;
-          response = await fetch(url);
-        }
-
-        return response;
-      })(),
-      fetchLiveGames()
-    ]);
-
-    if (!standingsResponse.ok) {
-      console.warn('Failed to fetch standings from ESPN, using mock data');
-      const mockWithLiveGames = { ...MOCK_STANDINGS, liveGames };
-      setCache(mockWithLiveGames);
-      return mockWithLiveGames;
+    // Try 2025 season first
+    let url = `${ESPN_BASE_URL}/standings?season=2025&seasontype=2`;
+    let response = await fetch(url);
+    
+    // If 2025 data not available, try 2024 season
+    if (!response.ok || response.status === 404) {
+      console.log('2025 standings not available, trying 2024 season');
+      url = `${ESPN_BASE_URL}/standings?season=2024&seasontype=2`;
+      response = await fetch(url);
     }
 
-    const data = await standingsResponse.json();
-    const standings = parseESPNStandings(data, liveGames);
+    if (!response.ok) {
+      console.warn('Failed to fetch standings from ESPN, using mock data');
+      setCache(MOCK_STANDINGS);
+      return MOCK_STANDINGS;
+    }
+
+    const data = await response.json();
+    const standings = parseESPNStandings(data);
     
     setCache(standings);
-    console.log('✓ Fetched standings for week', standings.week, 'with', liveGames.length, 'live games');
+    console.log('✓ Fetched standings for', standings.week, 'week(s)');
     return standings;
   } catch (error) {
     console.error('Error fetching standings:', error);
     console.log('Using mock data as fallback');
-    const mockWithLiveGames = { ...MOCK_STANDINGS, liveGames: [] };
-    setCache(mockWithLiveGames);
-    return mockWithLiveGames;
+    setCache(MOCK_STANDINGS);
+    return MOCK_STANDINGS;
   }
 };
 
 // Parse ESPN standings response
-const parseESPNStandings = (data: any, liveGames: LiveGame[] = []): StandingsData => {
+const parseESPNStandings = (data: any): StandingsData => {
   const conferences: ConferenceStandings[] = [];
   let currentWeek = 1;
 
@@ -346,8 +236,6 @@ const parseESPNStandings = (data: any, liveGames: LiveGame[] = []): StandingsDat
           let awayWins = 0, awayLosses = 0, awayTies = 0;
           let streak = '';
 
-          let clinchIndicator = '';
-
           for (const stat of stats) {
             if (stat.name === 'wins') wins = parseInt(stat.value) || 0;
             if (stat.name === 'losses') losses = parseInt(stat.value) || 0;
@@ -367,7 +255,6 @@ const parseESPNStandings = (data: any, liveGames: LiveGame[] = []): StandingsDat
               confTies = parseInt(confRecord[2]) || 0;
             }
             if (stat.name === 'streak') streak = stat.displayValue || '';
-            if (stat.name === 'clincher') clinchIndicator = stat.displayValue || '';
           }
 
           // Calculate home/away from total (simplified - ESPN doesn't always provide these)
@@ -401,8 +288,7 @@ const parseESPNStandings = (data: any, liveGames: LiveGame[] = []): StandingsDat
             home: homeRecord,
             away: awayRecord,
             streak: streak || '-',
-            logo: team.logos?.[0]?.href,
-            clinchIndicator
+            logo: team.logos?.[0]?.href
           };
 
           if (!divisionMap.has(divisionName)) {
@@ -446,14 +332,12 @@ const parseESPNStandings = (data: any, liveGames: LiveGame[] = []): StandingsDat
   return {
     conferences,
     lastUpdated: new Date().toISOString().split('T')[0],
-    week: currentWeek,
-    liveGames
+    week: currentWeek
   };
 };
 
 export const NFLStandingsAPI = {
   fetchStandings,
   clearCache: clearStandingsCache,
-  isGameSeason,
-  isGameTime
+  isGameSeason
 };
