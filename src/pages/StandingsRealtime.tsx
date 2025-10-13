@@ -137,17 +137,8 @@ export default function StandingsRealtime() {
           </div>
         </div>
 
-        {/* Header Controls */}
-        <div className="absolute top-6 left-6 z-20 flex items-center gap-3">
-          {/* Live Indicator */}
-          {liveGameCount > 0 && (
-            <Badge className="bg-neon-green/20 text-neon-green border-neon-green/40 animate-pulse-neon px-3 py-1.5">
-              <Activity className="w-3 h-3 mr-1.5 animate-pulse" />
-              {liveGameCount} LIVE
-            </Badge>
-          )}
-
-          <LanguageDropdown />
+        {/* Header Controls - Left Side */}
+        <div className="absolute top-6 left-6 z-20">
           {user ? (
             <Button variant="outline" onClick={signOut} className="border-neon-cyan/40 hover:bg-neon-cyan/10">
               {t('common.signOut')}
@@ -156,6 +147,18 @@ export default function StandingsRealtime() {
             <ShimmerButton onClick={() => navigate('/auth')}>
               <span className="text-sm font-medium">{t('common.signIn')}</span>
             </ShimmerButton>
+          )}
+        </div>
+
+        {/* Header Controls - Right Side */}
+        <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
+          <LanguageDropdown />
+          {/* Live Indicator */}
+          {liveGameCount > 0 && (
+            <Badge className="bg-neon-green/20 text-neon-green border-neon-green/40 animate-pulse-neon px-3 py-1.5">
+              <Activity className="w-3 h-3 mr-1.5 animate-pulse" />
+              {liveGameCount} LIVE
+            </Badge>
           )}
         </div>
 

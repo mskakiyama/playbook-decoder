@@ -89,9 +89,8 @@ const IndexContent = () => {
       <header className="relative h-80 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"></div>
         
-        {/* Header Controls */}
-        <div className="absolute top-6 left-6 z-20 flex items-center gap-3">
-          <LanguageDropdown />
+        {/* Header Controls - Left Side */}
+        <div className="absolute top-6 left-6 z-20">
           {user ? (
             <Button variant="glass" onClick={signOut} className="shadow-glass">
               {t('common.signOut')}
@@ -101,6 +100,11 @@ const IndexContent = () => {
               <span className="text-sm font-medium">{t('common.signIn')}</span>
             </ShimmerButton>
           )}
+        </div>
+
+        {/* Header Controls - Right Side */}
+        <div className="absolute top-6 right-6 z-20">
+          <LanguageDropdown />
         </div>
 
         <div className="relative z-10 flex items-center justify-center max-w-4xl mx-auto px-6">
