@@ -44,7 +44,7 @@ export const PlayTimeline = ({ plays, selectedPlay, onPlaySelect }: PlayTimeline
   };
 
   return (
-    <Card className="p-6 border-0">
+    <Card className="p-6 border-0 bg-black">
       <div className="flex items-center gap-3 mb-6">
         <div className="p-2 rounded-lg">
           <Clock className="h-5 w-5 text-primary" />
