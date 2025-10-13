@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { 
   Play, 
   Users, 
@@ -14,6 +15,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { generatePlaySummary } from "@/utils/play-summary-generator";
+import { PlayDiagram } from "@/components/PlayDiagram";
 
 interface Play {
   id: number;
@@ -132,7 +134,7 @@ export const PlayCard = ({ play, expanded = false }: PlayCardProps) => {
       </div>
 
       {/* Play Summary */}
-      <div className="mb-6 p-4 bg-gradient-glass-primary backdrop-blur-lg rounded-xl border border-white/20">
+      <div className="p-4 bg-gradient-glass-primary backdrop-blur-lg rounded-xl border border-white/20">
         <h4 className="font-semibold mb-2 text-primary flex items-center gap-2">
           <FileText className="h-4 w-4" />
           Play Summary
@@ -142,10 +144,18 @@ export const PlayCard = ({ play, expanded = false }: PlayCardProps) => {
         </p>
       </div>
 
+      {/* Horizontal Divider */}
+      <Separator className="my-6 bg-gray-300/30" />
+
+      {/* Play Diagram */}
+      <div>
+        <PlayDiagram play={play} />
+      </div>
+
       {expanded && (
         <>
           {/* Players Involved */}
-          <div className="mb-6">
+          <div className="mt-6">
             <h4 className="font-semibold mb-3 flex items-center gap-2">
               <Users className="h-4 w-4 text-primary" />
               Key Players
@@ -158,7 +168,6 @@ export const PlayCard = ({ play, expanded = false }: PlayCardProps) => {
               ))}
             </div>
           </div>
-
         </>
       )}
     </Card>

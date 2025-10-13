@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { GameSelector } from "@/components/GameSelector";
 import { PlayTimeline } from "@/components/PlayTimeline";
-import { PlayDiagram } from "@/components/PlayDiagram";
 import { PlayCard } from "@/components/PlayCard";
 import { FilterBar } from "@/components/FilterBar";
 import { PlaysGrid } from "@/components/PlaysGrid";
@@ -148,14 +147,11 @@ const IndexContent = () => {
           </section>
         )}
 
-        {/* Play Details & Diagram - Hidden when All Plays is selected */}
+        {/* Play Details - Hidden when All Plays is selected */}
         {playFilter !== "all" && (
           <section className="space-y-8">
-            {/* Selected Play Card */}
+            {/* Selected Play Card with Integrated Diagram */}
             {filteredPlays.length > 0 && filteredPlays[selectedPlay] && <PlayCard play={filteredPlays[selectedPlay]} expanded={true} />}
-
-            {/* Interactive Play Diagram */}
-            <PlayDiagram play={filteredPlays[selectedPlay]} />
           </section>
         )}
       </main>
