@@ -50,7 +50,7 @@ const IndexContent = () => {
   // Set most recent completed game with available play-by-play data as default
   useEffect(() => {
     if (games && games.length > 0 && !selectedGame) {
-      // Filter to 2025 season completed games with play-by-play data, sorted by date (most recent first)
+      // Filter to 2025 season completed games with play-by-play data, prioritize earlier weeks
       const completedGames = games
         .filter(game => {
           const isCompleted = game.quarter === 'Final' || game.quarter === 'F';
@@ -58,7 +58,13 @@ const IndexContent = () => {
           const hasPlayByPlay = (game as any).playByPlayAvailable !== false; // Include if undefined or true
           return isCompleted && is2025 && hasPlayByPlay;
         })
-        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        .sort((a, b) => {
+          // Sort by week first (ascending to prioritize earlier weeks), then by date
+          const weekA = parseInt(a.week?.match(/\d+/)?.[0] || '0');
+          const weekB = parseInt(b.week?.match(/\d+/)?.[0] || '0');
+          if (weekA !== weekB) return weekA - weekB;
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
       
       if (completedGames.length > 0) {
         // Select the most recent game with available play-by-play data

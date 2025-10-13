@@ -41,10 +41,10 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
       return getWeekNumber(a) - getWeekNumber(b);
     }) || [];
 
-  // Set default week to latest week once data loads
+  // Set default week to first week with completed games
   useEffect(() => {
     if (games && weeks2025.length > 0 && !selectedWeek) {
-      setSelectedWeek(weeks2025[weeks2025.length - 1]);
+      setSelectedWeek(weeks2025[0]); // Start with earliest week
     }
   }, [games, weeks2025.length]);
 
@@ -62,7 +62,13 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
     .filter((game, index, self) => 
       index === self.findIndex((g) => g.id === game.id)
     )
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // Sort by date, most recent first
+    .sort((a, b) => {
+      // Sort by week first (ascending), then by date within each week
+      const weekA = parseInt(a.week?.match(/\d+/)?.[0] || '0');
+      const weekB = parseInt(b.week?.match(/\d+/)?.[0] || '0');
+      if (weekA !== weekB) return weekA - weekB;
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
   
   // Debug logging
   console.log('All games:', games?.length);
