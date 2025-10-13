@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { TeamStandings } from "@/lib/nfl-standings-api";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
-import { Trophy, TrendingUp, TrendingDown } from "lucide-react";
+import { Trophy, TrendingUp, TrendingDown, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 
 interface StandingsTableProps {
   teams: TeamStandings[];
@@ -10,8 +11,51 @@ interface StandingsTableProps {
   conferenceName: string;
 }
 
+type SortField = 'rank' | 'team' | 'winPct' | 'div' | 'conf' | 'pf' | 'pa' | 'streak';
+type SortDirection = 'asc' | 'desc';
+
 export const StandingsTable = ({ teams, divisionName, conferenceName }: StandingsTableProps) => {
   const { t } = useTranslation();
+  const [sortField, setSortField] = useState<SortField>('rank');
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
+
+  const getSortIcon = (field: SortField) => {
+    if (sortField !== field) return <ArrowUpDown className="h-4 w-4 ml-1 inline opacity-40" />;
+    return sortDirection === 'asc' 
+      ? <ArrowUp className="h-4 w-4 ml-1 inline text-primary" />
+      : <ArrowDown className="h-4 w-4 ml-1 inline text-primary" />;
+  };
+
+  const sortedTeams = [...teams].sort((a, b) => {
+    const multiplier = sortDirection === 'asc' ? 1 : -1;
+    
+    switch (sortField) {
+      case 'team':
+        return multiplier * a.team.localeCompare(b.team);
+      case 'winPct':
+        return multiplier * (a.winPct - b.winPct);
+      case 'pf':
+        return multiplier * (a.pf - b.pf);
+      case 'pa':
+        return multiplier * (a.pa - b.pa);
+      case 'streak':
+        const aNum = parseInt(a.streak.replace(/[WL]/, '')) * (a.streak.includes('W') ? 1 : -1);
+        const bNum = parseInt(b.streak.replace(/[WL]/, '')) * (b.streak.includes('W') ? 1 : -1);
+        return multiplier * (aNum - bNum);
+      case 'rank':
+      default:
+        return multiplier * (a.rank - b.rank);
+    }
+  });
 
   const getStreakIndicator = (streak: string) => {
     if (streak.includes('W')) {
@@ -37,21 +81,57 @@ export const StandingsTable = ({ teams, divisionName, conferenceName }: Standing
       <Table>
         <TableHeader>
           <TableRow className="border-border/30 hover:bg-transparent">
-            <TableHead className="w-12 text-center">{t('standings.rank')}</TableHead>
-            <TableHead className="min-w-[180px]">{t('standings.team')}</TableHead>
+            <TableHead 
+              className="w-12 text-center cursor-pointer hover:text-primary transition-colors"
+              onClick={() => handleSort('rank')}
+            >
+              {t('standings.rank')}
+              {getSortIcon('rank')}
+            </TableHead>
+            <TableHead 
+              className="min-w-[180px] cursor-pointer hover:text-primary transition-colors"
+              onClick={() => handleSort('team')}
+            >
+              {t('standings.team')}
+              {getSortIcon('team')}
+            </TableHead>
             <TableHead className="text-center">{t('standings.record')}</TableHead>
-            <TableHead className="text-center hidden sm:table-cell">{t('standings.winPct')}</TableHead>
+            <TableHead 
+              className="text-center hidden sm:table-cell cursor-pointer hover:text-primary transition-colors"
+              onClick={() => handleSort('winPct')}
+            >
+              {t('standings.winPct')}
+              {getSortIcon('winPct')}
+            </TableHead>
             <TableHead className="text-center hidden md:table-cell">{t('standings.div')}</TableHead>
             <TableHead className="text-center hidden md:table-cell">{t('standings.conf')}</TableHead>
-            <TableHead className="text-center hidden lg:table-cell">{t('standings.pf')}</TableHead>
-            <TableHead className="text-center hidden lg:table-cell">{t('standings.pa')}</TableHead>
+            <TableHead 
+              className="text-center hidden lg:table-cell cursor-pointer hover:text-primary transition-colors"
+              onClick={() => handleSort('pf')}
+            >
+              {t('standings.pf')}
+              {getSortIcon('pf')}
+            </TableHead>
+            <TableHead 
+              className="text-center hidden lg:table-cell cursor-pointer hover:text-primary transition-colors"
+              onClick={() => handleSort('pa')}
+            >
+              {t('standings.pa')}
+              {getSortIcon('pa')}
+            </TableHead>
             <TableHead className="text-center hidden xl:table-cell">{t('standings.home')}</TableHead>
             <TableHead className="text-center hidden xl:table-cell">{t('standings.away')}</TableHead>
-            <TableHead className="text-center">{t('standings.streak')}</TableHead>
+            <TableHead 
+              className="text-center cursor-pointer hover:text-primary transition-colors"
+              onClick={() => handleSort('streak')}
+            >
+              {t('standings.streak')}
+              {getSortIcon('streak')}
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {teams.map((team) => (
+          {sortedTeams.map((team) => (
             <TableRow
               key={team.abbreviation}
               className={cn(

@@ -13,9 +13,9 @@ import { useNFLStandings } from "@/hooks/useNFLStandings";
 import { StandingsFilters } from "@/components/StandingsFilters";
 import { StandingsTable } from "@/components/StandingsTable";
 import { PlayoffPicture } from "@/components/PlayoffPicture";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NFLStandingsAPI } from "@/lib/nfl-standings-api";
-import { LiveGamesTicker } from "@/components/LiveGamesTicker";
+import { RealTimeClock } from "@/components/RealTimeClock";
 
 export default function Standings() {
   const { t } = useTranslation();
@@ -103,17 +103,23 @@ export default function Standings() {
           <LanguageDropdown />
         </div>
 
-        <div className="relative z-10 flex items-center justify-center max-w-4xl mx-auto px-6">
-          <img src={playerImage} alt="Football Player" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
-          <div className="text-center mx-8">
-            <h1 className="text-3xl sm:text-4xl font-oswald font-bold text-white mb-4 bg-gradient-to-r from-white via-primary-foreground to-field-green bg-clip-text text-transparent leading-tight lg:text-7xl">
-              {t('standings.title')}
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-6">
+          <div className="text-center mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-oswald font-bold text-white mb-2">
+              2025-2026 NFL Standings
             </h1>
-            <p className="text-lg sm:text-xl text-white/90 leading-normal">
-              {t('standings.subtitle')}
+            <p className="text-base sm:text-lg text-white/80 mb-6">
+              Live Team Records & Playoff Race
             </p>
           </div>
-          <img src={player2Image} alt="Football Player 2" className="hidden sm:block w-20 h-20 md:w-24 md:h-24 object-contain" />
+          
+          <div className="flex justify-center">
+            <RealTimeClock 
+              lastUpdated={new Date()} 
+              onRefresh={() => refetch()}
+              isRefreshing={isLoading}
+            />
+          </div>
         </div>
       </header>
 
@@ -188,45 +194,46 @@ export default function Standings() {
               </div>
             )}
 
-            {/* Conferences */}
+            {/* Conference Tabs */}
             {hasResults && (
-              <Accordion type="multiple" defaultValue={["AFC", "NFC"]} className="space-y-6">
-                {filteredConferences.map((conference) => (
-                  <AccordionItem
-                    key={conference.name}
-                    value={conference.name}
-                    className="bg-card/20 backdrop-blur-sm border border-border/30 rounded-lg overflow-hidden"
-                  >
-                    <AccordionTrigger className="px-6 py-4 hover:no-underline">
-                      <div className="flex items-center space-x-4">
-                        <div className={`w-4 h-4 rounded-full ${
+              <Tabs defaultValue="AFC" className="w-full">
+                <TabsList className="w-full grid grid-cols-2 mb-8 h-14 bg-card/40 backdrop-blur-sm border border-border/30">
+                  {filteredConferences.map((conference) => (
+                    <TabsTrigger 
+                      key={conference.name}
+                      value={conference.name}
+                      className="text-lg font-oswald font-bold data-[state=active]:bg-primary/20"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className={`w-3 h-3 rounded-full ${
                           conference.name === 'AFC' 
                             ? 'bg-gradient-to-r from-red-500 to-red-600'
                             : 'bg-gradient-to-r from-blue-500 to-blue-600'
                         }`}></div>
-                        <span className="font-oswald font-bold text-2xl">{conference.name}</span>
+                        {conference.name}
                       </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="px-6 pb-6">
-                      <div className="space-y-6">
-                        {conference.divisions.map((division) => (
-                          <div key={division.name} className="space-y-3">
-                            <h3 className="text-lg font-sans font-bold text-foreground flex items-center gap-2">
-                              <span className="w-2 h-2 rounded-full bg-primary"></span>
-                              {conference.name} {division.name}
-                            </h3>
-                            <StandingsTable
-                              teams={division.teams}
-                              divisionName={division.name}
-                              conferenceName={conference.name}
-                            />
-                          </div>
-                        ))}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+
+                {filteredConferences.map((conference) => (
+                  <TabsContent key={conference.name} value={conference.name} className="space-y-8">
+                    {conference.divisions.map((division) => (
+                      <div key={division.name} className="space-y-4">
+                        <h3 className="text-xl font-oswald font-bold text-foreground flex items-center gap-2 px-2">
+                          <span className="w-2 h-2 rounded-full bg-primary"></span>
+                          {conference.name} {division.name}
+                        </h3>
+                        <StandingsTable
+                          teams={division.teams}
+                          divisionName={division.name}
+                          conferenceName={conference.name}
+                        />
                       </div>
-                    </AccordionContent>
-                  </AccordionItem>
+                    ))}
+                  </TabsContent>
                 ))}
-              </Accordion>
+              </Tabs>
             )}
 
             {/* Playoff Picture */}

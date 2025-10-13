@@ -95,6 +95,11 @@
     "errorMessage": "Unable to load standings. Please try again.",
     "retry": "Retry",
     "noResults": "No Teams Found",
-    "noResultsMessage": "No teams match your search criteria. Try adjusting your filters."
+    "noResultsMessage": "No teams match your search criteria. Try adjusting your filters.",
+    "lastUpdatedAt": "Last updated",
+    "secondsAgo": "{{count}} seconds ago",
+    "nextUpdateIn": "Next update in {{count}} seconds",
+    "refresh": "Refresh",
+    "sortBy": "Sort by"
   }
 }
