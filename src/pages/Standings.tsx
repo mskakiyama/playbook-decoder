@@ -80,7 +80,10 @@ export default function Standings() {
     <div className="min-h-screen bg-black">
       {/* Hero Header */}
       <header className="relative h-80 flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"></div>
+        <div 
+          className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"
+          style={{ backgroundImage: 'var(--gradient-hero)', backgroundSize: 'cover' }}
+        ></div>
         
         {/* Header Controls - Left Side */}
         <div className="absolute top-6 left-6 z-20">
