@@ -127,7 +127,7 @@ const IndexContent = () => {
       <main className="container mx-auto px-6 py-8 space-y-8 bg-transparent">
         {/* Game Selection & Filters */}
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2">
             <GameSelector selectedGame={selectedGame} onGameChange={setSelectedGame} />
             
             {/* All Plays Grid - Shows when "All Plays" filter is selected */}
