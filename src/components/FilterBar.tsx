@@ -71,7 +71,7 @@ export const FilterBar = ({ activeFilter, onFilterChange, plays = [] }: FilterBa
               )}
             >
               <div className="flex items-center gap-3">
-                <Icon className="h-4 w-4" />
+                <Icon className="h-4 w-4" color="#FFFFFF" />
                 <span className="font-medium">{filter.label}</span>
               </div>
               <Badge 
