@@ -12,7 +12,7 @@ import player2Image from "@/assets/player2.svg";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { useNavigate } from "react-router-dom";
 import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Calendar, BookOpen, Trophy } from "lucide-react";
+import { Home, Calendar, BookOpen, Trophy, Loader2 } from "lucide-react";
 import { LanguageDropdown } from "@/components/ui/language-dropdown";
 import { useTranslation } from "react-i18next";
 const IndexContent = () => {
@@ -24,7 +24,8 @@ const IndexContent = () => {
     data: games
   } = useAllGames();
   const {
-    data: plays
+    data: plays,
+    isLoading: playsLoading
   } = usePlayByPlay(selectedGame);
   const {
     signOut,
@@ -80,7 +81,14 @@ const IndexContent = () => {
       }
     }
   }, [games, selectedGame]);
+
+  // Reset selected play when game changes
+  useEffect(() => {
+    setSelectedPlay(0);
+  }, [selectedGame]);
+
   const filteredPlays = playFilter === "all" ? plays || [] : (plays || []).filter(play => play.playType === playFilter);
+  const safeSelectedPlay = Math.min(selectedPlay, Math.max(0, filteredPlays.length - 1));
   return <div className="min-h-screen bg-black">
       {/* Hero Header */}
       <header className="relative h-80 flex items-center justify-center overflow-hidden">
@@ -134,13 +142,26 @@ const IndexContent = () => {
 
         {/* Horizontal Play Timeline - Below Game Selector */}
         <section className="-mx-6">
-          <PlayTimeline plays={filteredPlays} selectedPlay={selectedPlay} onPlaySelect={setSelectedPlay} />
+          {playsLoading ? (
+            <div className="flex items-center justify-center p-12">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <span className="ml-3 text-muted-foreground">Loading plays...</span>
+            </div>
+          ) : (
+            <PlayTimeline plays={filteredPlays} selectedPlay={safeSelectedPlay} onPlaySelect={setSelectedPlay} />
+          )}
         </section>
 
         {/* Play Details */}
         <section className="space-y-8">
           {/* Selected Play Card with Integrated Diagram */}
-          {filteredPlays.length > 0 && filteredPlays[selectedPlay] && <PlayCard play={filteredPlays[selectedPlay]} expanded={true} />}
+          {playsLoading ? (
+            <div className="flex items-center justify-center p-12">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            filteredPlays.length > 0 && filteredPlays[safeSelectedPlay] && <PlayCard play={filteredPlays[safeSelectedPlay]} expanded={true} />
+          )}
         </section>
       </main>
     </div>;
