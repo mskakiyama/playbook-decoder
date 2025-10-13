@@ -15,6 +15,7 @@ import { StandingsTable } from "@/components/StandingsTable";
 import { PlayoffPicture } from "@/components/PlayoffPicture";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { NFLStandingsAPI } from "@/lib/nfl-standings-api";
+import { LiveGamesTicker } from "@/components/LiveGamesTicker";
 
 export default function Standings() {
   const { t } = useTranslation();
@@ -115,6 +116,9 @@ export default function Standings() {
 
       {/* Navigation Menu */}
       <NavBar items={navItems} />
+
+      {/* Live Games Ticker */}
+      <LiveGamesTicker games={[]} />
 
       {/* Filters */}
       <div className="mt-8">
