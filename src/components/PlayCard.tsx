@@ -159,35 +159,6 @@ export const PlayCard = ({ play, expanded = false }: PlayCardProps) => {
             </div>
           </div>
 
-          {/* YouTube Video */}
-          <div className="mt-6">
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="font-semibold flex items-center gap-2">
-                <Play className="h-4 w-4 text-primary" />
-                Play Highlight
-              </h4>
-              <a 
-                href={getYouTubeSearchQuery()} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-xs text-primary hover:underline"
-              >
-                Find more on YouTube →
-              </a>
-            </div>
-            <div className="relative rounded-xl overflow-hidden border border-white/20 shadow-glass bg-gradient-glass-accent backdrop-blur-lg">
-              <div className="relative pt-[56.25%]">
-                <iframe
-                  className="absolute inset-0 w-full h-full"
-                  src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(play.description + ' NFL highlight')}`}
-                  title="Play Highlight Video"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-            </div>
-          </div>
         </>
       )}
     </Card>
