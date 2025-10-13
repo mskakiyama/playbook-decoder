@@ -55,9 +55,10 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
     return seasonMatch && weekMatch;
   });
 
-  // Show completed games (games that have already happened) and deduplicate by game ID
+  // Show completed games with play-by-play data available and deduplicate by game ID
   const completedGames = filteredGames
     ?.filter(game => game.quarter === 'Final' || game.quarter === 'F')
+    .filter(game => game.playByPlayAvailable === true) // Only show games with actual play-by-play data
     .filter((game, index, self) => 
       index === self.findIndex((g) => g.id === game.id)
     )
@@ -152,7 +153,7 @@ export const GameSelector = ({ selectedGame, onGameChange }: GameSelectorProps) 
             )) || []}
             {(!completedGames || completedGames.length === 0) && (
               <div className="p-4 text-center text-muted-foreground">
-                No completed games available for 2025 season
+                No games with play-by-play data available yet for this week
               </div>
             )}
           </SelectContent>
