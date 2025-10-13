@@ -102,7 +102,7 @@ const Auth = () => {
     sessionStorage.setItem('hasVisitedAuth', 'true');
     navigate('/');
   };
-  return <SignInPage title={isSignUp ? <span className="font-light text-foreground tracking-tighter">Create Account</span> : <span className="font-light tracking-tighter" style={{
+  return <SignInPage title={isSignUp ? <span className="font-light text-foreground tracking-tighter">Create Account</span> : <span className="font-bold tracking-tighter" style={{
     color: '#0E0F0F'
   }}>NFL Plays Breakdown</span>} description={isSignUp ? "Join NFL Plays Breakdown and start analyzing every play like a pro" : "Access your account and dive deep into NFL play analysis"} heroImageSrc={nflPlayerBg} testimonials={testimonials} onSignIn={handleFormSubmit} onGoogleSignIn={handleGoogleSignIn} onResetPassword={handleResetPassword} onCreateAccount={handleToggleMode} onSkip={handleSkip} loading={loading} showSignUp={isSignUp} />;
 };
