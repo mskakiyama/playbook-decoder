@@ -117,11 +117,8 @@ export default function Standings() {
       {/* Navigation Menu */}
       <NavBar items={navItems} />
 
-      {/* Live Games Ticker */}
-      <LiveGamesTicker games={[]} />
-
       {/* Filters */}
-      <div className="mt-8">
+      <div className="mt-16">
         <StandingsFilters
           conferenceFilter={conferenceFilter}
           divisionFilter={divisionFilter}
