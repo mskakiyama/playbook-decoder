@@ -64,9 +64,9 @@ export const FilterBar = ({ activeFilter, onFilterChange, plays = [] }: FilterBa
               onClick={() => onFilterChange(filter.id)}
               variant={isActive ? "default" : "ghost"}
               className={cn(
-                "w-full justify-between h-auto p-3 backdrop-blur-lg border border-white/10 transition-all duration-300",
+                "w-full justify-between h-auto p-3 backdrop-blur-lg border border-white/10 transition-all duration-300 text-white",
                 isActive 
-                  ? "bg-gradient-glass-primary text-primary-foreground shadow-glass" 
+                  ? "bg-gradient-glass-primary shadow-glass" 
                   : "bg-card-glass hover:bg-gradient-glass-secondary hover:shadow-glass"
               )}
             >
@@ -77,8 +77,8 @@ export const FilterBar = ({ activeFilter, onFilterChange, plays = [] }: FilterBa
               <Badge 
                 variant={isActive ? "secondary" : "outline"}
                 className={cn(
-                  "text-xs backdrop-blur-sm",
-                  isActive && "bg-primary-foreground/20 text-primary-foreground"
+                  "text-xs backdrop-blur-sm text-white",
+                  isActive && "bg-primary-foreground/20"
                 )}
               >
                 {filter.count}
