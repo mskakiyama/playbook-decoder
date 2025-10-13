@@ -40,15 +40,6 @@ export const FilterBar = ({ activeFilter, onFilterChange, plays = [] }: FilterBa
         <h2 className="text-xl font-semibold leading-tight">Filters</h2>
       </div>
 
-      {/* Search Bar */}
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input 
-          placeholder="Search plays, players, or teams..."
-          className="pl-10 bg-muted backdrop-blur-md border border-white/20 hover:bg-primary-glass transition-all duration-300"
-        />
-      </div>
-
       {/* Play Type Filters */}
       <div className="space-y-2">
         <h3 className="text-sm font-semibold text-muted-foreground mb-3">
