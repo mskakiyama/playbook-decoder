@@ -118,9 +118,6 @@ export default function StandingsRealtime() {
 
   return (
     <div className="min-h-screen bg-gradient-background">
-      {/* Live Games Ticker */}
-      {liveGameCount > 0 && <LiveGamesTicker games={liveGames} />}
-
       {/* Hero Header */}
       <header className="relative h-80 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm">
@@ -214,6 +211,9 @@ export default function StandingsRealtime() {
           </Button>
         </div>
       </div>
+
+      {/* Live Games Ticker */}
+      {liveGameCount > 0 && <LiveGamesTicker games={liveGames} />}
 
       {/* View Mode Tabs */}
       <div className="container mx-auto px-6 pt-6">
