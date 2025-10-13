@@ -52,13 +52,13 @@ export const PlayTimeline = ({ plays, selectedPlay, onPlaySelect }: PlayTimeline
         <h2 className="text-xl font-bold">Play Timeline</h2>
       </div>
 
-      <div className="space-y-3 max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-primary/30 scrollbar-track-transparent">
+      <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-primary/30 scrollbar-track-transparent">
         {plays.map((play, index) => (
           <div
             key={play.id}
             onClick={() => onPlaySelect(index)}
             className={cn(
-              "relative p-4 rounded-xl border cursor-pointer transition-all duration-300 backdrop-blur-lg",
+              "relative p-4 rounded-xl border cursor-pointer transition-all duration-300 backdrop-blur-lg min-w-[280px] max-w-[280px] flex-shrink-0",
               selectedPlay === index 
                 ? "bg-gradient-glass-primary border-primary/50 shadow-glass animate-play-highlight" 
                 : "bg-card-glass border-white/10 hover:bg-gradient-glass-secondary hover:shadow-glass"

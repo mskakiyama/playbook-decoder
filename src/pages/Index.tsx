@@ -138,22 +138,23 @@ const IndexContent = () => {
           </aside>
         </section>
 
-        {/* Main Content Grid - Hidden when All Plays is selected */}
-        {playFilter !== "all" && <section className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-            {/* Play Timeline */}
-            <aside className="xl:col-span-1">
-              <PlayTimeline plays={filteredPlays} selectedPlay={selectedPlay} onPlaySelect={setSelectedPlay} />
-            </aside>
+        {/* Horizontal Play Timeline - Below Game Selector */}
+        {playFilter !== "all" && (
+          <section className="w-full lg:w-2/3">
+            <PlayTimeline plays={filteredPlays} selectedPlay={selectedPlay} onPlaySelect={setSelectedPlay} />
+          </section>
+        )}
 
-            {/* Play Details & Diagram */}
-            <div className="xl:col-span-2 space-y-8">
-              {/* Selected Play Card */}
-              {filteredPlays.length > 0 && filteredPlays[selectedPlay] && <PlayCard play={filteredPlays[selectedPlay]} expanded={true} />}
+        {/* Play Details & Diagram - Hidden when All Plays is selected */}
+        {playFilter !== "all" && (
+          <section className="space-y-8">
+            {/* Selected Play Card */}
+            {filteredPlays.length > 0 && filteredPlays[selectedPlay] && <PlayCard play={filteredPlays[selectedPlay]} expanded={true} />}
 
-              {/* Interactive Play Diagram */}
-              <PlayDiagram play={filteredPlays[selectedPlay]} />
-            </div>
-          </section>}
+            {/* Interactive Play Diagram */}
+            <PlayDiagram play={filteredPlays[selectedPlay]} />
+          </section>
+        )}
       </main>
     </div>;
 };
