@@ -82,7 +82,7 @@ export default function Standings() {
         <div className="absolute inset-0 bg-gradient-hero backdrop-blur-sm"></div>
         
         {/* Header Controls */}
-        <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
+        <div className="absolute top-6 left-6 z-20 flex items-center gap-3">
           <LanguageDropdown />
           {user ? (
             <Button variant="glass" onClick={signOut} className="shadow-glass">

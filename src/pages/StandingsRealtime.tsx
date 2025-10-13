@@ -138,7 +138,7 @@ export default function StandingsRealtime() {
         </div>
 
         {/* Header Controls */}
-        <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
+        <div className="absolute top-6 left-6 z-20 flex items-center gap-3">
           {/* Live Indicator */}
           {liveGameCount > 0 && (
             <Badge className="bg-neon-green/20 text-neon-green border-neon-green/40 animate-pulse-neon px-3 py-1.5">
