@@ -137,7 +137,7 @@ const IndexContent = () => {
 
         {/* All Plays Grid - Full Width */}
         {playFilter === "all" && (
-          <section className="mt-6">
+          <section className="mt-[42px]">
             <PlaysGrid plays={filteredPlays} onPlaySelect={setSelectedPlay} />
           </section>
         )}
