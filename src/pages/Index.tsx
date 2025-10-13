@@ -3,7 +3,6 @@ import { GameSelector } from "@/components/GameSelector";
 import { PlayTimeline } from "@/components/PlayTimeline";
 import { PlayCard } from "@/components/PlayCard";
 import { FilterBar } from "@/components/FilterBar";
-import { PlaysGrid } from "@/components/PlaysGrid";
 import { useAllGames, usePlayByPlay } from "@/hooks/useNFLData";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -133,27 +132,16 @@ const IndexContent = () => {
           </aside>
         </section>
 
-        {/* All Plays Grid - Full Width */}
-        {playFilter === "all" && (
-          <section className="mt-[42px]">
-            <PlaysGrid plays={filteredPlays} onPlaySelect={setSelectedPlay} />
-          </section>
-        )}
-
         {/* Horizontal Play Timeline - Below Game Selector */}
-        {playFilter !== "all" && (
-          <section className="-mx-6">
-            <PlayTimeline plays={filteredPlays} selectedPlay={selectedPlay} onPlaySelect={setSelectedPlay} />
-          </section>
-        )}
+        <section className="-mx-6">
+          <PlayTimeline plays={filteredPlays} selectedPlay={selectedPlay} onPlaySelect={setSelectedPlay} />
+        </section>
 
-        {/* Play Details - Hidden when All Plays is selected */}
-        {playFilter !== "all" && (
-          <section className="space-y-8">
-            {/* Selected Play Card with Integrated Diagram */}
-            {filteredPlays.length > 0 && filteredPlays[selectedPlay] && <PlayCard play={filteredPlays[selectedPlay]} expanded={true} />}
-          </section>
-        )}
+        {/* Play Details */}
+        <section className="space-y-8">
+          {/* Selected Play Card with Integrated Diagram */}
+          {filteredPlays.length > 0 && filteredPlays[selectedPlay] && <PlayCard play={filteredPlays[selectedPlay]} expanded={true} />}
+        </section>
       </main>
     </div>;
 };
