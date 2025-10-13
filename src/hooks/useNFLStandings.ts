@@ -7,8 +7,8 @@ export const useNFLStandings = () => {
   return useQuery<StandingsData>({
     queryKey: ['nfl-standings'],
     queryFn: NFLStandingsAPI.fetchStandings,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    refetchInterval: isGameSeason ? 5 * 60 * 1000 : false, // Auto-refetch during game season
+    staleTime: 30 * 1000, // 30 seconds
+    refetchInterval: isGameSeason ? 30 * 1000 : false, // Auto-refetch every 30 seconds during game season
     refetchOnWindowFocus: true,
     retry: 2,
   });

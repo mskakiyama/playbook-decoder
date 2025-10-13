@@ -54,8 +54,8 @@ export const StandingsRealTimeClock = ({ isRefetching, onRefresh }: StandingsRea
     return `${hours} hour${hours > 1 ? 's' : ''} ago`;
   };
 
-  // Calculate next update countdown (5 minutes = 300 seconds)
-  const nextUpdateIn = 300 - (secondsSinceUpdate % 300);
+  // Calculate next update countdown (30 seconds)
+  const nextUpdateIn = 30 - (secondsSinceUpdate % 30);
 
   return (
     <div className="flex flex-col items-end gap-2">
