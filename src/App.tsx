@@ -8,7 +8,6 @@ import { TranslationProvider } from "@/contexts/TranslationContext";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Schedule from "./pages/Schedule";
-import Standings from "./pages/Standings";
 import StandingsRealtime from "./pages/StandingsRealtime";
 import Glossary from "./pages/Glossary";
 import NotFound from "./pages/NotFound";

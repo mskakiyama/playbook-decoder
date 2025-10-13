@@ -49,7 +49,6 @@ export default function StandingsRealtime() {
   const navItems = [
     { name: t('common.home'), url: '/', icon: Home },
     { name: t('common.schedule'), url: '/schedule', icon: Calendar },
-    { name: t('standings.title'), url: '/standings', icon: Trophy },
     { name: t('common.glossary'), url: '/glossary', icon: BookOpen },
   ];
 
