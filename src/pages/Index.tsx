@@ -129,14 +129,18 @@ const IndexContent = () => {
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           <div className="lg:col-span-2 flex flex-col gap-8">
             <GameSelector selectedGame={selectedGame} onGameChange={setSelectedGame} />
-            
-            {/* All Plays Grid - Shows when "All Plays" filter is selected */}
-            {playFilter === "all" && <PlaysGrid plays={filteredPlays} onPlaySelect={setSelectedPlay} />}
           </div>
           <aside className="h-full">
             <FilterBar activeFilter={playFilter} onFilterChange={setPlayFilter} plays={plays} />
           </aside>
         </section>
+
+        {/* All Plays Grid - Full Width */}
+        {playFilter === "all" && (
+          <section className="-mx-6">
+            <PlaysGrid plays={filteredPlays} onPlaySelect={setSelectedPlay} />
+          </section>
+        )}
 
         {/* Horizontal Play Timeline - Below Game Selector */}
         {playFilter !== "all" && (
