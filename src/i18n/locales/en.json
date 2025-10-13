@@ -61,7 +61,8 @@
   },
   "standings": {
     "title": "NFL Standings",
-    "subtitle": "2025-2026 Season Records by Division",
+    "pageTitle": "2025-2026 NFL Standings",
+    "subtitle": "Real-time standings with live updates",
     "rank": "Rank",
     "team": "Team",
     "record": "Record",
@@ -88,18 +89,21 @@
     "divisionWinner": "Division Winner",
     "wildCard": "Wild Card",
     "week": "Week",
-    "lastUpdated": "Last Updated",
+    "lastUpdated": "Last updated",
     "viewSchedule": "View Week {{week}} Schedule",
-    "dataSource": "Data sourced from ESPN NFL API",
+    "dataSource": "Data provided by ESPN",
     "disclaimer": "Standings updated every 5 minutes during game season. Tiebreakers follow official NFL rules.",
     "errorMessage": "Unable to load standings. Please try again.",
     "retry": "Retry",
+    "retryLoad": "Retry",
     "noResults": "No Teams Found",
     "noResultsMessage": "No teams match your search criteria. Try adjusting your filters.",
     "lastUpdatedAt": "Last updated",
     "secondsAgo": "{{count}} seconds ago",
     "nextUpdateIn": "Next update in {{count}} seconds",
-    "refresh": "Refresh",
-    "sortBy": "Sort by"
+    "refresh": "Refresh Data",
+    "sortBy": "Sort by",
+    "loading": "Loading standings...",
+    "errorLoading": "Failed to load standings"
   }
 }
