@@ -17,6 +17,7 @@ export default {
         sans: ["Poppins", "system-ui", "sans-serif"],
         gugi: ["Gugi", "cursive"],
         oswald: ["Oswald", "sans-serif"],
+        impact: ["Impact", "Arial Black", "sans-serif"],
         "helvetica-neue": ["Helvetica Neue", "Arial", "sans-serif"],
         "helvetica-neue-condensed": ["Helvetica Neue Condensed", "Helvetica Neue", "Arial", "sans-serif"],
       },

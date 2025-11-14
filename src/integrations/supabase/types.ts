@@ -14,7 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      power_rankings: {
+        Row: {
+          abbreviation: string
+          created_at: string
+          id: string
+          losses: number
+          rank: number
+          rank_change: number
+          record: string
+          season: number
+          source: string
+          team: string
+          ties: number
+          updated_at: string
+          week: number
+          wins: number
+        }
+        Insert: {
+          abbreviation: string
+          created_at?: string
+          id?: string
+          losses?: number
+          rank: number
+          rank_change?: number
+          record: string
+          season?: number
+          source?: string
+          team: string
+          ties?: number
+          updated_at?: string
+          week: number
+          wins?: number
+        }
+        Update: {
+          abbreviation?: string
+          created_at?: string
+          id?: string
+          losses?: number
+          rank?: number
+          rank_change?: number
+          record?: string
+          season?: number
+          source?: string
+          team?: string
+          ties?: number
+          updated_at?: string
+          week?: number
+          wins?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
